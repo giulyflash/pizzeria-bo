@@ -2,9 +2,12 @@ package gui;
 
 import java.util.ArrayList;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Canvas;
 
 import Graph.Edge;
 import Graph.Graph;
@@ -36,6 +39,9 @@ public class MyPaintListener implements PaintListener {
 	 */
 	@Override
 	public void paintControl(PaintEvent e) {
+	//	Rectangle rect = ((Canvas) e.widget).getBounds();
+	//    e.gc.drawFocus(5, 5, rect.width - 10, rect.height - 10);
+	    
 		if(graph != null) {
 			e.gc.setBackground(new Color(e.display, 33, 200, 100));
 			ArrayList<Vertex> list = (ArrayList<Vertex>) graph.getVertexList();

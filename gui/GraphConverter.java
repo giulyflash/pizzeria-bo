@@ -22,7 +22,7 @@ public class GraphConverter {
 	 * @throws IOException
 	 * @throws ArrayIndexOutOfBoundsException
 	 */
-	public Graph convert(String fileName) throws IOException, ArrayIndexOutOfBoundsException {
+	public static Graph convert(String fileName) throws IOException, ArrayIndexOutOfBoundsException {
 		BufferedReader  in = new BufferedReader(new FileReader(fileName));
 		Graph graph = new Graph();
 		

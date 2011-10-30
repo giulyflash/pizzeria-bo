@@ -7,12 +7,21 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 
 import Graph.Graph;
 
@@ -26,6 +35,7 @@ public class MainApp {
 	private final static String TITLE = "Pizzeria";
 	private Shell shell;
 	private Graph graph;
+	private Canvas canvas;
 	
 	/**
 	 * Zwraca aktualnie załadowane miasto
@@ -42,8 +52,9 @@ public class MainApp {
 	public MainApp(Display display) {
 		graph = null;
 		
-		shell = new Shell(display);
+		shell = new Shell(display);//, SWT.SHELL_TRIM & (~SWT.RESIZE));
 		shell.setText(TITLE);
+		canvas = new Canvas(shell, SWT.V_SCROLL | SWT.H_SCROLL);
 		
 		shell.setToolTipText("This is tooltip");
 		
@@ -65,13 +76,36 @@ public class MainApp {
 	 */
 	public void initUI() {
 		// LAYOUT
-//		RowLayout rowLayout = new RowLayout(SWT.HORIZONTAL);
-//		rowLayout.marginTop = 200;
-//		rowLayout.marginBottom = 200;
-//		rowLayout.marginLeft = 100;
-//		rowLayout.marginRight = 100;
-//		rowLayout.spacing = 10;
-//		shell.setLayout(rowLayout);
+				
+		shell.setLayout(new FillLayout());
+		
+		// CANVAS
+		canvas.pack();
+		
+		// TODO: zrobic scroolowanie
+		
+		// GROUP
+		// GA
+		
+		Group gaGroup = new Group(shell, SWT.SHADOW_ETCHED_IN);
+		gaGroup.setText("Genetyczny");
+		gaGroup.setLocation(100, 100);
+		
+		Label label1 = new Label(gaGroup, SWT.LEFT);
+		label1.setText("Parametr 1");
+		label1.setLocation(5, 20);
+		label1.pack();
+		
+		Text param1 = new Text(gaGroup, SWT.SINGLE);
+		param1.setLocation(80, 20);
+		param1.pack();
+		
+		Button gaOK = new Button(gaGroup, SWT.PUSH);
+		gaOK.setText("Licz!");
+		gaOK.setLocation(90, 50);
+		gaOK.pack();
+		
+		gaGroup.pack();
 		
 		// MENU
 		Menu menuBar = new Menu(shell, SWT.BAR);
@@ -124,7 +158,8 @@ public class MainApp {
 				try {
 					graph = GraphConverter.convert(fileDialog.open());
 					MyPaintListener.addGraph(graph);
-					shell.redraw();
+					System.out.println("Wczytano");
+					canvas.redraw();
 				} catch (ArrayIndexOutOfBoundsException | IOException e1) {
 					MessageBox msgBox = new MessageBox(shell, SWT.ICON_ERROR);
 					msgBox.setMessage("Błędny format pliku!");
@@ -135,7 +170,7 @@ public class MainApp {
 			}
 		});
 		
-		shell.addPaintListener(new MyPaintListener());
+		canvas.addPaintListener(new MyPaintListener());
 		
 		aboutItem.addSelectionListener(new SelectionAdapter() {
 			@Override

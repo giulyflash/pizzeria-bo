@@ -2,8 +2,6 @@ package Graph;
 
 /**
  * Klasa reprezentuje krawedz grafu.
- * @author Marcin Skiba
- * @author Marcin Orzechowski - dostosowanie
  * @version 1.1
  */
 public class Edge{

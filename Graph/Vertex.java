@@ -6,8 +6,6 @@ import java.util.List;
 /**
  * Klasa reprezentuje wierzcholek grafu.
  * Wierzcholek jest przedstawiony jako punkt oraz krawędzie z niego wychodzące.
- * @author Marcin Skiba
- * @author Marcin Orzechowski - dostosowanie
  * @version 1.1
  */
 public class Vertex{

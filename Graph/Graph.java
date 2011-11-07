@@ -4,8 +4,6 @@ import java.util.List;
 
 /**
  * Klasa reprezentuje graf skierowany wazony/niewazony.
- * @author Marcin Skiba
- * @author Marcin Orzechowski - dostosowanie
  * @version 1.1
  */
 public class Graph{

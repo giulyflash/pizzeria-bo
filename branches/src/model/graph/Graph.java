@@ -7,15 +7,8 @@ import java.util.List;
  * @version 1.1
  */
 public class Graph{
-	private List<Vertex> vertices = new ArrayList<Vertex>();	//lista wierzcholkow grafu
-	private int vertexCount;			//wskazuje ile wierzcholkow ma graf (null to tez wierzcholek, tyle ze pusty. 
-										//Co za tym idzie - vertexCount nigdy nie zmaleje, nawet po usunieciu wszystkich wierzcholkow, gdyz usuwanie
-										//to nic innego jak zastapienie istniejacego wierzcholka w liscie przez null)
-										
-	public Graph(){
-		vertexCount = 0;
-	}
-	
+	private List<Vertex> vertices = new ArrayList<Vertex>();	//lista wierzcholkow grafu			
+
 	public String toString(){
 		String out = new String();
 		for(Vertex v : vertices)
@@ -30,7 +23,6 @@ public class Graph{
 	 */
 	public void addVertex(Vertex v){
 		vertices.add(v);
-		vertexCount++;
 	}
 	
 	/**
@@ -40,7 +32,7 @@ public class Graph{
 	 * @param e numer porzadkowy wierzcholka koncowego
 	 */
 	public void addEdge(int b, int e){
-		if( b>=0 && b<=vertexCount && e>=0 && e<=vertexCount && vertices.get(b)!=null && vertices.get(e)!=null){
+		if( b>=0 && b<=vertices.size() && e>=0 && e<=vertices.size() && vertices.get(b)!=null && vertices.get(e)!=null){
 			double weight = vertices.get(b).getCoordinate().distance(vertices.get(e).getCoordinate());
 			vertices.get(e).addEdge(new Edge(vertices.get(b), weight));
 			vertices.get(b).addEdge(new Edge(vertices.get(e), weight));
@@ -60,6 +52,21 @@ public class Graph{
 	 */
 	public List<Vertex> getVertexList(){
 		return new ArrayList<Vertex>(vertices);
+	}
+	
+	/**
+	 * Zwraca wage krawedzi rozpietej miedzy dwoma wierzcho³kami
+	 * @param a numer wierzcho³ka w grafie
+	 * @param b numer wierzcho³ka w grafie
+	 * @return waga krawedzi
+	 */
+	public double getWeight(int a, int b){
+		List<Edge> edges = vertices.get(a).getEdgeList();
+		for(Edge ed : edges)
+			if(ed.getEnd().getNumber() == b)
+				return ed.getWeight();
+		
+		return 0.0;
 	}
 }
 

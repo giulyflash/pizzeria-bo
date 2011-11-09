@@ -5,8 +5,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import Graph.Graph;
-import Graph.Vertex;
+import model.graph.Graph;
+import model.graph.Vertex;
 /**
  * Klasa do konwersji grafu w postaci pliku tekstowego
  * na klasę Graph. Postać pliku: x,y,[nr wierzcholkow]

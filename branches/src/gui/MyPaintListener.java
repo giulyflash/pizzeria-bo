@@ -2,16 +2,13 @@ package gui;
 
 import java.util.ArrayList;
 
-import org.eclipse.swt.SWT;
+import model.graph.Edge;
+import model.graph.Graph;
+import model.graph.Vertex;
+
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Canvas;
-
-import Graph.Edge;
-import Graph.Graph;
-import Graph.Vertex;
 
 /**
  * Klasa do rysowania miasta z zadanego grafu.

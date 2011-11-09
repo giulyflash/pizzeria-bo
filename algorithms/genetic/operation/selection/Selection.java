@@ -8,9 +8,9 @@ import algorithms.genetic.structures.Genome;
 public class Selection implements GeneticTransformer{
 
 	@Override
-	public void acceptPopulation(List<Genome> population) {
+	public Selection acceptPopulation(List<Genome> population) {
 		// TODO Auto-generated method stub
-		
+		return this;
 	}
 
 	@Override
@@ -18,5 +18,12 @@ public class Selection implements GeneticTransformer{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public Selection acceptEvaluation(List<Double> evaluation){
+		//TODO
+		return this;
+	}
+
+
 
 }

@@ -1,5 +1,8 @@
 package algorithms.genetic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import algorithms.genetic.structures.GeneticGraph;
 import algorithms.genetic.structures.Genome;
 
@@ -18,6 +21,14 @@ public class SolutionEvaluator {
 			result+=graph.evalTSPEgde(sampleSolution.getIthPathEdge(i));
 		}
 		return result;
+	}
+	
+	public List<Double> evalPopulation(List<Genome> population){
+		List<Double> evaluation = new ArrayList<>();
+		for (Genome g : population) {
+			evaluation.add(eval(g));
+		}
+		return evaluation;
 	}
 
 }

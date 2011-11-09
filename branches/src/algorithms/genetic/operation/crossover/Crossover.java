@@ -17,10 +17,15 @@ public class Crossover implements GeneticTransformer {
 	private int crossoverProbability;
 
 	private List<Genome> oldPopulation;
+	
+	public Crossover(int crossoverProbability) {
+		this.crossoverProbability = crossoverProbability;
+	}
 
 	@Override
-	public void acceptPopulation(List<Genome> population) {
+	public Crossover acceptPopulation(List<Genome> population) {
 		this.oldPopulation = population;
+		return this;
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import algorithms.genetic.structures.Genome;
 
 public interface GeneticTransformer {
 	
-	void acceptPopulation(List<Genome> population);
+	GeneticTransformer acceptPopulation(List<Genome> population);
 	
 	List<Genome> generateNewPopulation();
 	

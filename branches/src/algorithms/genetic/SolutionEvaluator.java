@@ -1,4 +1,4 @@
-package algorithms.genetic.utils;
+package algorithms.genetic;
 
 import algorithms.genetic.structures.GeneticGraph;
 import algorithms.genetic.structures.Genome;

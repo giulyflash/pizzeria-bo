@@ -10,6 +10,11 @@ public class Genome {
 	public Genome(int genomLen) {
 		this.genomLen = genomLen;
 	}
+	
+	public Genome(int[] path) {
+		this.genomLen = path.length;
+		this.path=path;
+	}
 
 	public int getEdgesNumber(){
 		return getGenomeLength()-1;
@@ -35,6 +40,15 @@ public class Genome {
 			throw new RuntimeException("path length does not match genom length");
 		}
 		this.path = path;
+	}
+	
+	@Override
+	public Genome clone(){
+		try {
+			return (Genome)super.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 	

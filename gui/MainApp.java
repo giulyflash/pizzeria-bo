@@ -2,6 +2,8 @@ package gui;
 
 import java.io.IOException;
 
+import model.graph.Graph;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -11,23 +13,18 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import Graph.Graph;
-
 /**
- * Główne okno aplikacji
- * @author Michał Nowak
+ * GĹ‚Ăłwne okno aplikacji
+ * @author MichaĹ‚ Nowak
  * @version 1
  *
  */
@@ -38,7 +35,7 @@ public class MainApp {
 	private Canvas canvas;
 	
 	/**
-	 * Zwraca aktualnie załadowane miasto
+	 * Zwraca aktualnie zaĹ‚adowane miasto
 	 * @return graf miasta
 	 */
 	public Graph getGraph() {
@@ -46,7 +43,7 @@ public class MainApp {
 	}
 	
 	/**
-	 * Głowne okno
+	 * GĹ‚owne okno
 	 * @param display
 	 */
 	public MainApp(Display display) {
@@ -116,10 +113,10 @@ public class MainApp {
 		cascadeFileMenu.setMenu(fileMenu);
 		
 		MenuItem loadItem = new MenuItem(fileMenu, SWT.PUSH);
-		loadItem.setText("&Otwórz miasto");
+		loadItem.setText("&OtwĂłrz miasto");
 		
 		MenuItem exitItem = new MenuItem(fileMenu, SWT.PUSH);
-		exitItem.setText("&Wyjście");
+		exitItem.setText("&WyjĹ›cie");
 		
 		MenuItem cascadeHelpMenu = new MenuItem(menuBar, SWT.CASCADE);
 		cascadeHelpMenu.setText("&Pomoc");
@@ -128,7 +125,7 @@ public class MainApp {
 		cascadeHelpMenu.setMenu(helpMenu);
 		
 		MenuItem helpItem = new MenuItem(helpMenu, SWT.PUSH);
-		helpItem.setText("&Wyświetl pomoc");
+		helpItem.setText("&WyĹ›wietl pomoc");
 		
 		MenuItem aboutItem = new MenuItem(helpMenu, SWT.PUSH);
 		aboutItem.setText("&Autorzy");
@@ -162,7 +159,7 @@ public class MainApp {
 					canvas.redraw();
 				} catch (ArrayIndexOutOfBoundsException | IOException e1) {
 					MessageBox msgBox = new MessageBox(shell, SWT.ICON_ERROR);
-					msgBox.setMessage("Błędny format pliku!");
+					msgBox.setMessage("BĹ‚Ä™dny format pliku!");
 					msgBox.open();
 				} catch(NullPointerException e2) {
 					
@@ -176,14 +173,14 @@ public class MainApp {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				MessageBox messageBox = new MessageBox(shell, SWT.ICON_INFORMATION);
-				messageBox.setMessage("Maks Kusak\nMichał Nowak\nŁukasz Sękalski\nGrzegorz Legień\nDominik Gawlik\nAlbert Kuźma\nPaweł Batko\nGrzesiek Mrozu\nMarcin Orzechowski\nDamian Goik");
+				messageBox.setMessage("Maks Kusak\nMichaĹ‚ Nowak\nĹ�ukasz SÄ™kalski\nGrzegorz LegieĹ„\nDominik Gawlik\nAlbert KuĹşma\nPaweĹ‚ Batko\nGrzesiek Mrozu\nMarcin Orzechowski\nDamian Goik");
 				messageBox.open();
 			}
 		});
 	}
 	
 	/**
-	 * Wyśrodkowuje okno
+	 * WyĹ›rodkowuje okno
 	 * @param shell
 	 */
 	private void center(Shell shell) {

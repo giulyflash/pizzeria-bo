@@ -1,10 +1,11 @@
-package algorithms.genetic.utils;
+package algorithms.genetic;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import algorithms.genetic.structures.Genome;
+import algorithms.genetic.utils.GeneralUtils;
 
 public class PopulationGenerator {
 	

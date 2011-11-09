@@ -21,7 +21,7 @@ public class GeneticGraph {
 		double[][] graphInnards = new double[size][size];
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
-				graphInnards[i][j]=GeneralUtils.nextDouble(10.0, 1000.0);
+				graphInnards[i][j]=GeneralUtils.nextRandomDouble(10.0, 1000.0);
 			}
 		}
 		return new GeneticGraph(graphInnards, size);

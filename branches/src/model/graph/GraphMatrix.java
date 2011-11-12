@@ -1,6 +1,5 @@
 package model.graph;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -62,12 +61,19 @@ public class GraphMatrix {
 	//Klasa zawierajaca dane potrzebne do szukania najkrótszych œcie¿ek w grafie
 	private class VertexData implements Comparable<VertexData>{
 		Vertex vertex;
-		Vertex parentVertex;
-		double pathLength;
+		Vertex parentVertex = null;
+		double pathLength = Double.MAX_VALUE;
 		
 		@Override
 		public int compareTo(VertexData arg0) {
-			return (int)(this.pathLength - arg0.pathLength);
+			if(this.pathLength < arg0.pathLength)
+				return -1;
+			else{
+				if(this.pathLength > arg0.pathLength)
+					return 1;
+				else
+					return 0;
+			}
 		}
 	}
 	
@@ -75,7 +81,7 @@ public class GraphMatrix {
 	private class PathData{
 		double pathLength;
 		//zawiera kolejne wierzcholki w najkrotszej scie¿ce
-		List<Vertex> vertices = new ArrayList<Vertex>();
+		List<Vertex> vertices;
 	}
 	
 	//zwraca tablice indeksowan¹ numerami z oryginalnego grafu
@@ -85,8 +91,6 @@ public class GraphMatrix {
 		for(Vertex ver : vertices){
 			verticesData[ver.getNumber()] = new VertexData();
 			verticesData[ver.getNumber()].vertex = ver;
-			verticesData[ver.getNumber()].parentVertex = null;
-			verticesData[ver.getNumber()].pathLength = Double.MAX_VALUE;
 		}
 		
 		verticesData[begin.getNumber()].pathLength = 0.0;
@@ -96,7 +100,7 @@ public class GraphMatrix {
 		
 		//Dijkstra
 		while(!vertexQueue.isEmpty()){
-			VertexData tmp = vertexQueue.poll();
+			VertexData tmp = vertexQueue.remove();
 			List<Edge> edgeList = tmp.vertex.getEdgeList();
 			for(Edge ed : edgeList){
 				relax(tmp, verticesData[ed.getEnd().getNumber()], ed.getWeight());
@@ -106,10 +110,10 @@ public class GraphMatrix {
 		return verticesData;
 	}
 	
-	private void relax(VertexData a, VertexData b, double weight){
-		if(b.pathLength > a.pathLength + weight){
-			b.pathLength = a.pathLength + weight;
-			b.parentVertex = a.vertex;
+	private void relax(VertexData begin, VertexData end, double weight){
+		if(end.pathLength > begin.pathLength + weight){
+			end.pathLength = begin.pathLength + weight;
+			end.parentVertex = begin.vertex;
 		}
 	}
 	
@@ -118,14 +122,14 @@ public class GraphMatrix {
 		result.pathLength = data[end.getNumber()].pathLength;
 		
 		LinkedList<Vertex> vertices = new LinkedList<Vertex>();
-		vertices.addFirst(end);
 		
 		Vertex currentVertex = data[end.getNumber()].parentVertex;
 		while(currentVertex != null){
 			vertices.addFirst(currentVertex);
 			currentVertex = data[currentVertex.getNumber()].parentVertex;
 		}
-		
+		vertices.removeFirst();
+
 		result.vertices = vertices;
 		return result;
 	}
@@ -168,33 +172,12 @@ public class GraphMatrix {
 	 * @return lista wierzcho³ków dla GUI
 	 */
 	public List<Vertex> translateToFullVerticesList(List<Integer> vertices){
-		LinkedList<Vertex> result = new LinkedList<Vertex>();
-		
 		int[] myVertices = new int[vertices.size()];
 		int l = 0;
 		for(Integer myInt : vertices)
 			myVertices[l++] = myInt.intValue();
 		
-		for(int i = 0; i < myVertices.length-1; i++){
-			result.add(vertexTranslator[myVertices[i]]);
-			if(myVertices[i] == myVertices[i+1]){
-				//TODO docelowo gdzie indziej niz System.err
-				System.err.println("Blad algorytmow: ten sam wierzcholek 2x pod rzad, w liscie do odwiedzenia");
-				i++;
-			} else{
-				if(myVertices[i] > myVertices[i+1])
-					result.addAll(data[myVertices[i]][myVertices[i+1]].vertices);
-				else{
-					LinkedList<Vertex> path = (LinkedList<Vertex>)data[myVertices[i+1]][myVertices[i]].vertices;
-					ListIterator<Vertex> iterator = path.listIterator();
-					while(iterator.hasPrevious())
-						result.add(iterator.previous());
-				}
-			}
-		}
-		result.add(vertexTranslator[myVertices[myVertices.length-1]]);
-		
-		return result;
+		return translateToFullVerticesList(myVertices);
 	}
 	
 	/**
@@ -211,13 +194,20 @@ public class GraphMatrix {
 			if(vertices[i] == vertices[i+1]){
 				//TODO jesli jest ten sam wierzcho³ek pod rz¹d to co wtedy?
 			} else{
-				if(vertices[i] > vertices[i+1])
-					result.addAll(data[vertices[i]][vertices[i+1]].vertices);
+				if(vertices[i] > vertices[i+1]){
+					if(!data[vertices[i]][vertices[i+1]].vertices.isEmpty()){
+						result.addAll(data[vertices[i]][vertices[i+1]].vertices);
+					}
+				}
 				else{
-					LinkedList<Vertex> path = (LinkedList<Vertex>)data[vertices[i+1]][vertices[i]].vertices;
-					ListIterator<Vertex> iterator = path.listIterator();
-					while(iterator.hasPrevious())
-						result.add(iterator.previous());
+					if(!data[vertices[i+1]][vertices[i]].vertices.isEmpty()){
+						LinkedList<Vertex> path = (LinkedList<Vertex>)data[vertices[i+1]][vertices[i]].vertices;
+						if(path.size() > 0){
+							ListIterator<Vertex> iterator = path.listIterator(path.size());
+							while(iterator.hasPrevious())
+								result.add(iterator.previous());
+						}
+					}
 				}
 			}
 		}

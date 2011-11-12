@@ -32,7 +32,7 @@ public class Graph{
 	 * @param e numer porzadkowy wierzcholka koncowego
 	 */
 	public void addEdge(int b, int e){
-		if( b>=0 && b<=vertices.size() && e>=0 && e<=vertices.size() && vertices.get(b)!=null && vertices.get(e)!=null){
+		if( b>=0 && b<=vertices.size() && e>=0 && e<=vertices.size()){
 			double weight = vertices.get(b).getCoordinate().distance(vertices.get(e).getCoordinate());
 			vertices.get(e).addEdge(new Edge(vertices.get(b), weight));
 			vertices.get(b).addEdge(new Edge(vertices.get(e), weight));
@@ -55,15 +55,26 @@ public class Graph{
 	}
 	
 	/**
-	 * Zwraca wage krawedzi rozpietej miedzy dwoma wierzcho³kami
+	 * Zwraca wage krawedzi rozpietej miedzy dwoma wierzcho³kami.
+	 * Jeœli miedzy wierzcho³kami nie ma krawêdzie lub a i b wskazuj¹ ten sam wierzcho³ek, metoda zwraca 0.
 	 * @param a numer wierzcho³ka w grafie
 	 * @param b numer wierzcho³ka w grafie
 	 * @return waga krawedzi
 	 */
 	public double getWeight(int a, int b){
-		List<Edge> edges = vertices.get(a).getEdgeList();
-		for(Edge ed : edges)
-			if(ed.getEnd().getNumber() == b)
+		return getWeight(vertices.get(a), vertices.get(b));
+	}
+	
+	/**
+	 * Zwraca wage krawedzi rozpietej miedzy dwoma wierzcho³kami.
+	 * Jeœli miedzy wierzcho³kami nie ma krawêdzie lub a i b wskazuj¹ ten sam wierzcho³ek, metoda zwraca 0.
+	 * @param a numer wierzcho³ka w grafie
+	 * @param b numer wierzcho³ka w grafie
+	 * @return waga krawedzi
+	 */
+	public double getWeight(Vertex a, Vertex b){
+		for(Edge ed : a.getEdgeList())
+			if(ed.getEnd() == b)
 				return ed.getWeight();
 		
 		return 0.0;

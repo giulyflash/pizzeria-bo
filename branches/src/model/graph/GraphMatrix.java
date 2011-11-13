@@ -23,6 +23,7 @@ public class GraphMatrix {
 	//macierz trojkatna
 	private PathData[][] data;
 	private Graph cityMap;
+	private List<Order> orders;
 	
 	/**
 	 * Zwraca now¹ instancje klasy, zawierajac¹ macierzow¹ reprezentacjê wyró¿nionego grafu.
@@ -30,12 +31,13 @@ public class GraphMatrix {
 	 * @param oreders lista z zamówieniami, które zostan¹ uwzglêdnione w grafie
 	 * @param cityMap graf reprezentuj¹cy miasto
 	 */
-	public GraphMatrix(Vertex pizzeriaVertex, List<Order> orders, Graph _cityMap){
-		cityMap = _cityMap; 
+	public GraphMatrix(Vertex pizzeriaVertex, List<Order> _orders, Graph _cityMap){
+		cityMap = _cityMap;
+		orders = _orders;
 		
 		//wyeliminowanie ewentualnych duplikatów
 		Set<Vertex> vertexSet = new HashSet<Vertex>();
-		for(Order order : orders)
+		for(Order order : _orders)
 			vertexSet.add(order.getVertex());
 		
 		vertexTranslator = new Vertex[vertexSet.size()+1];
@@ -214,5 +216,13 @@ public class GraphMatrix {
 		result.add(vertexTranslator[vertices[vertices.length-1]]);
 		
 		return result;
+	}
+	
+	/**
+	 * Zwraca liste z zamówienimi, które nale¿y obs³u¿yæ w bierz¹cym wywo³aniu algorytmu
+	 * @return lista z zamówieniami
+	 */
+	public List<Order> getOrders(){
+		return orders;
 	}
 }

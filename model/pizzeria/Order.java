@@ -10,7 +10,7 @@ public class Order {
 	
 	/**
 	 * Zwraca wierzcho³ek do którego nale¿y dostarczyæ zamówienie.
-	 * @return wierzcho³ek 
+	 * @return wierzcho³ek s5
 	 */
 	public Vertex getVertex(){
 		return vertex;

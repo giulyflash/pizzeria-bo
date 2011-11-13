@@ -1,6 +1,7 @@
 package model.pizzeria;
 
 import java.util.List;
+import java.util.Queue;
 
 import model.graph.GraphMatrix;
 
@@ -10,5 +11,5 @@ import model.graph.GraphMatrix;
  *
  */
 public interface Algorithm {
-	public Result execute(GraphMatrix graphMatrix, List<DeliveryBoy> availableDeliveryBoys, List<Float> parameters);
+	public Result execute(GraphMatrix graphMatrix, List<DeliveryBoy> availableDeliveryBoys, Queue<Order> orderQueue, List<Float> parameters);
 }

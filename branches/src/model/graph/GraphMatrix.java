@@ -1,5 +1,6 @@
 package model.graph;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -23,7 +24,7 @@ public class GraphMatrix {
 	//macierz trojkatna
 	private PathData[][] data;
 	private Graph cityMap;
-	private List<Order> orders;
+	private ArrayList<ArrayList<Order>> ordersOfVertex;
 	
 	/**
 	 * Zwraca now¹ instancje klasy, zawierajac¹ macierzow¹ reprezentacjê wyró¿nionego grafu.
@@ -33,19 +34,33 @@ public class GraphMatrix {
 	 */
 	public GraphMatrix(Vertex pizzeriaVertex, List<Order> _orders, Graph _cityMap){
 		cityMap = _cityMap;
-		orders = _orders;
 		
 		//wyeliminowanie ewentualnych duplikatów
-		Set<Vertex> vertexSet = new HashSet<Vertex>();
+		HashSet<Vertex> vertexSet = new HashSet<Vertex>();
 		for(Order order : _orders)
 			vertexSet.add(order.getVertex());
 		
 		vertexTranslator = new Vertex[vertexSet.size()+1];
 		vertexTranslator[0] = pizzeriaVertex;
+		ordersOfVertex = new ArrayList<ArrayList<Order>>();
 		
 		int l = 1;
 		for(Vertex vertex : vertexSet)
 			vertexTranslator[l++] = vertex;
+		
+		//inicjalizacja
+		for(int i = 0; i < vertexTranslator.length; i++){
+			ArrayList<Order> array = new ArrayList<>();
+			ordersOfVertex.add(array);
+		}
+		
+		for(int i = 0; i < vertexTranslator.length; i++){
+			for(Order order : _orders){
+				if(order.getVertex() == vertexTranslator[i])
+					ordersOfVertex.get(i).add(order);
+			}
+		}
+			
 		
 		data = new PathData[vertexTranslator.length][];
 		for(int i = 1; i < vertexTranslator.length; i++)
@@ -130,7 +145,8 @@ public class GraphMatrix {
 			vertices.addFirst(currentVertex);
 			currentVertex = data[currentVertex.getNumber()].parentVertex;
 		}
-		vertices.removeFirst();
+		if(!vertices.isEmpty())
+			vertices.removeFirst();
 
 		result.vertices = vertices;
 		return result;
@@ -203,6 +219,7 @@ public class GraphMatrix {
 				}
 				else{
 					if(!data[vertices[i+1]][vertices[i]].vertices.isEmpty()){
+						//TODO w java 7 mozna ladniej
 						LinkedList<Vertex> path = (LinkedList<Vertex>)data[vertices[i+1]][vertices[i]].vertices;
 						if(path.size() > 0){
 							ListIterator<Vertex> iterator = path.listIterator(path.size());
@@ -219,10 +236,15 @@ public class GraphMatrix {
 	}
 	
 	/**
-	 * Zwraca liste z zamówienimi, które nale¿y obs³u¿yæ w bierz¹cym wywo³aniu algorytmu
+	 * Zwraca liste z zamówienimi, które nale¿y obs³u¿yæ w bierz¹cym wywo³aniu algorytmu.
+	 * Indeksy w zwracanej liscie s¹ zgodne z indeksami wierzcho³ków z macierzy adiacencji.
+	 * Konsekwencj¹ tego jest, ¿e pod indeksem 0, który w macierzy reprezentuje pizzerie, 
+	 * nie ma ¿adnych zamówieñ.
+	 * Element zwracany jest list¹ poniewa¿ w jednym wierzcho³ku mo¿e znajdowaæ siê wiêcej 
+	 * zamówieñ.
 	 * @return lista z zamówieniami
 	 */
-	public List<Order> getOrders(){
-		return orders;
+	public ArrayList<ArrayList<Order>> getOrders(){
+		return ordersOfVertex;
 	}
 }

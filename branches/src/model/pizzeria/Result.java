@@ -11,6 +11,11 @@ public class Result {
 	private ArrayList<DeliveryBoy> _deliveryBoys;
 	private ArrayList<Double> _iterationResults;
 	
+	/**
+	 * Ustawia dostawców, którym przypisano œcie¿ki.
+	 * <b>UWAGA</b> Umieszczaæ tylko tych dostawców, którym <b>USTAWIONO</b> œcie¿ki.
+	 * @param deliveryBoys
+	 */
 	public void setDeliveryBoys(ArrayList<DeliveryBoy> deliveryBoys) {
 		_deliveryBoys = deliveryBoys;
 	}

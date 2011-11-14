@@ -2,10 +2,15 @@ package model.pizzeria;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 
 import model.graph.Graph;
+import model.graph.GraphMatrix;
+import model.graph.Vertex;
 /**
  * G³ówna klasa odpowiadaj¹ca za proces ustalania oprymalnych tras, na podstawie zawartych w niej danych.
  * @author DoomThrower
@@ -36,7 +41,7 @@ public class PizzaMain {
 	/**
 	 * Kolejka FIFO zamówieñ.
 	 */
-	private Queue<Order> _orderQueue;
+	private Deque<Order> _orderQueue;
 	/**
 	 * Lista oczekuj¹cych w pizzerii dostawców.
 	 */
@@ -44,7 +49,8 @@ public class PizzaMain {
 	/**
 	 * Algorytm, którym rozwi¹zywany bêdzie problem.
 	 */
-	private Algorithm _algorithm;
+	private Algorithm _geneticAlgorithm;
+	private Algorithm _psoAlgorithm;
 	/**
 	 * (UNUSED) Informacja o czasie - na ewentualnoœæ zmiany dormy reprezentacji Route.timeNeededToFinish.
 	 */
@@ -53,6 +59,14 @@ public class PizzaMain {
 	 * Lista parametrów potrzebnych dla algorytmów.
 	 */
 	private ArrayList<Float> _parametersForAlgorithm;
+	/**
+	 * Wierzcho³ek grafu w którym znajduje siê pizzeria
+	 */
+	private Vertex _pizzeriaVertex;
+	/**
+	 * Przechowuje ostatni wynik wykonania algorytmu
+	 */
+	private Result _lastResult;
 	
 	/**
 	 * Konstruktor
@@ -68,7 +82,7 @@ public class PizzaMain {
 	 * @param currentTime
 	 * @param parametersForAlgorithm
 	 */
-	public PizzaMain(int minNewOrders, int maxNewOrders, int numberOfDeliveryBoys, int defaultLoadCapacityOfDeliveryBoy, Graph cityMap, ArrayList<DeliveryBoy> allDeliveryBoys, Queue<Order> orderQueue, ArrayList<DeliveryBoy> availableDeliveryBoys, Algorithm algorithm, Date currentTime, ArrayList<Float> parametersForAlgorithm) {
+	public PizzaMain(int minNewOrders, int maxNewOrders, int numberOfDeliveryBoys, int defaultLoadCapacityOfDeliveryBoy, Graph cityMap, ArrayList<DeliveryBoy> allDeliveryBoys, Deque<Order> orderQueue, ArrayList<DeliveryBoy> availableDeliveryBoys, Algorithm algorithm, Date currentTime, ArrayList<Float> parametersForAlgorithm, Vertex pizzeriaVertex) {
 		_minNewOrders = minNewOrders;
 		_maxNewOrders = maxNewOrders;
 		_numberOfDeliveryBoys = numberOfDeliveryBoys;
@@ -77,9 +91,10 @@ public class PizzaMain {
 		_allDeliveryBoys = allDeliveryBoys;
 		_orderQueue = orderQueue;
 		_availableDeliveryBoys = availableDeliveryBoys;
-		setAlgorithm(algorithm);
+//		setAlgorithm(algorithm);
 		_currentTime = currentTime;
 		_parametersForAlgorithm = parametersForAlgorithm;
+		_pizzeriaVertex = pizzeriaVertex;
 	}
 	
 	public ArrayList<DeliveryBoy> getAllDeliveryBoys() {
@@ -153,8 +168,34 @@ public class PizzaMain {
 	}
 	
 	//TODO
-	public void execute() {
+	private Result execute(Algorithm algorithm, List<Float> parameters) {
+		int amountOfOrdersToDeliverNow = 0;
+		for(DeliveryBoy boy : _availableDeliveryBoys)
+			amountOfOrdersToDeliverNow += boy.getLoadCapacity();
 		
+		List<Order> ordersToShip = new LinkedList<>();
+		for(int i = 0; i < amountOfOrdersToDeliverNow && i < _orderQueue.size(); i++)
+			ordersToShip.add(_orderQueue.pollFirst());
+		
+		GraphMatrix graphMatrix = new GraphMatrix(_pizzeriaVertex, ordersToShip, _cityMap);
+		_lastResult = algorithm.execute(graphMatrix, _availableDeliveryBoys, parameters);
+		return _lastResult;
+	}
+	
+	public Result executePSO(List<Float> parameters){
+		return execute(_psoAlgorithm, parameters);
+	}
+	
+	public Result executePSO(){
+		return execute(_psoAlgorithm, _parametersForAlgorithm);
+	}
+	
+	public Result executeGenetic(List<Float> parameters){
+		return execute(_geneticAlgorithm, parameters);
+	}
+	
+	public Result executeGenetic(){
+		return execute(_geneticAlgorithm, _parametersForAlgorithm);
 	}
 	
 	public void addParameterForAlgorithm(Float parameter) {
@@ -188,7 +229,7 @@ public class PizzaMain {
 	public int getNumberOfDeliveryBoys() {
 		return _numberOfDeliveryBoys;
 	}
-
+/*
 	public void setAlgorithm(Algorithm algorithm) {
 		_algorithm = algorithm;
 	}
@@ -196,12 +237,24 @@ public class PizzaMain {
 	public Algorithm getAlgorithm() {
 		return _algorithm;
 	}
-
+*/
 	public void setDefaultLoadCapacityOfDeliveryBoy(int defaultLoadCapacityOfDeliveryBoy) {
 		_defaultLoadCapacityOfDeliveryBoy = defaultLoadCapacityOfDeliveryBoy;
 	}
 
 	public int getDefaultLoadCapacityOfDeliveryBoy() {
 		return _defaultLoadCapacityOfDeliveryBoy;
+	}
+
+	public Vertex getPizzeriaVertex() {
+		return _pizzeriaVertex;
+	}
+
+	public void setPizzeriaVertex(Vertex _pizzeriaVertex) {
+		this._pizzeriaVertex = _pizzeriaVertex;
+	}
+
+	public Result getLastResult() {
+		return _lastResult;
 	}
 }

@@ -11,5 +11,5 @@ import model.graph.GraphMatrix;
  *
  */
 public interface Algorithm {
-	public Result execute(GraphMatrix graphMatrix, List<DeliveryBoy> availableDeliveryBoys, Queue<Order> orderQueue, List<Float> parameters);
+	public Result execute(GraphMatrix graphMatrix, List<DeliveryBoy> availableDeliveryBoys, List<Float> parameters);
 }

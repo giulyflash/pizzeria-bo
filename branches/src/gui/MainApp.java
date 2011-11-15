@@ -92,8 +92,47 @@ public class MainApp {
 		// GROUP
 		// PARAMS
 		Group paramGroup = new Group(shell, SWT.SHADOW_ETCHED_IN);
+		paramGroup.setText("Parameters");
 		paramGroup.setLayout(new RowLayout(SWT.VERTICAL));
 		
+		// GENERAL
+		Group generalGroup = new Group(paramGroup, SWT.SHADOW_ETCHED_IN);
+		generalGroup.setText("General");
+		generalGroup.setLocation(100, 100);
+		
+		// GENERAL.delivery
+		Label generalLabel1 = new Label(generalGroup, SWT.LEFT);
+		generalLabel1.setText("Delivery boys");
+		generalLabel1.setLocation(5, 20);
+		generalLabel1.pack();
+		// spinner
+		Spinner generalSpinner1 = new Spinner(generalGroup, SWT.WRAP);
+		generalSpinner1.setLocation(100, 20);
+		generalSpinner1.setSize(100, 20);
+		
+		// GENERAL.deliveryCap
+		Label generalLabel2 = new Label(generalGroup, SWT.LEFT);
+		generalLabel2.setText("Delivery capacity");
+		generalLabel2.setLocation(5, 45);
+		generalLabel2.pack();
+		// spinner
+		Spinner generalSpinner2 = new Spinner(generalGroup, SWT.WRAP);
+		generalSpinner2.setLocation(100, 45);
+		generalSpinner2.setSize(100, 20);
+		
+		// GENERAL.deliveryRange
+		Label generalLabel3 = new Label(generalGroup, SWT.LEFT);
+		generalLabel3.setText("No. of orders\nbetween");
+		generalLabel3.setLocation(5, 70);
+		generalLabel3.pack();
+		// spinner1
+		Spinner generalSpinner3 = new Spinner(generalGroup, SWT.WRAP);
+		generalSpinner3.setLocation(100, 75);
+		generalSpinner3.setSize(50, 20);
+		// spinner2
+		Spinner generalSpinner4 = new Spinner(generalGroup, SWT.WRAP);
+		generalSpinner4.setLocation(150, 75);
+		generalSpinner4.setSize(50, 20);
 		
 		// PSO
 		Group psoGroup = new Group(paramGroup, SWT.SHADOW_ETCHED_IN);
@@ -145,10 +184,21 @@ public class MainApp {
 		psoSpinner4.setMaximum(1000);
 		psoSpinner4.setSize(100, 20);
 		
+		// PSO.iterations
+		Label psoLabel5 = new Label(psoGroup, SWT.LEFT);
+		psoLabel5.setText("Iterations");
+		psoLabel5.setLocation(5, 120);
+		psoLabel5.pack();
+		// spinner
+		Spinner psoSpinner5 = new Spinner(psoGroup, SWT.WRAP);
+		psoSpinner5.setLocation(100, 120);
+		psoSpinner5.setMaximum(100000);
+		psoSpinner5.setSize(100, 20);
+		
 		// PSO.compute
 		Button psoBtn = new Button(psoGroup, SWT.PUSH);
 		psoBtn.setText("Compute!");
-		psoBtn.setLocation(100, 120);
+		psoBtn.setLocation(100, 145);
 		psoBtn.pack();
 		
 		// GA
@@ -233,6 +283,7 @@ public class MainApp {
 			}
 		});
 		
+		// SCROLLOWANIE
 		// TODO w razie czego mozna wypierdolic bo i tak ladniej jak miasto sie miesci 
 		// na jednym ekranie
 		final Point origin = new Point(0, 0);

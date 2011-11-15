@@ -18,12 +18,20 @@ import org.eclipse.swt.graphics.Color;
 public class MyPaintListener implements PaintListener {
 	private final static int SIZE = 10;
 	private static Graph graph;
-	private int SCROLL_X, SCROLL_Y; 
+	private static int SCROLL_X, SCROLL_Y; 
 	
 	public MyPaintListener() {
 		graph = null;
 		SCROLL_X = 0;
 		SCROLL_Y = 0;
+	}
+	
+	public static void scrollX(int x) {
+		SCROLL_X += x;
+	}
+	
+	public static void scrollY(int y) {
+		SCROLL_Y += y;
 	}
 	
 	/**
@@ -60,6 +68,8 @@ public class MyPaintListener implements PaintListener {
 //				e.gc.drawText("" + v.getNumber(), (int)v.getCoordinate().x+(SIZE/4), 
 //						(int)v.getCoordinate().y+(SIZE/16), true);
 			}
+			
+			
 			
 		}
 	}

@@ -16,7 +16,7 @@ import org.eclipse.swt.graphics.Color;
  *
  */
 public class MyPaintListener implements PaintListener {
-	private final static int SIZE = 20;
+	private final static int SIZE = 10;
 	private static Graph graph;
 	
 	public MyPaintListener() {
@@ -55,8 +55,9 @@ public class MyPaintListener implements PaintListener {
 			for(Vertex v : list) {
 				e.gc.fillOval((int)v.getCoordinate().x, (int)v.getCoordinate().y, SIZE, SIZE);
 				
-				e.gc.drawText("" + v.getNumber(), (int)v.getCoordinate().x+(SIZE/4), 
-						(int)v.getCoordinate().y+(SIZE/16), true);
+				// cyferki na wezlach
+//				e.gc.drawText("" + v.getNumber(), (int)v.getCoordinate().x+(SIZE/4), 
+//						(int)v.getCoordinate().y+(SIZE/16), true);
 			}
 			
 		}

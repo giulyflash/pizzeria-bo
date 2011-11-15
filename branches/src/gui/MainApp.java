@@ -20,11 +20,12 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * GĹ‚Ăłwne okno aplikacji
- * @author MichaĹ‚ Nowak
+ * Glowne okno aplikacji
+ * @author Michal‚ Nowak
  * @version 1
  *
  */
@@ -35,7 +36,7 @@ public class MainApp {
 	private Canvas canvas;
 	
 	/**
-	 * Zwraca aktualnie zaĹ‚adowane miasto
+	 * Zwraca aktualnie zaladowane miasto
 	 * @return graf miasta
 	 */
 	public Graph getGraph() {
@@ -43,7 +44,7 @@ public class MainApp {
 	}
 	
 	/**
-	 * GĹ‚owne okno
+	 * Glowne okno
 	 * @param display
 	 */
 	public MainApp(Display display) {
@@ -73,7 +74,7 @@ public class MainApp {
 	 */
 	public void initUI() {
 		// LAYOUT
-				
+		// TODO layout ladny	
 		shell.setLayout(new FillLayout());
 		
 		// CANVAS
@@ -82,9 +83,68 @@ public class MainApp {
 		// TODO: zrobic scroolowanie
 		
 		// GROUP
-		// GA
+		// PARAMS
+		Group paramGroup = new Group(shell, SWT.SHADOW_ETCHED_IN);
+		paramGroup.setLayout(new FillLayout(SWT.VERTICAL));
 		
-		Group gaGroup = new Group(shell, SWT.SHADOW_ETCHED_IN);
+		// PSO
+		Group psoGroup = new Group(paramGroup, SWT.SHADOW_ETCHED_IN);
+		psoGroup.setText("PSO");
+		psoGroup.setLocation(100, 100);
+		
+		// PSO.inertia
+		Label psoLabel1 = new Label(psoGroup, SWT.LEFT);
+		psoLabel1.setText("w (inertia)");
+		psoLabel1.setLocation(5, 20);
+		psoLabel1.pack();
+		// spinner
+		Spinner psoSpinner1 = new Spinner(psoGroup, SWT.WRAP);
+		psoSpinner1.setLocation(100, 20);
+		psoSpinner1.setDigits(2);
+		psoSpinner1.pack();
+		
+		// PSO.learning rates
+		Label psoLabel2 = new Label(psoGroup, SWT.LEFT);
+		psoLabel2.setText("c1");
+		psoLabel2.setLocation(5, 45);
+		psoLabel2.pack();
+		// spinner
+		Spinner psoSpinner2 = new Spinner(psoGroup, SWT.WRAP);
+		psoSpinner2.setLocation(100, 45);
+		psoSpinner2.setDigits(2);
+		psoSpinner2.pack();
+		
+		// PSO.learning rates 2
+		Label psoLabel3 = new Label(psoGroup, SWT.LEFT);
+		psoLabel3.setText("c2");
+		psoLabel3.setLocation(5, 70);
+		psoLabel3.pack();
+		// spinner
+		Spinner psoSpinner3 = new Spinner(psoGroup, SWT.WRAP);
+		psoSpinner3.setLocation(100, 70);
+		psoSpinner3.setDigits(2);
+		psoSpinner3.pack();
+		
+		// PSO.particles
+		Label psoLabel4 = new Label(psoGroup, SWT.LEFT);
+		psoLabel4.setText("Particles");
+		psoLabel4.setLocation(5, 95);
+		psoLabel4.pack();
+		// spinner
+		Spinner psoSpinner4 = new Spinner(psoGroup, SWT.WRAP);
+		psoSpinner4.setLocation(100, 95);
+		psoSpinner4.setMaximum(1000);
+		psoSpinner4.pack();
+		
+		// PSO.compute
+		Button psoBtn = new Button(psoGroup, SWT.PUSH);
+		psoBtn.setText("Compute!");
+		psoBtn.setLocation(100, 120);
+		psoBtn.pack();
+		
+		// GA
+		// TODO: parametry
+		Group gaGroup = new Group(paramGroup, SWT.SHADOW_ETCHED_IN);
 		gaGroup.setText("Genetyczny");
 		gaGroup.setLocation(100, 100);
 		
@@ -105,6 +165,7 @@ public class MainApp {
 		gaGroup.pack();
 		
 		// MENU
+		// TODO zapisywanie wynikow
 		Menu menuBar = new Menu(shell, SWT.BAR);
 		MenuItem cascadeFileMenu = new MenuItem(menuBar, SWT.CASCADE);
 		cascadeFileMenu.setText("&Plik");

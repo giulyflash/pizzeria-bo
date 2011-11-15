@@ -82,7 +82,8 @@ public class PizzaMain {
 	 * @param currentTime
 	 * @param parametersForAlgorithm
 	 */
-	public PizzaMain(int minNewOrders, int maxNewOrders, int numberOfDeliveryBoys, int defaultLoadCapacityOfDeliveryBoy, Graph cityMap, ArrayList<DeliveryBoy> allDeliveryBoys, Deque<Order> orderQueue, ArrayList<DeliveryBoy> availableDeliveryBoys, Algorithm algorithm, Date currentTime, ArrayList<Float> parametersForAlgorithm, Vertex pizzeriaVertex) {
+	//TODO chyba pasuje ograniczyæ liczbe parametrów konstruktora?
+	public PizzaMain(int minNewOrders, int maxNewOrders, int numberOfDeliveryBoys, int defaultLoadCapacityOfDeliveryBoy, Graph cityMap, ArrayList<DeliveryBoy> allDeliveryBoys, Deque<Order> orderQueue, ArrayList<DeliveryBoy> availableDeliveryBoys, Date currentTime, ArrayList<Float> parametersForAlgorithm, Vertex pizzeriaVertex) {
 		_minNewOrders = minNewOrders;
 		_maxNewOrders = maxNewOrders;
 		_numberOfDeliveryBoys = numberOfDeliveryBoys;
@@ -91,10 +92,10 @@ public class PizzaMain {
 		_allDeliveryBoys = allDeliveryBoys;
 		_orderQueue = orderQueue;
 		_availableDeliveryBoys = availableDeliveryBoys;
-//		setAlgorithm(algorithm);
 		_currentTime = currentTime;
 		_parametersForAlgorithm = parametersForAlgorithm;
 		_pizzeriaVertex = pizzeriaVertex;
+		//TODO zainicjalizowaæ algorytmy
 	}
 	
 	public ArrayList<DeliveryBoy> getAllDeliveryBoys() {

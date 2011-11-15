@@ -54,7 +54,7 @@ public class MainApp {
 	public MainApp(Display display) {
 		graph = null;
 		
-		shell = new Shell(display);//, SWT.SHELL_TRIM & (~SWT.RESIZE));
+		shell = new Shell(display, SWT.SHELL_TRIM & (~SWT.RESIZE));
 		shell.setText(TITLE);
 		canvas = new Canvas(shell, SWT.WRAP | SWT.V_SCROLL | SWT.H_SCROLL);
 		
@@ -185,7 +185,7 @@ public class MainApp {
 		aboutItem.setText("&Authors");
 		
 		shell.setMenuBar(menuBar);
-		// TODO: zrobic scroolowanie
+		
 		// LISTENERY
 		exitItem.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -195,6 +195,7 @@ public class MainApp {
 			}
 		});
 		
+		// OPEN CITY
 		loadItem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -232,7 +233,27 @@ public class MainApp {
 			}
 		});
 		
-		// TODO scrollowanie
+		// TODO w razie czego mozna wypierdolic bo i tak ladniej jak miasto sie miesci 
+		// na jednym ekranie
+		final Point origin = new Point(0, 0);
+		
+		canvas.getHorizontalBar().addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				int hSelection = canvas.getHorizontalBar().getSelection();
+				MyPaintListener.scrollX(2*(-hSelection - origin.x));
+				origin.x = -hSelection;
+				canvas.redraw();
+			}
+		});
+		
+		canvas.getVerticalBar().addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				int vSelection = canvas.getVerticalBar().getSelection();
+				MyPaintListener.scrollY(2*(-vSelection - origin.y));
+				origin.y = -vSelection;
+				canvas.redraw();
+			}
+		});
 	}
 	
 	/**

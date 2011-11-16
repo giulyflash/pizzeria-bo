@@ -82,7 +82,6 @@ public class PizzaMain {
 	 * @param currentTime
 	 * @param parametersForAlgorithm
 	 */
-	//TODO chyba pasuje ograniczyæ liczbe parametrów konstruktora?
 	public PizzaMain(int minNewOrders, int maxNewOrders, int numberOfDeliveryBoys, int defaultLoadCapacityOfDeliveryBoy, Graph cityMap, ArrayList<DeliveryBoy> allDeliveryBoys, Deque<Order> orderQueue, ArrayList<DeliveryBoy> availableDeliveryBoys, Date currentTime, ArrayList<Float> parametersForAlgorithm, Vertex pizzeriaVertex) {
 		_minNewOrders = minNewOrders;
 		_maxNewOrders = maxNewOrders;
@@ -98,6 +97,19 @@ public class PizzaMain {
 		//TODO zainicjalizowaæ algorytmy
 	}
 	
+	/**
+	 * Ograniczony Konstruktor
+	 * @param minNewOrders
+	 * @param maxNewOrders
+	 * @param numberOfDeliveryBoys
+	 * @param defaultLoadCapacityOfDeliveryBoy
+	 * @param cityMap
+	 * @param pizzeriaVertex
+	 */
+	public PizzaMain(int minNewOrders, int maxNewOrders, int numberOfDeliveryBoys, int defaultLoadCapacityOfDeliveryBoy, Graph cityMap, Vertex pizzeriaVertex) {
+		this(minNewOrders, maxNewOrders, numberOfDeliveryBoys, defaultLoadCapacityOfDeliveryBoy, cityMap, new ArrayList<DeliveryBoy>(), new ArrayDeque<Order>(), new ArrayList<DeliveryBoy>(), new Date(), new ArrayList<Float>(), pizzeriaVertex);
+	}
+
 	public ArrayList<DeliveryBoy> getAllDeliveryBoys() {
 		return _allDeliveryBoys;
 	}
@@ -108,7 +120,7 @@ public class PizzaMain {
 		return _orderQueue;
 	}
 	public void addOrder(Order order) {
-		_orderQueue.add(order);
+		_orderQueue.addLast(order);
 	}
 	public ArrayList<DeliveryBoy> getAvailableDeliveryBoys() {
 		return _availableDeliveryBoys;
@@ -148,7 +160,7 @@ public class PizzaMain {
 		int size = _cityMap.getVertexList().size();
 		int ordersQuantity = _minNewOrders + generator.nextInt(_maxNewOrders);
 		for(int i=0; i<ordersQuantity; i++) {
-			_orderQueue.add(new Order(_cityMap.getVertex(generator.nextInt(size)+1), 1));
+			_orderQueue.addLast(new Order(_cityMap.getVertex(generator.nextInt(size)+1), 1));
 		}
 	}
 	

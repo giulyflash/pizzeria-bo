@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.File;
 import java.io.IOException;
 
 import model.graph.Graph;
@@ -7,7 +8,6 @@ import model.graph.Graph;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.RowData;
@@ -23,9 +23,14 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  * Glowne okno aplikacji
@@ -60,12 +65,12 @@ public class MainApp {
 		
 		shell.setToolTipText("This is tooltip");
 		
+		shell.setSize(800, 600);
 		center(shell);
 		
 		initUI();
 		
 		shell.open();
-		shell.setSize(800, 600);
 		
 		while(!shell.isDisposed()) {
 			if(!display.readAndDispatch()) {
@@ -107,8 +112,8 @@ public class MainApp {
 		generalLabel1.pack();
 		// spinner
 		Spinner generalSpinner1 = new Spinner(generalGroup, SWT.WRAP);
-		generalSpinner1.setLocation(100, 20);
-		generalSpinner1.setSize(100, 20);
+		generalSpinner1.setLocation(120, 20);
+		generalSpinner1.setSize(80, 20);
 		
 		// GENERAL.deliveryCap
 		Label generalLabel2 = new Label(generalGroup, SWT.LEFT);
@@ -117,8 +122,8 @@ public class MainApp {
 		generalLabel2.pack();
 		// spinner
 		Spinner generalSpinner2 = new Spinner(generalGroup, SWT.WRAP);
-		generalSpinner2.setLocation(100, 45);
-		generalSpinner2.setSize(100, 20);
+		generalSpinner2.setLocation(120, 45);
+		generalSpinner2.setSize(80, 20);
 		
 		// GENERAL.deliveryRange
 		Label generalLabel3 = new Label(generalGroup, SWT.LEFT);
@@ -242,6 +247,12 @@ public class MainApp {
 			public void widgetSelected(SelectionEvent e) {
 				shell.getDisplay().dispose();
 				System.exit(0);
+			}
+		});
+		
+		psoBtn.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				// TODO
 			}
 		});
 		

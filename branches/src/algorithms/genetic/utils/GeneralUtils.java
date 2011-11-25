@@ -2,6 +2,7 @@ package algorithms.genetic.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class GeneralUtils {
 
@@ -17,15 +18,15 @@ public class GeneralUtils {
 		}
 	}
 
-	public static List<Integer> getIntegersFromOneTo(int lastInt) {
+	public static List<Integer> getIntegerFromZeroTo(int lastInt) {
 		List<Integer> list = new ArrayList<>();
-		for (int i = 1; i < lastInt + 1; i++) {
+		for (int i = 0; i < lastInt; i++) {
 			list.add(i);
 		}
 		return list;
 	}
 	
-	public static boolean getBoolean(double probabilty){
+	public static boolean generateBoolean(double probabilty){
 		if(probabilty>=1){
 			return true;
 		} else if(probabilty<=0){

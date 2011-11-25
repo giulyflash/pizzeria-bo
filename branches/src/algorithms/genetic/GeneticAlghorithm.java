@@ -41,8 +41,9 @@ public class GeneticAlghorithm {
 		this.populationSize = populationSize;
 		this.crossover = new Crossover(crossoverProbability,genomeLength);
 		this.mutation = new Mutation();
-		this.selection = new Selection();
 		this.evaluator = new SolutionEvaluator(graph);
+		this.selection = new Selection(evaluator,genomeLength);
+		
 	}
 
 	void doIt() {
@@ -50,13 +51,9 @@ public class GeneticAlghorithm {
 		int genomeLength = numberOfCities;
 		List<Genome> population = PopulationGenerator.newGenerator(
 				genomeLength, populationSize).generate();
-		List<Double> evaluation;
 		for (int i = 0; i < numberOfIterations; i++) {
-			
-			evaluation = evaluator.evalPopulation(population);
-			
 			population = selection.acceptPopulation(population)
-					.acceptEvaluation(evaluation).generateNewPopulation();
+					.generateNewPopulation();
 			
 			population = crossover.acceptPopulation(population)
 					.generateNewPopulation();

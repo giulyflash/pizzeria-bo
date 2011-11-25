@@ -38,14 +38,13 @@ public class Genome {
 		this.path = path;
 	}
 	
-	@Override
-	public Genome clone(){
-		try {
-			return (Genome)super.clone();
-		} catch (CloneNotSupportedException e) {
-			throw new RuntimeException(e);
-		}
+	public Genome copy(){
+		Genome newGenome = new Genome(genomLen);
+		newGenome.setPath(path.clone());
+		return newGenome;
 	}
+	
+	
 	
 	
 }

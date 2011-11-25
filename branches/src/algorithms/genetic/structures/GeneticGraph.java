@@ -35,6 +35,20 @@ public class GeneticGraph {
 		this.size = size;
 	}
 	
+	public double getHighestCost(){
+		double max = 0D;
+		double tmp;
+		for (int i = 0; i < graph.length; i++) {
+			for (int j = 0; j < graph.length; j++) {
+				tmp=graph[i][j];
+				if(tmp>max){
+					max=tmp;
+				}
+			}
+		}
+		return max;
+	}
+	
 	
 
 }

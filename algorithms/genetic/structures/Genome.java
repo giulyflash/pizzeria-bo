@@ -16,19 +16,15 @@ public class Genome {
 		this.path=path;
 	}
 
-	public int getEdgesNumber(){
-		return getGenomeLength()-1;
-	}
-	
 	public int getGenomeLength(){
 		return genomLen;
 	}
 	
 	public TSPEdge getIthPathEdge(int i){
-		if(i>=getEdgesNumber()){
+		if(i>getGenomeLength() || i<0){
 			throw new IndexOutOfBoundsException("Cannot access egde #" + i);
 		}
-		return new TSPEdge(path[i], path[i+1]);
+		return new TSPEdge(path[i], path[(i+1) % genomLen]);
 	}
 
 	public int[] getPath() {

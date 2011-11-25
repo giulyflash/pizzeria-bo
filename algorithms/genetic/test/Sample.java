@@ -32,7 +32,7 @@ public class Sample {
 		}
 		GeneticTransformer mutator = new Mutation();
 		GeneticTransformer selector = new Selection();
-		GeneticTransformer reproductor = new Crossover(2);
+		GeneticTransformer reproductor = new Crossover(2,genomeLength);
 		{
 			selector.acceptPopulation(population);
 			population = selector.generateNewPopulation();

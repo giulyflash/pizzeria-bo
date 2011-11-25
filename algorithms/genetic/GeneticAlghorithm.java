@@ -27,18 +27,19 @@ public class GeneticAlghorithm {
 	private Selection selection;
 
 	private SolutionEvaluator evaluator;
+	
 
 	public GeneticAlghorithm() {
 	}
 
 	public GeneticAlghorithm(GeneticGraph graph, int mutationProbability,
-			int crossoverProbability, int numberOfIterations, int populationSize) {
+			int crossoverProbability, int numberOfIterations, int populationSize, int genomeLength) {
 		this.graph = graph;
 		this.mutationProbability = mutationProbability;
 		this.crossoverProbability = crossoverProbability;
 		this.numberOfIterations = numberOfIterations;
 		this.populationSize = populationSize;
-		this.crossover = new Crossover(crossoverProbability);
+		this.crossover = new Crossover(crossoverProbability,genomeLength);
 		this.mutation = new Mutation();
 		this.selection = new Selection();
 		this.evaluator = new SolutionEvaluator(graph);

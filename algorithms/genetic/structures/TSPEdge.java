@@ -4,7 +4,6 @@ public class TSPEdge {
 	
 	private int v1;
 	
-
 	private int v2;
 	
 	public TSPEdge() {

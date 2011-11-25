@@ -17,7 +17,7 @@ public class SolutionEvaluator {
 	public double eval(Genome sampleSolution){
 		double result=0;
 		
-		for (int i = 0; i < sampleSolution.getEdgesNumber(); i++) {
+		for (int i = 0; i < sampleSolution.getGenomeLength(); i++) {
 			result+=graph.evalTSPEgde(sampleSolution.getIthPathEdge(i));
 		}
 		return result;
@@ -29,6 +29,14 @@ public class SolutionEvaluator {
 			evaluation.add(eval(g));
 		}
 		return evaluation;
+	}
+	
+	public double evalPopulationWithReduce(List<Genome> population){
+		double reducedEvaluation=0.0;
+		for (double partialEval : evalPopulation(population)) {
+			reducedEvaluation+=partialEval;
+		}
+		return reducedEvaluation;
 	}
 
 }

@@ -13,13 +13,13 @@ public class PopulationGenerator {
 	
 	private int populationSize;
 	
-	private List<Integer> genomeGeneratorHelperList;
+	private List<Integer> vertexesIds;
 	
 	private PopulationGenerator(int genomeLength, int populationSize) {
 		super();
 		this.genomeLength = genomeLength;
 		this.populationSize = populationSize;
-		this.genomeGeneratorHelperList=GeneralUtils.getIntegersFromOneTo(genomeLength);
+		this.vertexesIds=GeneralUtils.getIntegerFromZeroTo(genomeLength);
 	}
 
 	public List<Genome> generate(){
@@ -32,17 +32,22 @@ public class PopulationGenerator {
 
 	private Genome getRandomGenome() {
 		Genome g =  new Genome(genomeLength);
-		Collections.shuffle(genomeGeneratorHelperList);
-		int[] genomeInnards=new int[genomeLength];
-		for (int i = 0; i < genomeInnards.length; i++) {
-			genomeInnards[i]=genomeGeneratorHelperList.get(i);
-		}
+		int[] genomeInnards = getNewRandomGenomePath();
 		g.setPath(genomeInnards);
 		return g;
 	}
+
+	private int[] getNewRandomGenomePath() {
+		Collections.shuffle(vertexesIds);
+		int[] genomeInnards=new int[genomeLength];
+		for (int i = 0; i < genomeInnards.length; i++) {
+			genomeInnards[i]=vertexesIds.get(i);
+		}
+		return genomeInnards;
+	}
 	
 	public static PopulationGenerator newGenerator(int genomeLength, int populationSize){
-		return new PopulationGenerator(genomeLength, populationSize);
+			return new PopulationGenerator(genomeLength, populationSize);
 	}
 	
 

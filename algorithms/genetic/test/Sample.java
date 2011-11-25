@@ -18,32 +18,32 @@ public class Sample {
 	}
 
 	private static void test() {
-		int size = 100;
-		GeneticGraph gg = GeneticGraph.getRandomGraph(size);
-		int genomeLength = 10; // equivalent to number of vertices on path
-		int populationSize = 100;
-		List<Genome> population = PopulationGenerator.newGenerator(
-				genomeLength, populationSize).generate();
-		{
-			SolutionEvaluator se = new SolutionEvaluator(gg);
-			for (Genome genome : population) {
-				se.eval(genome);
-			}
-		}
-		GeneticTransformer mutator = new Mutation();
-		GeneticTransformer selector = new Selection();
-		GeneticTransformer reproductor = new Crossover(2,genomeLength);
-		{
-			selector.acceptPopulation(population);
-			population = selector.generateNewPopulation();
-		}
-		{
-			reproductor.acceptPopulation(population);
-			population = reproductor.generateNewPopulation();
-		}
-		{
-			mutator.acceptPopulation(population);
-			population = mutator.generateNewPopulation();
-		}
+//		int size = 100;
+//		GeneticGraph gg = GeneticGraph.getRandomGraph(size);
+//		int genomeLength = 10; // equivalent to number of vertices on path
+//		int populationSize = 100;
+//		List<Genome> population = PopulationGenerator.newGenerator(
+//				genomeLength, populationSize).generate();
+//		{
+//			SolutionEvaluator se = new SolutionEvaluator(gg);
+//			for (Genome genome : population) {
+//				se.eval(genome);
+//			}
+//		}
+//		GeneticTransformer mutator = new Mutation();
+//		GeneticTransformer selector = new Selection(ev);
+//		GeneticTransformer reproductor = new Crossover(2,genomeLength);
+//		{
+//			selector.acceptPopulation(population);
+//			population = selector.generateNewPopulation();
+//		}
+//		{
+//			reproductor.acceptPopulation(population);
+//			population = reproductor.generateNewPopulation();
+//		}
+//		{
+//			mutator.acceptPopulation(population);
+//			population = mutator.generateNewPopulation();
+//		}
 	}
 }

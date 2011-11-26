@@ -35,7 +35,7 @@ public class AlgorithmTest {
 			System.out.println("iteration: " + i + ", solution: " + pack.getBestValue(i));
 			
 		}
-		System.out.println("\nBest iteartion: " + pack.getBestValueIterationNumber() + "\nBest value overall: " + pack.getBestValue());
+		System.out.println("\nBest iteration: " + pack.getBestValueIterationNumber() + "\nBest value overall: " + pack.getBestValue());
 		
 	}
 	

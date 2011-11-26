@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.ArrayList; 
 
 import model.graph.Group; 
+import model.pizzeria.Route;
 import model.graph.GraphMatrix;
 import model.pizzeria.Algorithm; 
 import model.pizzeria.DeliveryBoy;
 import model.pizzeria.Result;
+import model.pizzeria.Order; 
 import algorithms.pso.permutations.*; 
 
 public class PSOAlgorithm implements Algorithm {
@@ -64,11 +66,22 @@ public class PSOAlgorithm implements Algorithm {
 		finalResult.setIterationResults(totalCost);
 		
 		ArrayList<DeliveryBoy> db = new ArrayList<DeliveryBoy>();
+		Route r; 
+		ArrayList<Order> o;
 		for(SimpleResult res : resultList){
-			graphMatrix.translateToFullVerticesList(res.route); //lista wierzcholkow dla jednego delivery boy
+			o = new ArrayList<Order>(); 
+			for(Integer I : res.route)
+				o.addAll(graphMatrix.getOrders().get(I));
+				
+			r = new Route(sum(res.costs),graphMatrix.translateToFullVerticesList(res.route),o);
+			
+			db.add(availableDeliveryBoys.get(0).setCurrentRoute(r));
+			availableDeliveryBoys.remove(0);
+			
 			
 		}
 		
+		finalResult.setDeliveryBoys(db);
 		return finalResult;
 	}
 	
@@ -199,6 +212,13 @@ public class PSOAlgorithm implements Algorithm {
 		
 		
 		return new SimpleResult(); 
+	}
+	
+	private int sum(List<Double> list){
+		double s=0;
+		for(Double d : list)
+			s+=d; 
+		return (int)s; 
 	}
 	
 	

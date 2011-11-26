@@ -35,9 +35,8 @@ public class CrossoverTest{
 	@Before public void init(){
 		 
 		graph = new GeneticGraph(graphMatrix, graphMatrix.length);
-		int genomeLenght = graphMatrix.length;
-		crossover = new Crossover(crossoverProbability, genomeLenght);
-		int genomeLength = graph.getSize();
+		int genomeLength = graphMatrix.length;
+		crossover = new Crossover(crossoverProbability, genomeLength);
 		population = PopulationGenerator.newGenerator(
 				genomeLength, populationSize).generate();
 		evaluator = new SolutionEvaluator(graph);

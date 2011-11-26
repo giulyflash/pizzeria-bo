@@ -74,8 +74,8 @@ public class PSOAlgorithm implements Algorithm {
 				o.addAll(graphMatrix.getOrders().get(I));
 				
 			r = new Route(sum(res.costs),graphMatrix.translateToFullVerticesList(res.route),o);
-			
-			db.add(availableDeliveryBoys.get(0).setCurrentRoute(r));
+			availableDeliveryBoys.get(0).setCurrentRoute(r);
+			db.add(availableDeliveryBoys.get(0));
 			availableDeliveryBoys.remove(0);
 			
 			
@@ -214,11 +214,11 @@ public class PSOAlgorithm implements Algorithm {
 		return new SimpleResult(); 
 	}
 	
-	private int sum(List<Double> list){
+	private double sum(List<Double> list){
 		double s=0;
 		for(Double d : list)
 			s+=d; 
-		return (int)s; 
+		return s; 
 	}
 	
 	

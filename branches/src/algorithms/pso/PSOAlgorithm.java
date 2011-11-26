@@ -35,12 +35,41 @@ public class PSOAlgorithm implements Algorithm {
 		inertia = parameters.get(0);
 		c1 = parameters.get(1);
 		c2 = parameters.get(2);
-		numberOfPizzas = graphMatrix.getMatrix().length; 
+		numberOfPizzas = graphMatrix.getMatrix().length-1;
+		int maxCapacity = availableDeliveryBoys.get(0).getLoadCapacity(); 
+		Group g; 
+		List<List<Integer>> list; 
+		List<SimpleResult> resultList = new ArrayList<SimpleResult>();
 		
+		if(numberOfPizzas > availableDeliveryBoys.size())
+			g = new Group(graphMatrix.getMatrix(), availableDeliveryBoys.size(),maxCapacity);
+
+		else
+			g = new Group(graphMatrix.getMatrix(), numberOfPizzas,maxCapacity);
+			
+		list = g.group();
+		for(List<Integer> l : list)
+			resultList.add(solveTSP(graphMatrix.getMatrix(),l));
 		
+		Result finalResult = new Result();
+		ArrayList<Double> totalCost = new ArrayList<Double>();
+		double cost; 
+		for(int i=0;i<numberOfIterations;i++){
+			cost = 0; 
+			for(SimpleResult res : resultList)
+				cost+=res.costs.get(i);
+			totalCost.add(cost);	
+		}
 		
+		finalResult.setIterationResults(totalCost);
 		
-		return new Result();
+		ArrayList<DeliveryBoy> db = new ArrayList<DeliveryBoy>();
+		for(SimpleResult res : resultList){
+			graphMatrix.translateToFullVerticesList(res.route); //lista wierzcholkow dla jednego delivery boy
+			
+		}
+		
+		return finalResult;
 	}
 	
 	//funkcja zwaracajaca koszt przejscia po grafie wedlug permutacji wierzcholkow z czastki

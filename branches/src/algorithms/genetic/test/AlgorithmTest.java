@@ -2,10 +2,10 @@ package algorithms.genetic.test;
 
 import org.junit.Test;
 
-import algorithms.genetic.GeneticAlghorithm;
-import algorithms.genetic.GeneticSolutionPack;
-import algorithms.genetic.PopulationGenerator;
 import algorithms.genetic.structures.GeneticGraph;
+import algorithms.genetic.utils.GeneticAlghorithm;
+import algorithms.genetic.utils.GeneticSolutionPack;
+import algorithms.genetic.utils.PopulationGenerator;
 
 public class AlgorithmTest {
 

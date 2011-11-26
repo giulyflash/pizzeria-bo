@@ -2,14 +2,14 @@ package algorithms.genetic.test;
 
 import java.util.List;
 
-import algorithms.genetic.PopulationGenerator;
-import algorithms.genetic.SolutionEvaluator;
 import algorithms.genetic.operation.GeneticTransformer;
 import algorithms.genetic.operation.crossover.Crossover;
 import algorithms.genetic.operation.mutation.Mutation;
 import algorithms.genetic.operation.selection.Selection;
 import algorithms.genetic.structures.GeneticGraph;
 import algorithms.genetic.structures.Genome;
+import algorithms.genetic.utils.PopulationGenerator;
+import algorithms.genetic.utils.SolutionEvaluator;
 
 public class Sample {
 	

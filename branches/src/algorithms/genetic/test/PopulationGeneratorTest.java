@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import algorithms.genetic.PopulationGenerator;
 import algorithms.genetic.structures.Genome;
+import algorithms.genetic.utils.PopulationGenerator;
 
 public class PopulationGeneratorTest {
 	

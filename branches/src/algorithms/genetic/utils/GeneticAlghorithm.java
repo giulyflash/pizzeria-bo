@@ -1,4 +1,4 @@
-package algorithms.genetic;
+package algorithms.genetic.utils;
 
 import java.util.ArrayList;
 import java.util.Collection;

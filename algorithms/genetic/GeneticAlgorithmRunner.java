@@ -1,13 +1,16 @@
 package algorithms.genetic;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import algorithms.genetic.structures.GeneticGraph;
-
 import model.graph.GraphMatrix;
+import model.graph.Vertex;
 import model.pizzeria.Algorithm;
 import model.pizzeria.DeliveryBoy;
+import model.pizzeria.Order;
 import model.pizzeria.Result;
+import model.pizzeria.Route;
+import algorithms.genetic.structures.GeneticGraph;
 
 public class GeneticAlgorithmRunner implements Algorithm {
 
@@ -40,6 +43,16 @@ public class GeneticAlgorithmRunner implements Algorithm {
 		int genomeLength=graph.getSize();
 		algorithm=new GeneticAlghorithm(graph, mutationProbability, crossoverProbability, 
 				numberOfIterations, populationSize, genomeLength);
+		GeneticSolutionPack pack = algorithm.solve();
+//		Result r = new Result();
+//		Route route;
+//		for (DeliveryBoy boy : availableDeliveryBoys) {
+//			double timeNeededToFinish;
+//			ArrayList<Vertex> vertices = new ArrayList<>();
+//			ArrayList<Order> orders = new ArrayList<>();
+//			route = new Route((int)timeNeededToFinish, vertices, orders);
+//			boy.setCurrentRoute(route);
+//		}
 		return null;
 	}
 

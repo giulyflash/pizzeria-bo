@@ -40,7 +40,7 @@ public class GeneticAlghorithm {
 		this.numberOfIterations = numberOfIterations;
 		this.populationSize = populationSize;
 		this.crossover = new Crossover(crossoverProbability,genomeLength);
-		this.mutation = new Mutation();
+		this.mutation = new Mutation(mutationProbability,genomeLength);
 		this.evaluator = new SolutionEvaluator(graph);
 		this.selection = new Selection(evaluator,genomeLength);
 		

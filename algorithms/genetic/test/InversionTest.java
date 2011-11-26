@@ -7,9 +7,9 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import algorithms.genetic.PopulationGenerator;
 import algorithms.genetic.operation.mutation.Mutation;
 import algorithms.genetic.structures.Genome;
+import algorithms.genetic.utils.PopulationGenerator;
 
 public class InversionTest {
 	Mutation mutation;

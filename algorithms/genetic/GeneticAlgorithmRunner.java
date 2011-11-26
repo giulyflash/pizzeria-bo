@@ -11,6 +11,8 @@ import model.pizzeria.Order;
 import model.pizzeria.Result;
 import model.pizzeria.Route;
 import algorithms.genetic.structures.GeneticGraph;
+import algorithms.genetic.utils.GeneticAlghorithm;
+import algorithms.genetic.utils.GeneticSolutionPack;
 
 public class GeneticAlgorithmRunner implements Algorithm {
 

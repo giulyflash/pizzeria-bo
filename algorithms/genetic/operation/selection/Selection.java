@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import algorithms.genetic.SolutionEvaluator;
 import algorithms.genetic.operation.GeneticTransformer;
 import algorithms.genetic.structures.Genome;
 import algorithms.genetic.utils.GeneralUtils;
+import algorithms.genetic.utils.SolutionEvaluator;
 
 public class Selection implements GeneticTransformer{
 

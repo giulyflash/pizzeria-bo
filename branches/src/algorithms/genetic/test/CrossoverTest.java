@@ -7,11 +7,11 @@ import static junit.framework.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import algorithms.genetic.PopulationGenerator;
-import algorithms.genetic.SolutionEvaluator;
 import algorithms.genetic.operation.crossover.Crossover;
 import algorithms.genetic.structures.GeneticGraph;
 import algorithms.genetic.structures.Genome;
+import algorithms.genetic.utils.PopulationGenerator;
+import algorithms.genetic.utils.SolutionEvaluator;
 
 
 public class CrossoverTest{

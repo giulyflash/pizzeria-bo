@@ -26,9 +26,9 @@ public class PermutationTests {
 	        SetOfTranspositions sot2 = null;
 	        SetOfTranspositions sot3 = null;
 	        try{
-	        sot1 = new SetOfTranspositions(p1, p2);
-	        sot2 = new SetOfTranspositions(p3, p4);
-	        sot3 = new SetOfTranspositions(p5, p6);
+	        sot1 = new SetOfTranspositions(p1.getPermutation(), p2);
+	        sot2 = new SetOfTranspositions(p3.getPermutation(), p4);
+	        sot3 = new SetOfTranspositions(p5.getPermutation(), p6);
 	        
 	        }
 	        catch(Exception e) {}
@@ -41,7 +41,7 @@ public class PermutationTests {
 	        Particle p8 = new Particle(6, new int[]{2,0,6,4,7,12});
 	        SetOfTranspositions sot4 = null;
 	        try{
-		        sot4 = new SetOfTranspositions(p7, p8);}
+		        sot4 = new SetOfTranspositions(p7.getPermutation(), p8);}
 
 	        catch(Exception e) {}
 	        System.out.println("------------");
@@ -54,10 +54,14 @@ public class PermutationTests {
 	        p8.printPermutation();
 	        SetOfTranspositions sot5 = null;
 	        try{
-		        sot5 = new SetOfTranspositions(p7, p8);}
+		        sot5 = new SetOfTranspositions(p7.getPermutation(), p8);}
 
 	        catch(Exception e) {}
-	        sot5.printTranpsositions();
+	        System.out.println("////");
+	        sot1.printTranpsositions();
+	        sot1.multByC((float)0.49);
+	        System.out.println("////");
+	        sot1.printTranpsositions();
 
 	    }
 

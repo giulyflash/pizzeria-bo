@@ -34,6 +34,10 @@ public class GeneticAlghorithm {
 	private SolutionEvaluator evaluator;
 	
 	private List<Double> bestSolutions;
+
+	private GeneticSolutionPack pack;
+
+	private int genomeLength;
 	
 
 //	public GeneticAlghorithm() {
@@ -50,32 +54,37 @@ public class GeneticAlghorithm {
 		this.mutation = new Mutation(mutationProbability,genomeLength);
 		this.evaluator = new SolutionEvaluator(graph);
 		this.selection = new Selection(evaluator,genomeLength);
+		this.genomeLength = graph.getSize();
 		
 	}
 
-	public void doIt() {
-		int numberOfCities = graph.getSize();
-		int genomeLength = numberOfCities;
-		List<Genome> population = PopulationGenerator.newGenerator(
-				genomeLength, populationSize).generate();
-		bestSolutions= new ArrayList<>();
-		double theBestIthSolution;
+	public GeneticSolutionPack solve() {
+		pack = new GeneticSolutionPack(mutationProbability, crossoverProbability, numberOfIterations, populationSize, evaluator);
+		List<Genome> population = generateFreshPopulation(genomeLength);
+		pack.addNextSolution(new ArrayList<>(population));
 		for (int i = 0; i < numberOfIterations; i++) {
-			population = selection.acceptPopulation(population)
-					.generateNewPopulation();
 			
-			population = crossover.acceptPopulation(population)
-					.generateNewPopulation();
-			
-			population = mutation.acceptPopulation(population)
-					.generateNewPopulation();
-			theBestIthSolution = evaluator.getLowerEval(population);
-			bestSolutions.add(theBestIthSolution);
-			System.out.println("it: " + i + " solution: " + theBestIthSolution);
+			population = doNextIteration(population);
+			pack.addNextSolution(new ArrayList<>(population));
 		}
-		theBestIthSolution = Collections.min(bestSolutions);
-		int bestIndex = bestSolutions.indexOf(theBestIthSolution);
-		System.out.println("The best: " + theBestIthSolution + ", its index: " + bestIndex);
+		return pack;
+	}
+
+	private List<Genome> generateFreshPopulation(int genomeLength) {
+		return PopulationGenerator.newGenerator(
+				genomeLength, populationSize).generate();
+	}
+
+	private List<Genome> doNextIteration(List<Genome> population) {
+		population = selection.acceptPopulation(population)
+				.generateNewPopulation();
+		
+		population = crossover.acceptPopulation(population)
+				.generateNewPopulation();
+		
+		population = mutation.acceptPopulation(population)
+				.generateNewPopulation();
+		return population;
 	}
 
 	public double getMutationProbability() {

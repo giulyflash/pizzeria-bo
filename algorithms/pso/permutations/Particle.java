@@ -8,10 +8,15 @@ public class Particle {
 
     private int[] permutationOfVertices;
     private int size;
+    private SetOfTranspositions speed; 
+    private int[] bestPermutation; 
+    private double bestPermutationDistance; 
 
     public Particle(int size, int[] numbersOfVertices){
 
+       speed = new SetOfTranspositions();  
        permutationOfVertices = new int[size];
+       bestPermutation = new int[size];
        int[] permutation;
        permutation = new int[size];
        this.size = size;
@@ -42,8 +47,11 @@ public class Particle {
            //n1++;
            permutation[i]=n1;
        }
-       for(int i=0;i<size;i++)
+       
+       for(int i=0;i<size;i++){
     	   permutationOfVertices[i]=numbersOfVertices[permutation[i]];
+    	   bestPermutation[i] = permutationOfVertices[i];
+       }
 
 
 
@@ -90,6 +98,30 @@ public class Particle {
     		
     	}
     
+    }
+    
+    public void setSpeed(SetOfTranspositions speed){
+    	this.speed = speed; 
+    }
+    
+    public SetOfTranspositions getSpeed(){
+    	return speed; 
+    }
+    
+    public void setBestPermutationDistance(double distance){
+    	bestPermutationDistance = distance; 
+    }
+    
+    public double getBestPermutationDistance(){
+    	return bestPermutationDistance; 
+    }
+    
+    public int[] getBestPermutation(){
+    	return bestPermutation;
+    }
+    
+    public void setBestPermutation(int[] bestPermutation){
+    	this.bestPermutation = bestPermutation; 
     }
 
 }

@@ -52,29 +52,30 @@ public class SetOfTranspositions {
     }
 
     private List<Transposition> transpositions;
-    //int stride;
-    //boolean revert;
-    int size;
-    public SetOfTranspositions (Particle P, Particle X) throws Exception{
-        if(P.getSize() != X.getSize())
+
+    public SetOfTranspositions (){
+    	transpositions = new ArrayList<Transposition>();
+    }
+    public SetOfTranspositions (int[] P, Particle X) throws Exception{
+        if(P.length != X.getSize())
             throw new Exception("permutacje roznych dlugosci!");
         
          
         transpositions = new ArrayList<Transposition>();
          
         
-        int[] p = P.getPermutation();
+        //int[] p = P.getPermutation();
         int[] x = X.getPermutation();
         int[] Xcopy;
 
         List<Transposition> currentTranspositions; 
-        int currentBestNumberOfTranspositions = P.getSize() + 1;
+        int currentBestNumberOfTranspositions = P.length + 1;
         int currentNumberOfTranspositions;
         PermutationTransformer pt = new PermutationTransformer();
         int swap;
         int k;
         
-        for(int i=0;i<P.getSize()*2; i++){
+        for(int i=0;i<P.length*2; i++){
         	currentTranspositions = new ArrayList<Transposition>();
             Xcopy = x.clone();
             currentNumberOfTranspositions = 0;
@@ -85,7 +86,7 @@ public class SetOfTranspositions {
 
                 swap = Xcopy[j];
                 for(k = j;k<X.getSize();k++){
-                    if(Xcopy[k]==p[j])
+                    if(Xcopy[k]==P[j])
                         break;
                 }
                 Xcopy[j]=Xcopy[k];
@@ -128,6 +129,7 @@ public class SetOfTranspositions {
         
     }
     
+        
     public void multByR(){
     	Random r = new Random(); 
     	List<Transposition> toRemove = new ArrayList<Transposition>();
@@ -140,7 +142,7 @@ public class SetOfTranspositions {
     	}
     }
     
-    public void multByC(int c){ 
+    public void multByC(float c){ 
     	List<Transposition> toRemove = new ArrayList<Transposition>();
     	for(Transposition t : transpositions){
     		t.r*=c; 

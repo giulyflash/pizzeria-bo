@@ -3,6 +3,7 @@ package algorithms.genetic.test;
 import org.junit.Test;
 
 import algorithms.genetic.GeneticAlghorithm;
+import algorithms.genetic.GeneticSolutionPack;
 import algorithms.genetic.PopulationGenerator;
 import algorithms.genetic.structures.GeneticGraph;
 
@@ -21,15 +22,21 @@ public class AlgorithmTest {
 	
 	
 	@Test public void shouldSolveProblem(){
-		genomeSize=50;
+		genomeSize=100;
 		
-		double mutationProbability = 0.30;
-		double crossoverProbability = 0.5;
+		double mutationProbability = 0.2;
+		double crossoverProbability = 0.2;
 		int numberOfIterations = 100;
 		int populationSize = 1000;
 		init(mutationProbability, crossoverProbability, numberOfIterations, populationSize);
 		
-		algorithm.doIt();
+		GeneticSolutionPack pack  = algorithm.solve();
+		for (int i = 0; i < numberOfIterations; i++) {
+			System.out.println("iteration: " + i + ", solution: " + pack.getBestValue(i));
+			
+		}
+		System.out.println("\nBest iteartion: " + pack.getBestValueIterationNumber() + "\nBest value overall: " + pack.getBestValue());
+		
 	}
 	
 	private void init(double mutationProbability,

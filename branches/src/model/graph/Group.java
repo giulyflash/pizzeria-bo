@@ -20,10 +20,10 @@ public class Group {
 	
 	private class ListObject implements Comparable<ListObject>{
 		
-		public int dist; 
+		public double dist; 
 		public int nr1; 
 		public int nr2; 
-		public ListObject(int dist, int nr1, int nr2){
+		public ListObject(double dist, int nr1, int nr2){
 			this.nr1 = nr1;
 			this.nr2 = nr2; 
 			this.dist = dist; 
@@ -49,17 +49,17 @@ public class Group {
 	
 	private int maxCapacity; //maksymalna pojemonosc dostawcy 
 	private int numOfSuppliers; //ilosc wolnych dostawcow
-	private int[][] matrix; //macierz bez pizzeri!
+	private double[][] matrix; //macierz bez pizzeri!
 	private int pizza;  //ilosc pizz do dostarczenia
 	
 	
 	
 	
-	public Group(int[][] matrix, int numOfSuppliers, int maxCapacity){
+	public Group(double[][] matrix, int numOfSuppliers, int maxCapacity){
 		
-		this.matrix = new int[matrix.length-1][];
+		this.matrix = new double[matrix.length-1][];
 		for(int i=0;i<matrix.length-1;i++)
-			this.matrix[i] = new int[matrix.length-1];
+			this.matrix[i] = new double[matrix.length-1];
 		for(int i=0;i<matrix.length-1;i++)
 			for(int j=0;j<matrix.length-1;j++)
 				this.matrix[i][j]=matrix[i+1][j+1];
@@ -86,10 +86,10 @@ public class Group {
 	
 	//metoda do grupowania
 	
-	public List<List<Integer>> group() throws Exception{
+	public List<List<Integer>> group() {
 		
 		
-		if(pizza>numOfSuppliers*maxCapacity) throw new Exception("dostawcy nie moga zaladowac tyle pizz");
+		
 		List<List<Integer>> results;
 		results = new ArrayList<List<Integer>>();
 		 
@@ -99,7 +99,8 @@ public class Group {
 			List<Integer> l; 
 			for(int i=0;i<pizza;i++){
 				l = new ArrayList<Integer>();
-				l.add(i);
+				l.add(i+1);
+				l.add(0);
 				results.add(l);
 			}
 			return results;
@@ -110,7 +111,7 @@ public class Group {
 			
 				l = new ArrayList<Integer>();
 				results.add(l);
-				for(int i=0;i<pizza;i++)
+				for(int i=0;i<pizza+1;i++)
 					l.add(i);
 			
 			return results;
@@ -209,8 +210,8 @@ public class Group {
 	//funkcja pomocnicza do grupowania
 	public int maxDistanceVertex(List<Integer> v){
 		
-		int minDistance = 1000000000;
-		int maxDistance = -1; 
+		double minDistance = 1000000000;
+		double maxDistance = -1; 
 		int v2=-1;
 		int v3=-1; 
 		int k = 1;

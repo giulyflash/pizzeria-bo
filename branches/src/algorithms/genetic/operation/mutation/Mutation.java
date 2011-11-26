@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.lowagie.text.pdf.ArabicLigaturizer;
+//import com.lowagie.text.pdf.ArabicLigaturizer;
 
 import algorithms.genetic.operation.GeneticTransformer;
 import algorithms.genetic.structures.Genome;

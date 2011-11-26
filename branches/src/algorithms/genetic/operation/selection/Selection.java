@@ -51,8 +51,8 @@ public class Selection implements GeneticTransformer{
 	public List<Genome> generateNewPopulation() {
 		calculateEvaluationParameters();
 		calculateProbabilityParameters();
-		System.out.println("eval array: " + Arrays.toString(evalList));
-		System.out.println("dystrybuanta: " + cumulativeDistribution);
+		//System.out.println("eval array: " + Arrays.toString(evalList));
+		//System.out.println("dystrybuanta: " + cumulativeDistribution);
 		newPopulation = new ArrayList<>();
 		for (int i = 0; i < populationSize; i++) {
 			newPopulation.add(selectGenome());
@@ -66,8 +66,8 @@ public class Selection implements GeneticTransformer{
 		if(index<0){
 			index=-index-1;
 		}
-		System.out.println("probability: " + probability +
-				", index: " + index);
+		//System.out.println("probability: " + probability +
+		//		", index: " + index);
 		Genome g =  oldPopulation.get(index);
 		return g.copy();
 	}

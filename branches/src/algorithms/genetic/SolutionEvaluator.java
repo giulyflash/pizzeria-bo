@@ -38,5 +38,17 @@ public class SolutionEvaluator {
 		}
 		return reducedEvaluation;
 	}
+	
+	public double getLowerEval(List<Genome> population){
+		double min=-1.0;
+		double tmp;
+		for (Genome genome : population) {
+			tmp=eval(genome);
+			if(min<0 || tmp<min){
+				min=tmp;
+			}
+		}
+		return min;
+	}
 
 }

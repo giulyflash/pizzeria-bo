@@ -1,6 +1,11 @@
 package algorithms.genetic;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+
+import com.lowagie.text.pdf.ArabicLigaturizer;
 
 import algorithms.genetic.operation.crossover.Crossover;
 import algorithms.genetic.operation.mutation.Mutation;
@@ -12,9 +17,9 @@ public class GeneticAlghorithm {
 
 	private GeneticGraph graph;
 
-	private int mutationProbability;
+	private double mutationProbability;
 
-	private int crossoverProbability;
+	private double crossoverProbability;
 
 	private int numberOfIterations;
 
@@ -28,12 +33,14 @@ public class GeneticAlghorithm {
 
 	private SolutionEvaluator evaluator;
 	
+	private List<Double> bestSolutions;
+	
 
-	public GeneticAlghorithm() {
-	}
+//	public GeneticAlghorithm() {
+//	}
 
-	public GeneticAlghorithm(GeneticGraph graph, int mutationProbability,
-			int crossoverProbability, int numberOfIterations, int populationSize, int genomeLength) {
+	public GeneticAlghorithm(GeneticGraph graph, double mutationProbability,
+			double crossoverProbability, int numberOfIterations, int populationSize, int genomeLength) {
 		this.graph = graph;
 		this.mutationProbability = mutationProbability;
 		this.crossoverProbability = crossoverProbability;
@@ -46,11 +53,13 @@ public class GeneticAlghorithm {
 		
 	}
 
-	void doIt() {
+	public void doIt() {
 		int numberOfCities = graph.getSize();
 		int genomeLength = numberOfCities;
 		List<Genome> population = PopulationGenerator.newGenerator(
 				genomeLength, populationSize).generate();
+		bestSolutions= new ArrayList<>();
+		double theBestIthSolution;
 		for (int i = 0; i < numberOfIterations; i++) {
 			population = selection.acceptPopulation(population)
 					.generateNewPopulation();
@@ -60,10 +69,16 @@ public class GeneticAlghorithm {
 			
 			population = mutation.acceptPopulation(population)
 					.generateNewPopulation();
+			theBestIthSolution = evaluator.getLowerEval(population);
+			bestSolutions.add(theBestIthSolution);
+			System.out.println("it: " + i + " solution: " + theBestIthSolution);
 		}
+		theBestIthSolution = Collections.min(bestSolutions);
+		int bestIndex = bestSolutions.indexOf(theBestIthSolution);
+		System.out.println("The best: " + theBestIthSolution + ", its index: " + bestIndex);
 	}
 
-	public int getMutationProbability() {
+	public double getMutationProbability() {
 		return mutationProbability;
 	}
 
@@ -71,7 +86,7 @@ public class GeneticAlghorithm {
 		this.mutationProbability = mutationProbability;
 	}
 
-	public int getCrossoverProbability() {
+	public double getCrossoverProbability() {
 		return crossoverProbability;
 	}
 

@@ -50,14 +50,14 @@ public class Mutation implements GeneticTransformer{
 		int i;
 		int[] path = genome.getPath();
 		int tmp;
-		System.out.println("Inverse from: " + first + ", to : " + second);
-		System.out.println(Arrays.toString(path));
+		//System.out.println("Inverse from: " + first + ", to : " + second);
+		//System.out.println(Arrays.toString(path));
 		for (i = first, j= second; j>i; i++,j--) {
 			tmp=path[i];
 			path[i]=path[j];
 			path[j]=tmp;
 		}
-		System.out.println(Arrays.toString(path));
+		//System.out.println(Arrays.toString(path));
 		
 	}
 

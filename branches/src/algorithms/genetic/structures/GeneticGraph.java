@@ -12,6 +12,8 @@ public class GeneticGraph {
 		this.graph = graph;
 		this.size = size;
 	}
+	
+
 
 	public double evalTSPEgde(TSPEdge e) {
 		return graph[e.getV1()][e.getV2()];

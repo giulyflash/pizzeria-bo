@@ -1,11 +1,7 @@
 package algorithms.genetic.utils;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-
-//import com.lowagie.text.pdf.ArabicLigaturizer;
 
 import algorithms.genetic.operation.crossover.Crossover;
 import algorithms.genetic.operation.mutation.Mutation;

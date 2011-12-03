@@ -6,17 +6,18 @@ import model.graph.Edge;
 import model.graph.Graph;
 import model.graph.Vertex;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
 
 /**
  * Klasa do rysowania miasta z zadanego grafu.
- * @author Michał Nowak
+ * @author Michal Nowak
  *
  */
 public class MyPaintListener implements PaintListener {
-	private final static int SIZE = 10;
+	private final static int SIZE = 30;
 	private static Graph graph;
 	private static int SCROLL_X, SCROLL_Y; 
 	
@@ -38,7 +39,7 @@ public class MyPaintListener implements PaintListener {
 	 * Ustala aktualnie rysowany graf
 	 * @param g - graf
 	 */
-	public static void addGraph(Graph g) {
+	public static void addGraph(Graph g, boolean akt) {
 		graph = g;
 	}
 	
@@ -49,6 +50,7 @@ public class MyPaintListener implements PaintListener {
 	public void paintControl(PaintEvent e) {
 	    
 		if(graph != null) {
+			e.gc.setLineWidth(2);
 			e.gc.setBackground(new Color(e.display, 33, 200, 100));
 			ArrayList<Vertex> list = (ArrayList<Vertex>) graph.getVertexList();
 			
@@ -63,15 +65,12 @@ public class MyPaintListener implements PaintListener {
 			
 			for(Vertex v : list) {
 				e.gc.fillOval((int)v.getCoordinate().x+SCROLL_X, (int)v.getCoordinate().y+SCROLL_Y, SIZE, SIZE);
-				
-				// cyferki na wezlach
-//				e.gc.drawText("" + v.getNumber(), (int)v.getCoordinate().x+(SIZE/4), 
-//						(int)v.getCoordinate().y+(SIZE/16), true);
+				e.gc.drawText("" + v.getNumber(), (int)v.getCoordinate().x+(SIZE/4)+SCROLL_X, 
+						(int)v.getCoordinate().y+(SIZE/16)+SCROLL_Y, true);
 			}
 			
-			
-			
 		}
+		
 	}
 
 }

@@ -52,6 +52,10 @@ public class ResultsPaintListener implements PaintListener {
 		SCROLL_Y += y;
 	}
 	
+	public static void scrollX(int x) {
+		SCROLL_X += x;
+	}
+	
 	/**
 	 * Ustala aktualnie rysowany graf
 	 * i trase
@@ -78,14 +82,14 @@ public class ResultsPaintListener implements PaintListener {
 			e.gc.setBackground(new Color(e.display, 33, 200, 100));
 			e.gc.setForeground(new Color(e.display, 0, 0, 0));
 		ArrayList<Vertex> list = (ArrayList<Vertex>) graph.getVertexList();
-		/*				
-			for(Vertex v : list) {
+						
+	/*		for(Vertex v : list) {
 				for(Edge ed : v.getEdgeList()) {
 					e.gc.drawLine((int)v.getCoordinate().x+(SIZE/2)+SCROLL_X, (int)v.getCoordinate().y+(SIZE/2)+SCROLL_Y, 
 							(int)ed.getEnd().getCoordinate().x+(SIZE/2)+SCROLL_X, 
 							(int)ed.getEnd().getCoordinate().y+(SIZE/2)+SCROLL_Y);
 				}
-			} */
+			}*/ 
 			// rysuje trasy dla kazdego dostawcy
 			int odchylenie = 2;  //o ile przesunieta bedzie linia wzgledem œroda (zeby sie nie zlewaly)
 			int zmiana = 1;

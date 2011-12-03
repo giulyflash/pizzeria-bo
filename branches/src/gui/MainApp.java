@@ -2,12 +2,17 @@ package gui;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import model.graph.Graph;
+import model.graph.Vertex;
+import model.pizzeria.Result;
+import model.pizzeria.DeliveryBoy;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.RowData;
@@ -23,6 +28,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.jfree.chart.ChartFactory;
@@ -34,15 +40,44 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  * Glowne okno aplikacji
- * @author Michal‚ Nowak
- * @version 1
+ * @author Michal Nowak & Maks Kusak
+ * @version 1.1
  *
  */
 public class MainApp {
 	private final static String TITLE = "Pizzeria";
-	private Shell shell;
-	private Graph graph;
-	private Canvas canvas;
+	private static Shell shell;
+	private static Graph graph;
+	private static Canvas canvas;
+	private static Result wynik;
+	private static ProgressBar bar;
+	private static Display display; 
+	
+	/**
+	 * Watek uzywany za kazdym razem do rysowania.
+	 * 
+	 */
+	
+	static class Watek extends Thread{
+		private int i,j;
+		public Watek(int i, int j){
+			this.i=i;
+			this.j=j;
+		}
+		
+		public void run() {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}	
+			System.out.println(i + " "+ j);
+			//ResultsPaintListener.zmienD(i);   
+			//ResultsPaintListener.zmienV(j);
+			ResultsPaintListener.rysuj(graph, wynik, (i+1), (j+1));  
+			canvas.redraw();	
+		}
+	}
 	
 	/**
 	 * Zwraca aktualnie zaladowane miasto
@@ -72,12 +107,14 @@ public class MainApp {
 		
 		shell.open();
 		
+		
 		while(!shell.isDisposed()) {
 			if(!display.readAndDispatch()) {
 				display.sleep();
 			}
 		}
 	}
+	
 	
 	/**
 	 * Inicjalizacja interfejsu. Layouty, przyciski etc
@@ -100,10 +137,14 @@ public class MainApp {
 		paramGroup.setText("Parameters");
 		paramGroup.setLayout(new RowLayout(SWT.VERTICAL));
 		
+
+		
 		// GENERAL
 		Group generalGroup = new Group(paramGroup, SWT.SHADOW_ETCHED_IN);
 		generalGroup.setText("General");
 		generalGroup.setLocation(100, 100);
+		
+
 		
 		// GENERAL.delivery
 		Label generalLabel1 = new Label(generalGroup, SWT.LEFT);
@@ -167,6 +208,8 @@ public class MainApp {
 		psoSpinner2.setSize(100, 20);
 		psoSpinner2.setSize(100, 20);
 		
+
+
 		// PSO.learning rates 2
 		Label psoLabel3 = new Label(psoGroup, SWT.LEFT);
 		psoLabel3.setText("c2");
@@ -212,6 +255,10 @@ public class MainApp {
 		gaGroup.setText("Genetyczny");
 		gaGroup.setLocation(100, 100);
 		
+		bar = new ProgressBar (paramGroup, SWT.NULL);
+		bar.setLocation(0,0);
+		bar.setSize(100, 20);
+		
 		// MENU
 		// TODO zapisywanie wynikow
 		Menu menuBar = new Menu(shell, SWT.BAR);
@@ -252,7 +299,20 @@ public class MainApp {
 		
 		psoBtn.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
-				// TODO
+				Test test = new Test();
+				wynik = test.stworz();	
+		//		display.asyncExec( new Watek(1,1));
+				int iDostawcow=wynik.getDeliveryBoys().size();
+				ArrayList<DeliveryBoy> boys = (ArrayList<DeliveryBoy>)wynik.getDeliveryBoys();
+				for(int i=0; i<iDostawcow; i++){
+					int iVertex = boys.get(i).getCurrentRoute().getVertices().size();
+					for(int j=0; j<iVertex;j++){
+						display.asyncExec( new Watek(i,j));
+				
+					}	
+				}
+				System.out.println("Narysowane");
+
 			}
 		});
 		
@@ -270,8 +330,8 @@ public class MainApp {
 				
 				try {
 					graph = GraphConverter.convert(fileDialog.open());
-					MyPaintListener.addGraph(graph);
-					System.out.println("Loded");
+					MyPaintListener.addGraph(graph, false);
+					System.out.println("Loaded");
 					canvas.redraw();
 				} catch (ArrayIndexOutOfBoundsException | IOException e1) {
 					MessageBox msgBox = new MessageBox(shell, SWT.ICON_ERROR);
@@ -284,12 +344,13 @@ public class MainApp {
 		});
 		
 		canvas.addPaintListener(new MyPaintListener());
+		canvas.addPaintListener(new ResultsPaintListener());
 		
 		aboutItem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				MessageBox messageBox = new MessageBox(shell, SWT.ICON_INFORMATION);
-				messageBox.setMessage("Maks Kusak\nMichaĹ‚ Nowak\nĹ�ukasz SÄ™kalski\nGrzegorz LegieĹ„\nDominik Gawlik\nAlbert KuĹşma\nPaweĹ‚ Batko\nGrzesiek Mrozu\nMarcin Orzechowski\nDamian Goik");
+				messageBox.setMessage("Maks Kusak\nMichal Nowak\nLukasz Sekalski\nGrzegorz Legien\nDominik Gawlik\nAlbert Kuzma\nPawel Batko\nGrzesiek Mrozu\nMarcin Orzechowski\nDamian Goik");
 				messageBox.open();
 			}
 		});
@@ -319,7 +380,7 @@ public class MainApp {
 	}
 	
 	/**
-	 * WyĹ›rodkowuje okno
+	 * Wy�rodkowuje okno
 	 * @param shell
 	 */
 	private void center(Shell shell) {
@@ -338,9 +399,10 @@ public class MainApp {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Display display = new Display();
+		display = new Display();
 		
 		new MainApp(display);
+		
 		display.dispose();
 	}
 

@@ -364,6 +364,7 @@ public class MainApp {
 			public void handleEvent(Event e) {
 				int hSelection = canvas.getHorizontalBar().getSelection();
 				MyPaintListener.scrollX(2*(-hSelection - origin.x));
+				ResultsPaintListener.scrollX(2*(-hSelection - origin.x));
 				origin.x = -hSelection;
 				canvas.redraw();
 			}
@@ -373,6 +374,7 @@ public class MainApp {
 			public void handleEvent(Event e) {
 				int vSelection = canvas.getVerticalBar().getSelection();
 				MyPaintListener.scrollY(2*(-vSelection - origin.y));
+				ResultsPaintListener.scrollY(2*(-vSelection - origin.y));
 				origin.y = -vSelection;
 				canvas.redraw();
 			}

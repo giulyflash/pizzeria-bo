@@ -65,8 +65,8 @@ public class MyPaintListener implements PaintListener {
 			
 			for(Vertex v : list) {
 				e.gc.fillOval((int)v.getCoordinate().x+SCROLL_X, (int)v.getCoordinate().y+SCROLL_Y, SIZE, SIZE);
-				e.gc.drawText("" + v.getNumber(), (int)v.getCoordinate().x+(SIZE/4)+SCROLL_X, 
-						(int)v.getCoordinate().y+(SIZE/16)+SCROLL_Y, true);
+			//	e.gc.drawText("" + v.getNumber(), (int)v.getCoordinate().x+(SIZE/4)+SCROLL_X, 
+				//		(int)v.getCoordinate().y+(SIZE/16)+SCROLL_Y, true);
 			}
 			
 		}

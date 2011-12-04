@@ -58,7 +58,7 @@ public class MainApp {
 	 * 
 	 */
 	
-	static class Watek extends Thread{
+	/*static class Watek extends Thread{
 		private int i,j;
 		public Watek(int i, int j){
 			this.i=i;
@@ -76,6 +76,37 @@ public class MainApp {
 			//ResultsPaintListener.zmienV(j);
 			ResultsPaintListener.rysuj(graph, wynik, (i+1), (j+1));  
 			canvas.redraw();	
+		}
+	}*/
+	
+	static class Watek2 extends Thread{
+		private int i,j;
+		public Watek2(){
+		}
+		
+		public void run() {
+			Test test = new Test();
+			wynik = test.stworz();	
+	//		display.asyncExec( new Watek(1,1));
+			int iDostawcow=wynik.getDeliveryBoys().size();
+			ArrayList<DeliveryBoy> boys = (ArrayList<DeliveryBoy>)wynik.getDeliveryBoys();
+			for(i=0; i<iDostawcow; i++){
+				int iVertex = boys.get(i).getCurrentRoute().getVertices().size();
+				for(j=0; j<iVertex;j++){
+					display.asyncExec(new Runnable() {
+				        public void run() {
+				        	ResultsPaintListener.rysuj(graph, wynik, (i+1), (j+1));  
+				        	canvas.redraw();	
+				        }});
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}	
+			}
+			System.out.println("Narysowane");
 		}
 	}
 	
@@ -302,17 +333,18 @@ public class MainApp {
 				Test test = new Test();
 				wynik = test.stworz();	
 		//		display.asyncExec( new Watek(1,1));
-				int iDostawcow=wynik.getDeliveryBoys().size();
+				/*int iDostawcow=wynik.getDeliveryBoys().size();
 				ArrayList<DeliveryBoy> boys = (ArrayList<DeliveryBoy>)wynik.getDeliveryBoys();
 				for(int i=0; i<iDostawcow; i++){
 					int iVertex = boys.get(i).getCurrentRoute().getVertices().size();
 					for(int j=0; j<iVertex;j++){
 						display.asyncExec( new Watek(i,j));
+					
 				
 					}	
-				}
+				} */
 				System.out.println("Narysowane");
-
+				new Watek2().start();
 			}
 		});
 		

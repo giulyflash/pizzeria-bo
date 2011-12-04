@@ -19,6 +19,7 @@ import org.eclipse.swt.graphics.Color;
  */
 public class ResultsPaintListener implements PaintListener {
 	private final static int SIZE = 30;
+	private final static int SIZEK = 20;
 	private static Graph graph;
 	private static int SCROLL_X, SCROLL_Y; 
 	private static Result wynik;
@@ -108,7 +109,7 @@ public class ResultsPaintListener implements PaintListener {
 					e.gc.drawLine(i*20,i*50,j*50,j*70);
 				}
 			}*/
-			e.gc.setLineWidth(2);
+			e.gc.setLineWidth(3);
 			for (int i=0; i<dostawca-1; i++){		
 				e.gc.setForeground(e.display.getSystemColor(k+3));
 			//	System.out.println(odchylenie);
@@ -129,27 +130,28 @@ public class ResultsPaintListener implements PaintListener {
 			
 			e.gc.setLineWidth(3);	
 			e.gc.setForeground(e.display.getSystemColor(k+3));
+			
 
-				
 			ArrayList<Vertex> vlist = (ArrayList<Vertex>)boys.get(dostawca-1).getCurrentRoute().getVertices();  
 			int min = min(vlist.size(),vertex);
 			for (int j=0; j<min-1 ; j++){
 				e.gc.drawLine((int)vlist.get(j).getCoordinate().x+(SIZE/2)+SCROLL_X+zmiana*odchylenie, (int)vlist.get(j).getCoordinate().y+(SIZE/2)+SCROLL_Y+zmiana*odchylenie, 
 						(int)vlist.get(j+1).getCoordinate().x+(SIZE/2)+SCROLL_X+zmiana*odchylenie, (int)vlist.get(j+1).getCoordinate().y+(SIZE/2)+SCROLL_Y+zmiana*odchylenie);
+				
 			}
-			if(k % 2 == 0) odchylenie += 2; 
-			zmiana = -zmiana;
-			k++;
+
 			
-			e.gc.setForeground(new Color(e.display, 0, 0, 00));
+			e.gc.setForeground(new Color(e.display, 0, 0, 0));
+			e.gc.setBackground(new Color(e.display, 33, 200, 100));
 			for(Vertex v : list) {
 				e.gc.fillOval((int)v.getCoordinate().x+SCROLL_X, (int)v.getCoordinate().y+SCROLL_Y, SIZE, SIZE);
-				e.gc.drawText("" + v.getNumber(), (int)v.getCoordinate().x+(SIZE/4)+SCROLL_X, 
-						(int)v.getCoordinate().y+(SIZE/16)+SCROLL_Y, true);
+			//	e.gc.drawText("" + v.getNumber(), (int)v.getCoordinate().x+(SIZE/4)+SCROLL_X, 
+				//		(int)v.getCoordinate().y+(SIZE/16)+SCROLL_Y, true);
 			}
-			
-		}
-		
+			e.gc.setBackground(new Color(e.display, 250, 250, 250));
+			e.gc.fillOval((int)vlist.get(min-1).getCoordinate().x+SCROLL_X+(SIZE - SIZEK)/2, (int)vlist.get(min-1).getCoordinate().y+SCROLL_Y+(SIZE - SIZEK)/2, SIZEK, SIZEK);
+			e.gc.drawText(""+(dostawca), (int)vlist.get(min-1).getCoordinate().x+SCROLL_X+12, (int)vlist.get(min-1).getCoordinate().y+SCROLL_Y+8, true);
+		}	
 	}
 
 }

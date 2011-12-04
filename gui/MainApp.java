@@ -52,6 +52,7 @@ public class MainApp {
 	private static Result wynik;
 	private static ProgressBar bar;
 	private static Display display; 
+	private static Watek2 abba;
 	
 	/**
 	 * Watek uzywany za kazdym razem do rysowania.
@@ -93,7 +94,7 @@ public class MainApp {
 			for(i=0; i<iDostawcow; i++){
 				int iVertex = boys.get(i).getCurrentRoute().getVertices().size();
 				for(j=0; j<iVertex;j++){
-					display.asyncExec(new Runnable() {
+					display.syncExec(new Runnable() {
 				        public void run() {
 				        	ResultsPaintListener.rysuj(graph, wynik, (i+1), (j+1));  
 				        	canvas.redraw();	
@@ -101,8 +102,9 @@ public class MainApp {
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						ResultsPaintListener.rysuj(graph,-1,-1);
+						canvas.redraw();
+						System.out.println("Interrupted.");
 					}
 				}	
 			}
@@ -330,6 +332,9 @@ public class MainApp {
 		
 		psoBtn.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
+				try {
+				abba.interrupt();
+				} catch (Exception a){}
 				Test test = new Test();
 				wynik = test.stworz();	
 		//		display.asyncExec( new Watek(1,1));
@@ -344,7 +349,8 @@ public class MainApp {
 					}	
 				} */
 				System.out.println("Narysowane");
-				new Watek2().start();
+				abba = new Watek2();
+				abba.start();
 			}
 		});
 		
@@ -361,8 +367,15 @@ public class MainApp {
 				fileDialog.setFilterExtensions(filterExtensions);
 				
 				try {
+				abba.interrupt();
+
+				} catch (Exception a){
+					
+				}
+				
+				try {
 					graph = GraphConverter.convert(fileDialog.open());
-					MyPaintListener.addGraph(graph, false);
+					ResultsPaintListener.rysuj(graph,-1,-1);
 					System.out.println("Loaded");
 					canvas.redraw();
 				} catch (ArrayIndexOutOfBoundsException | IOException e1) {
@@ -372,10 +385,12 @@ public class MainApp {
 				} catch(NullPointerException e2) {
 					
 				}
+				
+
 			}
 		});
 		
-		canvas.addPaintListener(new MyPaintListener());
+	//	canvas.addPaintListener(new MyPaintListener());
 		canvas.addPaintListener(new ResultsPaintListener());
 		
 		aboutItem.addSelectionListener(new SelectionAdapter() {

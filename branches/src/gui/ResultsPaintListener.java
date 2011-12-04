@@ -68,6 +68,12 @@ public class ResultsPaintListener implements PaintListener {
 		vertex = j;
 	}
 	
+	public static void rysuj(Graph g, int i, int j) {
+		dostawca= i;
+		vertex = j;
+		graph=g;
+	}
+	
 	public int min(int x, int y){
 		if(x<y) return x; else return y;
 	}
@@ -77,20 +83,44 @@ public class ResultsPaintListener implements PaintListener {
 	 */
 	@Override
 	public void paintControl(PaintEvent e) {
-	    
+		if (dostawca==-1){
+			if(graph != null) {
+				e.gc.setLineWidth(2);
+				e.gc.setBackground(new Color(e.display, 33, 200, 100));
+				ArrayList<Vertex> list = (ArrayList<Vertex>) graph.getVertexList();
+				
+				for(Vertex v : list) {
+					for(Edge ed : v.getEdgeList()) {
+						e.gc.drawLine((int)v.getCoordinate().x+(SIZE/2)+SCROLL_X, (int)v.getCoordinate().y+(SIZE/2)+SCROLL_Y, 
+								(int)ed.getEnd().getCoordinate().x+(SIZE/2)+SCROLL_X, 
+								(int)ed.getEnd().getCoordinate().y+(SIZE/2)+SCROLL_Y);
+					}
+				}
+				// TODO: drugi raz to samo zeby wezly byly na wierzchu. DO POPRAWY ?
+				
+				for(Vertex v : list) {
+					e.gc.fillOval((int)v.getCoordinate().x+SCROLL_X, (int)v.getCoordinate().y+SCROLL_Y, SIZE, SIZE);
+				//	e.gc.drawText("" + v.getNumber(), (int)v.getCoordinate().x+(SIZE/4)+SCROLL_X, 
+					//		(int)v.getCoordinate().y+(SIZE/16)+SCROLL_Y, true);
+				}
+		}
+		}
+			else
+		{
 		if(graph != null) {
-			e.gc.setLineWidth(3);
+			e.gc.setLineWidth(2);
 			e.gc.setBackground(new Color(e.display, 33, 200, 100));
 			e.gc.setForeground(new Color(e.display, 0, 0, 0));
 		ArrayList<Vertex> list = (ArrayList<Vertex>) graph.getVertexList();
 						
-	/*		for(Vertex v : list) {
+			for(Vertex v : list) {
 				for(Edge ed : v.getEdgeList()) {
 					e.gc.drawLine((int)v.getCoordinate().x+(SIZE/2)+SCROLL_X, (int)v.getCoordinate().y+(SIZE/2)+SCROLL_Y, 
 							(int)ed.getEnd().getCoordinate().x+(SIZE/2)+SCROLL_X, 
 							(int)ed.getEnd().getCoordinate().y+(SIZE/2)+SCROLL_Y);
 				}
-			}*/ 
+			} 
+			e.gc.setLineWidth(3);
 			// rysuje trasy dla kazdego dostawcy
 			int odchylenie = 2;  //o ile przesunieta bedzie linia wzgledem œroda (zeby sie nie zlewaly)
 			int zmiana = 1;
@@ -152,6 +182,7 @@ public class ResultsPaintListener implements PaintListener {
 			e.gc.fillOval((int)vlist.get(min-1).getCoordinate().x+SCROLL_X+(SIZE - SIZEK)/2, (int)vlist.get(min-1).getCoordinate().y+SCROLL_Y+(SIZE - SIZEK)/2, SIZEK, SIZEK);
 			e.gc.drawText(""+(dostawca), (int)vlist.get(min-1).getCoordinate().x+SCROLL_X+12, (int)vlist.get(min-1).getCoordinate().y+SCROLL_Y+8, true);
 		}	
+	}
 	}
 
 }

@@ -14,7 +14,7 @@ import org.eclipse.swt.graphics.Color;
 /**
  * Klasa do rysowania miasta z zadanego grafu.
  * @author Michal Nowak
- *
+ * !!KLASA NIEPOTRZEBNA!! funkcjonalnosc przeniesiona do ResultsPaintListenera
  */
 public class MyPaintListener implements PaintListener {
 	private final static int SIZE = 30;
@@ -39,7 +39,7 @@ public class MyPaintListener implements PaintListener {
 	 * Ustala aktualnie rysowany graf
 	 * @param g - graf
 	 */
-	public static void addGraph(Graph g, boolean akt) {
+	public static void addGraph(Graph g) {
 		graph = g;
 	}
 	

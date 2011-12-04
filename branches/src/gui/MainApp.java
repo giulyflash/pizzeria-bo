@@ -52,12 +52,8 @@ public class MainApp {
 	private static Result wynik;
 	private static ProgressBar bar;
 	private static Display display; 
-	private static Watek2 abba;
-	
-	/**
-	 * Watek uzywany za kazdym razem do rysowania.
-	 * 
-	 */
+	private static Watek rysownik;
+
 	
 	/*static class Watek extends Thread{
 		private int i,j;
@@ -80,15 +76,16 @@ public class MainApp {
 		}
 	}*/
 	
-	static class Watek2 extends Thread{
+	/**
+	 * Watek uzywany do rysowania sciezek.
+	 * 
+	 */
+	static class Watek extends Thread{
 		private int i,j;
-		public Watek2(){
-		}
 		
 		public void run() {
 			Test test = new Test();
 			wynik = test.stworz();	
-	//		display.asyncExec( new Watek(1,1));
 			int iDostawcow=wynik.getDeliveryBoys().size();
 			ArrayList<DeliveryBoy> boys = (ArrayList<DeliveryBoy>)wynik.getDeliveryBoys();
 			for(i=0; i<iDostawcow; i++){
@@ -329,28 +326,28 @@ public class MainApp {
 				System.exit(0);
 			}
 		});
-		
+	
+		// tworzy osobny watek, ktory rysuje sciezki
 		psoBtn.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				try {
-				abba.interrupt();
+				rysownik.interrupt();
 				} catch (Exception a){}
 				Test test = new Test();
 				wynik = test.stworz();	
-		//		display.asyncExec( new Watek(1,1));
-				/*int iDostawcow=wynik.getDeliveryBoys().size();
+			/*	display.asyncExec( new Watek(1,1));
+				int iDostawcow=wynik.getDeliveryBoys().size();
 				ArrayList<DeliveryBoy> boys = (ArrayList<DeliveryBoy>)wynik.getDeliveryBoys();
 				for(int i=0; i<iDostawcow; i++){
 					int iVertex = boys.get(i).getCurrentRoute().getVertices().size();
 					for(int j=0; j<iVertex;j++){
 						display.asyncExec( new Watek(i,j));
-					
-				
+	
 					}	
 				} */
 				System.out.println("Narysowane");
-				abba = new Watek2();
-				abba.start();
+				rysownik = new Watek();
+				rysownik.start();
 			}
 		});
 		
@@ -367,10 +364,9 @@ public class MainApp {
 				fileDialog.setFilterExtensions(filterExtensions);
 				
 				try {
-				abba.interrupt();
-
-				} catch (Exception a){
-					
+					rysownik.interrupt();
+				} catch (Exception a) {
+					System.out.println("Problem z przerwaniem");
 				}
 				
 				try {
@@ -385,8 +381,6 @@ public class MainApp {
 				} catch(NullPointerException e2) {
 					
 				}
-				
-
 			}
 		});
 		
@@ -410,7 +404,7 @@ public class MainApp {
 		canvas.getHorizontalBar().addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				int hSelection = canvas.getHorizontalBar().getSelection();
-				MyPaintListener.scrollX(2*(-hSelection - origin.x));
+			//	MyPaintListener.scrollX(2*(-hSelection - origin.x));
 				ResultsPaintListener.scrollX(2*(-hSelection - origin.x));
 				origin.x = -hSelection;
 				canvas.redraw();
@@ -420,7 +414,7 @@ public class MainApp {
 		canvas.getVerticalBar().addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				int vSelection = canvas.getVerticalBar().getSelection();
-				MyPaintListener.scrollY(2*(-vSelection - origin.y));
+			//	MyPaintListener.scrollY(2*(-vSelection - origin.y));
 				ResultsPaintListener.scrollY(2*(-vSelection - origin.y));
 				origin.y = -vSelection;
 				canvas.redraw();

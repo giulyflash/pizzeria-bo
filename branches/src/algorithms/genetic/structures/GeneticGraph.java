@@ -4,16 +4,8 @@ import algorithms.genetic.utils.GeneralUtils;
 
 public class GeneticGraph {
 
-	public double[][] getGraph() {
-		return graph;
-	}
-
-
-
-	public void setGraph(double[][] graph) {
-		this.graph = graph;
-	}
-
+	private int id;
+	
 	private double[][] graph;
 
 	private int size;
@@ -59,6 +51,44 @@ public class GeneticGraph {
 			}
 		}
 		return max;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("[\n");
+		for (int i = 0; i < graph.length; i++) {
+			sb.append(" [");
+			for (int j = 0; j < graph.length; j++) {
+				sb.append(graph[i][j] + ", ");
+			}
+			sb.delete(sb.length()-2, sb.length());
+			sb.append(" ],\n");
+		}
+		sb.delete(sb.length()-2, sb.length());
+		sb.append("\n]");
+		
+		return sb.toString();
+	}
+	
+	public double[][] getGraph() {
+		return graph;
+	}
+
+	public void setGraph(double[][] graph) {
+		this.graph = graph;
+	}
+
+
+
+	public int getId() {
+		return id;
+	}
+
+
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	

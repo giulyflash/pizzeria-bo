@@ -7,10 +7,11 @@ import model.graph.GraphMatrix;
 import model.graph.Vertex;
 import model.pizzeria.Algorithm;
 import model.pizzeria.DeliveryBoy;
-import model.pizzeria.Order;
 import model.pizzeria.Result;
 import model.pizzeria.Route;
 import algorithms.genetic.structures.GeneticGraph;
+import algorithms.genetic.structures.Genome;
+import algorithms.genetic.utils.GeneralMatrixToGeneticMatricConverter;
 import algorithms.genetic.utils.GeneticAlghorithm;
 import algorithms.genetic.utils.GeneticSolutionPack;
 
@@ -33,6 +34,7 @@ public class GeneticAlgorithmRunner implements Algorithm {
 		this.populationSize = populationSize;
 		this.crossoverProbability = crossoverProbability;
 		this.mutationProbability = mutationProbability;
+		
 	}
 
 
@@ -40,22 +42,39 @@ public class GeneticAlgorithmRunner implements Algorithm {
 	@Override
 	public Result execute(GraphMatrix graphMatrix,
 			List<DeliveryBoy> availableDeliveryBoys, List<Float> parameters) {
-		//TODO replace random graph with with real graph
-		GeneticGraph graph = GeneticGraph.getRandomGraph(10);
-		int genomeLength=graph.getSize();
-		algorithm=new GeneticAlghorithm(graph, mutationProbability, crossoverProbability, 
-				numberOfIterations, populationSize, genomeLength);
-		GeneticSolutionPack pack = algorithm.solve();
-//		Result r = new Result();
-//		Route route;
-//		for (DeliveryBoy boy : availableDeliveryBoys) {
-//			double timeNeededToFinish;
-//			ArrayList<Vertex> vertices = new ArrayList<>();
-//			ArrayList<Order> orders = new ArrayList<>();
-//			route = new Route((int)timeNeededToFinish, vertices, orders);
-//			boy.setCurrentRoute(route);
-//		}
-		return null;
+		int numberOfDeliveryBoys = availableDeliveryBoys.size();
+		if(numberOfDeliveryBoys==0){
+			return null;
+		}
+		int maxCapacity = availableDeliveryBoys.get(0).getLoadCapacity();
+		GeneralMatrixToGeneticMatricConverter converter = 
+				new GeneralMatrixToGeneticMatricConverter(
+						graphMatrix, availableDeliveryBoys.size(), maxCapacity);
+		
+		
+		Result result = new Result();
+		int deliveryBoyNumber=0;
+		for (GeneticGraph geneticGraph : converter.getListOfGeneticGraph()) {
+			int genomeLength=geneticGraph.getSize();
+			algorithm=new GeneticAlghorithm(
+					geneticGraph, mutationProbability, crossoverProbability, 
+					numberOfIterations, populationSize, genomeLength);
+			GeneticSolutionPack pack = algorithm.solve();
+			Genome bestGenome = pack.getBestGenome();
+			List<Integer> path = converter.convertPath(bestGenome, geneticGraph.getId());
+			List<Vertex> vertices = graphMatrix.translateToFullVerticesList(path);
+			DeliveryBoy db = availableDeliveryBoys.get(deliveryBoyNumber);
+			deliveryBoyNumber++;
+			double timeNeededToFinish = pack.getBestValue();
+			
+			graphMatrix.getOrders();
+			//Route route = new Route(timeNeededToFinish, vertices,WTF )); //wtf??
+			//db.setCurrentRoute(route)
+			
+		}
+		result.setDeliveryBoys(new ArrayList<>(availableDeliveryBoys));
+		//result.setIterationResults(iterationResults); // wtf?
+		return result;
 	}
 
 

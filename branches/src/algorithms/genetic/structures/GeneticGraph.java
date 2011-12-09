@@ -4,6 +4,16 @@ import algorithms.genetic.utils.GeneralUtils;
 
 public class GeneticGraph {
 
+	public double[][] getGraph() {
+		return graph;
+	}
+
+
+
+	public void setGraph(double[][] graph) {
+		this.graph = graph;
+	}
+
 	private double[][] graph;
 
 	private int size;

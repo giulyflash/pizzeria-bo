@@ -13,6 +13,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.RowData;
@@ -59,7 +60,6 @@ public class MainApp {
 	private Spinner optSpinner1;
 	private Button optbutton1;
 	private Button optbutton2;
-	
 
 	
 	/*static class Watek extends Thread{
@@ -116,6 +116,23 @@ public class MainApp {
 		}
 	}
 	
+	
+	static class OknoWynik extends Thread{
+		private Image dupa;
+		
+		OknoWynik(Image dupa1){
+			dupa = dupa1;
+		}
+		
+		public void run() {
+					display.asyncExec(new Runnable() {
+				        public void run() {
+				        	System.out.println("SDSADSA");
+				        	new ResultsWindow(display, dupa);
+				        }});
+		}
+	}
+	
 	/**
 	 * Zwraca aktualnie zaladowane miasto
 	 * @return graf miasta
@@ -139,11 +156,11 @@ public class MainApp {
 		
 		shell.setSize(800, 600);
 		center(shell);
-		
+
 		initUI();
 		
 		shell.open();
-		
+
 		
 		while(!shell.isDisposed()) {
 			if(!display.readAndDispatch()) {
@@ -279,7 +296,7 @@ public class MainApp {
 		psoSpinner5.setLocation(100, 120);
 		psoSpinner5.setMaximum(100000);
 		psoSpinner5.setSize(100, 20);
-		
+
 		// PSO.compute
 		Button psoBtn = new Button(psoGroup, SWT.PUSH);
 		psoBtn.setText("Compute!");
@@ -319,6 +336,7 @@ public class MainApp {
 		optbutton2 = new Button(optGroup, SWT.CHECK);
 		optbutton2.setText("Pokaz nr wierzcholkow");
 		optbutton2.setLocation(5, 60);
+		optbutton2.setSelection(true);
 		optbutton2.pack();
 		
 		//bar = new ProgressBar (paramGroup, SWT.NULL);
@@ -366,7 +384,7 @@ public class MainApp {
 		optSpinner1.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				delay = Integer.parseInt(optSpinner1.getText());
-				System.out.println(delay);
+				//System.out.println(delay);
 			}
 		});
 		
@@ -392,7 +410,15 @@ public class MainApp {
 				rysownik.interrupt();
 				} catch (Exception a){}
 				Test test = new Test();
-				wynik = test.stworz();	
+				wynik = test.stworz();
+
+			//	ResultsWindows cs = new ResultsWindows(display);
+				//TestOkno dupa = new TestOkno(display);
+
+				OknoWynik oknoWynik = new OknoWynik(new Image(display,"C:\\obrazek.jpg"));
+				oknoWynik.start();
+				
+			//	okno.run();
 				delay = Integer.parseInt(optSpinner1.getText());
 				System.out.println(delay);
 			/*	display.asyncExec( new Watek(1,1));
@@ -408,6 +434,7 @@ public class MainApp {
 				System.out.println("Narysowane");
 				rysownik = new Watek();
 				rysownik.start();
+				
 			}
 		});
 		
@@ -505,7 +532,6 @@ public class MainApp {
 		display = new Display();
 		
 		new MainApp(display);
-		
 		display.dispose();
 	}
 

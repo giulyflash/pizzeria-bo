@@ -53,6 +53,13 @@ public class MainApp {
 	private static ProgressBar bar;
 	private static Display display; 
 	private static Watek rysownik;
+	private static int delay=800;
+	private Label psoLabel5;
+	private Spinner psoSpinner5;
+	private Spinner optSpinner1;
+	private Button optbutton1;
+	private Button optbutton2;
+	
 
 	
 	/*static class Watek extends Thread{
@@ -97,7 +104,7 @@ public class MainApp {
 				        	canvas.redraw();	
 				        }});
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(delay);
 					} catch (InterruptedException e) {
 						ResultsPaintListener.rysuj(graph,-1,-1);
 						canvas.redraw();
@@ -263,12 +270,12 @@ public class MainApp {
 		psoSpinner4.setSize(100, 20);
 		
 		// PSO.iterations
-		Label psoLabel5 = new Label(psoGroup, SWT.LEFT);
+		psoLabel5 = new Label(psoGroup, SWT.LEFT);
 		psoLabel5.setText("Iterations");
 		psoLabel5.setLocation(5, 120);
 		psoLabel5.pack();
 		// spinner
-		Spinner psoSpinner5 = new Spinner(psoGroup, SWT.WRAP);
+		psoSpinner5 = new Spinner(psoGroup, SWT.WRAP);
 		psoSpinner5.setLocation(100, 120);
 		psoSpinner5.setMaximum(100000);
 		psoSpinner5.setSize(100, 20);
@@ -285,9 +292,38 @@ public class MainApp {
 		gaGroup.setText("Genetyczny");
 		gaGroup.setLocation(100, 100);
 		
-		bar = new ProgressBar (paramGroup, SWT.NULL);
-		bar.setLocation(0,0);
-		bar.setSize(100, 20);
+		
+		Group optGroup = new Group(paramGroup, SWT.SHADOW_ETCHED_IN);
+		psoGroup.setText("Opcje");
+		psoGroup.setLocation(100, 100);
+		
+		// PSO.inertia
+		Label optLabel1 = new Label(optGroup, SWT.LEFT);
+		optLabel1.setText("Szybkosc (ms)");
+		optLabel1.setLocation(5, 20);
+		optLabel1.pack();
+		// spinner
+		optSpinner1 = new Spinner(optGroup, SWT.WRAP);
+		optSpinner1.setLocation(100, 20);
+		optSpinner1.setMaximum(3000);
+		optSpinner1.setSelection(800);
+		optSpinner1.setMinimum(100);
+		optSpinner1.setIncrement(100);
+		optSpinner1.setSize(100, 20);
+		
+		optbutton1 = new Button(optGroup, SWT.CHECK);
+		optbutton1.setText("Pokaz wszystkie trasy");
+		optbutton1.setLocation(5, 40);
+		optbutton1.pack();
+		
+		optbutton2 = new Button(optGroup, SWT.CHECK);
+		optbutton2.setText("Pokaz nr wierzcholkow");
+		optbutton2.setLocation(5, 60);
+		optbutton2.pack();
+		
+		//bar = new ProgressBar (paramGroup, SWT.NULL);
+		//bar.setLocation(0,0);
+		//bar.setSize(100, 20);
 		
 		// MENU
 		// TODO zapisywanie wynikow
@@ -326,6 +362,28 @@ public class MainApp {
 				System.exit(0);
 			}
 		});
+		
+		optSpinner1.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				delay = Integer.parseInt(optSpinner1.getText());
+				System.out.println(delay);
+			}
+		});
+		
+		optbutton1.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				ResultsPaintListener.setWszyscy(optbutton1.getSelection());
+				canvas.redraw();
+			}
+		});
+		
+		optbutton2.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				ResultsPaintListener.setVertexNrVisible(optbutton2.getSelection());
+				canvas.redraw();
+			}
+		});
+		
 	
 		// tworzy osobny watek, ktory rysuje sciezki
 		psoBtn.addListener(SWT.Selection, new Listener() {
@@ -335,6 +393,8 @@ public class MainApp {
 				} catch (Exception a){}
 				Test test = new Test();
 				wynik = test.stworz();	
+				delay = Integer.parseInt(optSpinner1.getText());
+				System.out.println(delay);
 			/*	display.asyncExec( new Watek(1,1));
 				int iDostawcow=wynik.getDeliveryBoys().size();
 				ArrayList<DeliveryBoy> boys = (ArrayList<DeliveryBoy>)wynik.getDeliveryBoys();

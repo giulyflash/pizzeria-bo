@@ -24,6 +24,8 @@ public class ResultsPaintListener implements PaintListener {
 	private static Result wynik;
 	private static int dostawca;
 	private static int vertex;
+	private static boolean wszyscy;
+	private static boolean rysujVertex;
 	
 	public ResultsPaintListener() {
 		graph = null;
@@ -32,6 +34,8 @@ public class ResultsPaintListener implements PaintListener {
 		SCROLL_Y = 0;
 		dostawca = 0;
 		vertex = 0;
+		wszyscy = false;
+		rysujVertex = true;
 	}
 	
 	public static void zmienV(int x) {
@@ -67,6 +71,14 @@ public class ResultsPaintListener implements PaintListener {
 		graph=g;
 	}
 	
+	public static void setWszyscy(boolean wsz){
+		wszyscy = wsz;
+	}
+	
+	public static void setVertexNrVisible(boolean v){
+		rysujVertex = v;
+	}
+	
 	public int min(int x, int y){
 		if(x<y) return x; else return y;
 	}
@@ -93,9 +105,11 @@ public class ResultsPaintListener implements PaintListener {
 				
 				for(Vertex v : list) {
 					e.gc.fillOval((int)v.getCoordinate().x+SCROLL_X, (int)v.getCoordinate().y+SCROLL_Y, SIZE, SIZE);
-				// rysowanie numerow, niepotrzebne
-				//	e.gc.drawText("" + v.getNumber(), (int)v.getCoordinate().x+(SIZE/4)+SCROLL_X,   
-				//		(int)v.getCoordinate().y+(SIZE/16)+SCROLL_Y, true);  
+					// rysowanie numerow przy wezlach
+					if(rysujVertex){
+						e.gc.drawText("" + v.getNumber(), (int)v.getCoordinate().x+10+SCROLL_X,   
+						(int)v.getCoordinate().y+8+SCROLL_Y, true);
+					}
 				}
 			}
 		}else{
@@ -129,25 +143,29 @@ public class ResultsPaintListener implements PaintListener {
 				
 				// rysuje trasy dla kazdego dostawcy
 				e.gc.setLineWidth(3);
-				int odchylenie = 2; 
+				int odchylenie = 1; 
 				int zmiana = 1;
 				int k=1;
 				System.out.println(dostawca + " "+ vertex);
 				ArrayList<DeliveryBoy> boys = (ArrayList<DeliveryBoy>)wynik.getDeliveryBoys();
 				
-				for (int i=0; i<dostawca-1; i++){		
-					e.gc.setForeground(e.display.getSystemColor(k+3));
-					ArrayList<Vertex> vlist = (ArrayList<Vertex>)boys.get(i).getCurrentRoute().getVertices();  
-					for (int j=0; j<vlist.size()-1 ; j++){
-						e.gc.drawLine((int)vlist.get(j).getCoordinate().x+(SIZE/2)+SCROLL_X+zmiana*odchylenie, (int)vlist.get(j).getCoordinate().y+(SIZE/2)+SCROLL_Y+zmiana*odchylenie, 
-								(int)vlist.get(j+1).getCoordinate().x+(SIZE/2)+SCROLL_X+zmiana*odchylenie, (int)vlist.get(j+1).getCoordinate().y+(SIZE/2)+SCROLL_Y+zmiana*odchylenie);
+				if(wszyscy){
+					for (int i=0; i<dostawca-1; i++){		
+						e.gc.setForeground(e.display.getSystemColor(k+3));
+						ArrayList<Vertex> vlist = (ArrayList<Vertex>)boys.get(i).getCurrentRoute().getVertices();  
+						for (int j=0; j<vlist.size()-1 ; j++){
+							e.gc.drawLine((int)vlist.get(j).getCoordinate().x+(SIZE/2)+SCROLL_X+zmiana*odchylenie, (int)vlist.get(j).getCoordinate().y+(SIZE/2)+SCROLL_Y+zmiana*odchylenie, 
+									(int)vlist.get(j+1).getCoordinate().x+(SIZE/2)+SCROLL_X+zmiana*odchylenie, (int)vlist.get(j+1).getCoordinate().y+(SIZE/2)+SCROLL_Y+zmiana*odchylenie);
+						}
+						if(k % 2 == 0) odchylenie += 1; 
+						zmiana = -zmiana;
+						k++;
+						if(odchylenie>8) odchylenie=1;
 					}
-					if(k % 2 == 0) odchylenie += 2; 
-					zmiana = -zmiana;
-					k++;
+				e.gc.setForeground(e.display.getSystemColor(k+3));
 				}
 				
-				e.gc.setForeground(e.display.getSystemColor(k+3));
+				if(!wszyscy) e.gc.setForeground(new Color(e.display, 250, 0, 0));
 				ArrayList<Vertex> vlist = (ArrayList<Vertex>)boys.get(dostawca-1).getCurrentRoute().getVertices();  
 				int min = min(vlist.size(),vertex);
 				for (int j=0; j<min-1 ; j++){
@@ -160,15 +178,17 @@ public class ResultsPaintListener implements PaintListener {
 				e.gc.setBackground(new Color(e.display, 33, 200, 100));
 				for(Vertex v : list) {
 					e.gc.fillOval((int)v.getCoordinate().x+SCROLL_X, (int)v.getCoordinate().y+SCROLL_Y, SIZE, SIZE);
-					// rysowanie numerow przy wezlach, zbedne
-					//	e.gc.drawText("" + v.getNumber(), (int)v.getCoordinate().x+(SIZE/4)+SCROLL_X,   
-					//		(int)v.getCoordinate().y+(SIZE/16)+SCROLL_Y, true);
+					// rysowanie numerow przy wezlach
+						if(rysujVertex){
+							e.gc.drawText("" + v.getNumber(), (int)v.getCoordinate().x+10+SCROLL_X,   
+							(int)v.getCoordinate().y+8+SCROLL_Y, true);
+						}
 				}
 				
 				// rysowanie znacznika miejsca w ktorym znajduje sie dostawca, oraz jego numeru
 				e.gc.setBackground(new Color(e.display, 250, 250, 250));
 				e.gc.fillOval((int)vlist.get(min-1).getCoordinate().x+SCROLL_X+(SIZE - SIZEK)/2, (int)vlist.get(min-1).getCoordinate().y+SCROLL_Y+(SIZE - SIZEK)/2, SIZEK, SIZEK);
-				e.gc.drawText(""+(dostawca), (int)vlist.get(min-1).getCoordinate().x+SCROLL_X+12, (int)vlist.get(min-1).getCoordinate().y+SCROLL_Y+8, true);
+				e.gc.drawText(""+(dostawca), (int)vlist.get(min-1).getCoordinate().x+SCROLL_X+10, (int)vlist.get(min-1).getCoordinate().y+SCROLL_Y+8, true);
 			}	
 		}
 	}

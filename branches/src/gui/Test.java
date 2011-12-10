@@ -40,7 +40,7 @@ public class Test {
 		
 		Chart wykres = new Chart(wyniki, "algorytm GEN/PSO");
 		
-		wykres.saveChart("C:\\obrazek.jpg");
+		wykres.saveChart("obrazek.jpg");
 
 		for(double value: wyniki){
 			System.out.print(value+" ");

@@ -407,7 +407,7 @@ public class MainApp {
 				wynik = test.stworz();
 
 				if(graph!=null){
-					OknoWynik oknoWynik = new OknoWynik(new Image(display,"C:\\obrazek.jpg"), "algorytm GEN/PSO");
+					OknoWynik oknoWynik = new OknoWynik(new Image(display,"obrazek.jpg"), "algorytm GEN/PSO");
 					oknoWynik.start();
 				}
 				

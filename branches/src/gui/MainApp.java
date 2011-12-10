@@ -62,27 +62,6 @@ public class MainApp {
 	private Button optbutton2;
 
 	
-	/*static class Watek extends Thread{
-		private int i,j;
-		public Watek(int i, int j){
-			this.i=i;
-			this.j=j;
-		}
-		
-		public void run() {
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}	
-			System.out.println(i + " "+ j);
-			//ResultsPaintListener.zmienD(i);   
-			//ResultsPaintListener.zmienV(j);
-			ResultsPaintListener.rysuj(graph, wynik, (i+1), (j+1));  
-			canvas.redraw();	
-		}
-	}*/
-	
 	/**
 	 * Watek uzywany do rysowania sciezek.
 	 * 
@@ -116,19 +95,23 @@ public class MainApp {
 		}
 	}
 	
+	/**
+	 * watek do tworzenia nowego okna z wynikami
+	 */
 	
 	static class OknoWynik extends Thread{
-		private Image dupa;
+		private Image obraz;
+		private String nazwa;
 		
-		OknoWynik(Image dupa1){
-			dupa = dupa1;
+		OknoWynik(Image obraz, String nazwa){
+			this.obraz = obraz;
+			this.nazwa = nazwa;
 		}
 		
 		public void run() {
 					display.asyncExec(new Runnable() {
 				        public void run() {
-				        	System.out.println("SDSADSA");
-				        	new ResultsWindow(display, dupa);
+				        	new ResultsWindow(display, obraz,nazwa);
 				        }});
 		}
 	}
@@ -262,7 +245,6 @@ public class MainApp {
 		psoSpinner2.setSize(100, 20);
 		psoSpinner2.setSize(100, 20);
 		
-
 
 		// PSO.learning rates 2
 		Label psoLabel3 = new Label(psoGroup, SWT.LEFT);
@@ -412,13 +394,9 @@ public class MainApp {
 				Test test = new Test();
 				wynik = test.stworz();
 
-			//	ResultsWindows cs = new ResultsWindows(display);
-				//TestOkno dupa = new TestOkno(display);
-
-				OknoWynik oknoWynik = new OknoWynik(new Image(display,"C:\\obrazek.jpg"));
+				OknoWynik oknoWynik = new OknoWynik(new Image(display,"C:\\obrazek.jpg"), "algorytm GEN/PSO");
 				oknoWynik.start();
 				
-			//	okno.run();
 				delay = Integer.parseInt(optSpinner1.getText());
 				System.out.println(delay);
 			/*	display.asyncExec( new Watek(1,1));
@@ -471,7 +449,6 @@ public class MainApp {
 			}
 		});
 		
-	//	canvas.addPaintListener(new MyPaintListener());
 		canvas.addPaintListener(new ResultsPaintListener());
 		
 		aboutItem.addSelectionListener(new SelectionAdapter() {

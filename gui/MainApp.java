@@ -42,9 +42,21 @@ import org.jfree.data.xy.XYSeriesCollection;
 /**
  * Glowne okno aplikacji
  * @author Michal Nowak & Maks Kusak
- * @version 1.1
+ * @version 1.5
  *
  */
+
+/**
+ * UWAGA, do testów u¿ywaæ grafu:
+10,20,2
+120,70,1,3,4
+80,40,1
+250,60,2
+60,140,0
+60,200,4
+200,140,3,1
+ */
+
 public class MainApp {
 	private final static String TITLE = "Pizzeria";
 	private static Shell shell;

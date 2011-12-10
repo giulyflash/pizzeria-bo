@@ -1,6 +1,7 @@
 package model.pizzeria;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Klasa zwracana przez KA¯DY z algorytmów - zawiera listê dostawców Z
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 public class Result {
 	private ArrayList<DeliveryBoy> _deliveryBoys;
 	private ArrayList<Double> _iterationResults;
-	private ArrayList<ArrayList<Double>> _extendedIterationResults;
+	private ArrayList<List<Double>> _extendedIterationResults;
 
 	/**
 	 * Konstruktor
@@ -28,7 +29,7 @@ public class Result {
 	public Result(){
 		_deliveryBoys = new ArrayList<>();
 		_iterationResults = new ArrayList<>();
-		_extendedIterationResults = new ArrayList<ArrayList<Double>>();
+		_extendedIterationResults = new ArrayList<List<Double>>();
 	}
 	
 	/**
@@ -36,7 +37,7 @@ public class Result {
 	 * @param deliveryBoy dostawca
 	 * @param iterationResults wyniki iteraci dla dostawcy
 	 */
-	public void setDeliveryBoyAndResults(DeliveryBoy deliveryBoy, ArrayList<Double> iterationResults){
+	public void setDeliveryBoyAndResults(DeliveryBoy deliveryBoy, List<Double> iterationResults){
 		_deliveryBoys.add(deliveryBoy);
 		_extendedIterationResults.add(iterationResults);
 	}
@@ -45,7 +46,7 @@ public class Result {
 	 * Zwraca kolekcje zawierajaca wyniki poszczegolnych iteracji dla kazdego dostawcy oddzielnie
 	 * @return wyniki iteracji
 	 */
-	public ArrayList<ArrayList<Double>> getExtendedIterationResult(){
+	public ArrayList<List<Double>> getExtendedIterationResult(){
 		return _extendedIterationResults;
 	}
 	

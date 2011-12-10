@@ -18,21 +18,19 @@ public class ResultsWindow {
 
 	private Display display;
 	private Shell shell;
-	private Image dupa1;
 	
-	public ResultsWindow (Display display, Image dupa) {
-		dupa1 = dupa;
+	public ResultsWindow (Display display, Image obraz, String nazwa) {
 		this.display = display;
 		shell = new Shell(display);
 		shell.setLayout(new FillLayout());
-		
+		shell.setText(nazwa);
 		shell.setSize(860, 700);
 
 		final TabFolder tabFolder = new TabFolder(shell, SWT.NONE);
 		
 	    TabItem one = new TabItem(tabFolder, SWT.NONE);
 	    one.setText("Wykres");
-	    one.setControl(getTabOneControl(tabFolder));;
+	    one.setControl(getTabOneControl(tabFolder, obraz));;
 	
 	    
 	    TabItem two = new TabItem(tabFolder, SWT.NONE);
@@ -47,14 +45,13 @@ public class ResultsWindow {
 		}
 	}
 
-	public Control getTabOneControl(TabFolder tabFolder) {
+	public Control getTabOneControl(TabFolder tabFolder, Image obraz) {
 	    Composite composite = new Composite(tabFolder, SWT.NONE);
 	    composite.setLayout(new FillLayout(SWT.VERTICAL));
 	    Label lb1 = new Label(composite, SWT.BORDER);
-	    lb1.setImage(dupa1);
+	    lb1.setImage(obraz);
 	    return composite;
 	}
-
 		
 }
 	

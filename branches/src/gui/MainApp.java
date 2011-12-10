@@ -406,8 +406,10 @@ public class MainApp {
 				Test test = new Test();
 				wynik = test.stworz();
 
-				OknoWynik oknoWynik = new OknoWynik(new Image(display,"C:\\obrazek.jpg"), "algorytm GEN/PSO");
-				oknoWynik.start();
+				if(graph!=null){
+					OknoWynik oknoWynik = new OknoWynik(new Image(display,"C:\\obrazek.jpg"), "algorytm GEN/PSO");
+					oknoWynik.start();
+				}
 				
 				delay = Integer.parseInt(optSpinner1.getText());
 				System.out.println(delay);

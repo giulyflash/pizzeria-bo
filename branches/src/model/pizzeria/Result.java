@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class Result {
 	private ArrayList<DeliveryBoy> _deliveryBoys;
 	private ArrayList<Double> _iterationResults;
+	private ArrayList<ArrayList<Double>> _extendedIterationResults;
 
 	/**
 	 * Konstruktor
@@ -27,12 +28,31 @@ public class Result {
 	public Result(){
 		_deliveryBoys = new ArrayList<>();
 		_iterationResults = new ArrayList<>();
+		_extendedIterationResults = new ArrayList<ArrayList<Double>>();
+	}
+	
+	/**
+	 * Dodaje dostawce i jego wyniki iteracji
+	 * @param deliveryBoy dostawca
+	 * @param iterationResults wyniki iteraci dla dostawcy
+	 */
+	public void setDeliveryBoyAndResults(DeliveryBoy deliveryBoy, ArrayList<Double> iterationResults){
+		_deliveryBoys.add(deliveryBoy);
+		_extendedIterationResults.add(iterationResults);
+	}
+	
+	/**
+	 * Zwraca kolekcje zawierajaca wyniki poszczegolnych iteracji dla kazdego dostawcy oddzielnie
+	 * @return wyniki iteracji
+	 */
+	public ArrayList<ArrayList<Double>> getExtendedIterationResult(){
+		return _extendedIterationResults;
 	}
 	
 	/**
 	 * Ustawia dostawców, którym przypisano œcie¿ki. <b>UWAGA</b> Umieszczaæ
 	 * tylko tych dostawców, którym <b>USTAWIONO</b> œcie¿ki.
-	 * 
+	 * @deprecated
 	 * @param deliveryBoys
 	 */
 	public void setDeliveryBoys(ArrayList<DeliveryBoy> deliveryBoys) {
@@ -43,10 +63,18 @@ public class Result {
 		return _deliveryBoys;
 	}
 
+	/**
+	 * @deprecated wyniki iteracji powinny byc oddzielne dla kazdego dostawcy 
+	 * @param iterationResults wyniki iteracji dla wszystkich dostawcow lacznie
+	 */
 	public void setIterationResults(ArrayList<Double> iterationResults) {
 		_iterationResults = iterationResults;
 	}
 
+	/**
+	 * @deprecated wyniki iteracji powinny byc oddzielne dla kazdego dostawcy 
+	 * @return iterationResults wyniki iteracji dla wszystkich dostawcow lacznie
+	 */
 	public ArrayList<Double> getIterationResults() {
 		return _iterationResults;
 	}

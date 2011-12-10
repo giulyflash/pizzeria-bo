@@ -2,6 +2,7 @@ package gui;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import model.graph.Vertex;
 import model.pizzeria.DeliveryBoy;
@@ -24,11 +25,26 @@ public class Test {
 	private List<Vertex> vertices;
 	private List<Order> orders;
 	private DeliveryBoy boy;
-	
+	private List<Double> wyniki;
 	
 	Result stworz(){
 		wynik = new Result(); 
 		deliveryBoys = new ArrayList<DeliveryBoy>();
+		
+		wyniki= new ArrayList<Double>();
+		
+		Random generator = new Random(System.currentTimeMillis());
+		for(int i=0; i<100; i++){
+			wyniki.add(generator.nextDouble()*1000%100);
+		}
+		
+		Chart wykres = new Chart(wyniki, "obrazek");
+		
+		wykres.saveChart("C:\\obrazek.jpg");
+
+		for(double value: wyniki){
+			System.out.print(value+" ");
+		}
 		
 		boy = new DeliveryBoy("boy1",5);
 		vertices = new ArrayList<Vertex>();
@@ -88,7 +104,7 @@ public class Test {
 		boy.setCurrentRoute(trasa);
 		deliveryBoys.add(boy);
 		
-	/*	boy = new DeliveryBoy("boy6",5);
+		boy = new DeliveryBoy("boy6",5);
 		vertices = new ArrayList<Vertex>();
 		vertices.add(new Vertex(0, new Point2D.Double(10,20)));
 		vertices.add(new Vertex(1, new Point2D.Double(80,40)));
@@ -205,7 +221,7 @@ public class Test {
 		boy.setCurrentRoute(trasa);
 		deliveryBoys.add(boy);
 		
-		boy = new DeliveryBoy("boy6",5);
+		/*		boy = new DeliveryBoy("boy6",5);
 		vertices = new ArrayList<Vertex>();
 		vertices.add(new Vertex(0, new Point2D.Double(10,20)));
 		vertices.add(new Vertex(1, new Point2D.Double(80,40)));

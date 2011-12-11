@@ -1,18 +1,17 @@
 package gui;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import model.graph.Graph;
-import model.graph.Vertex;
-import model.pizzeria.Result;
+import model.graph.GraphMatrix;
 import model.pizzeria.DeliveryBoy;
+import model.pizzeria.Order;
+import model.pizzeria.Result;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -32,12 +31,8 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartUtilities;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
+
+import algorithms.pso.PSOAlgorithm;
 
 /**
  * Glowne okno aplikacji
@@ -68,8 +63,20 @@ public class MainApp {
 	private static Watek rysownik;
 	private static int delay=800;
 	private Label psoLabel5;
+	
+	private Spinner generalSpinner1;
+	private Spinner generalSpinner2;
+	private Spinner generalSpinner3;
+	private Spinner generalSpinner4;
+	
+	private Spinner psoSpinner1;
+	private Spinner psoSpinner2;
+	private Spinner psoSpinner3;
+	private Spinner psoSpinner4;
 	private Spinner psoSpinner5;
+	
 	private Spinner optSpinner1;
+	
 	private Button optbutton1;
 	private Button optbutton2;
 
@@ -201,7 +208,7 @@ public class MainApp {
 		generalLabel1.setLocation(5, 20);
 		generalLabel1.pack();
 		// spinner
-		Spinner generalSpinner1 = new Spinner(generalGroup, SWT.WRAP);
+		generalSpinner1 = new Spinner(generalGroup, SWT.WRAP);
 		generalSpinner1.setLocation(120, 20);
 		generalSpinner1.setSize(80, 20);
 		
@@ -211,7 +218,7 @@ public class MainApp {
 		generalLabel2.setLocation(5, 45);
 		generalLabel2.pack();
 		// spinner
-		Spinner generalSpinner2 = new Spinner(generalGroup, SWT.WRAP);
+		generalSpinner2 = new Spinner(generalGroup, SWT.WRAP);
 		generalSpinner2.setLocation(120, 45);
 		generalSpinner2.setSize(80, 20);
 		
@@ -221,11 +228,11 @@ public class MainApp {
 		generalLabel3.setLocation(5, 70);
 		generalLabel3.pack();
 		// spinner1
-		Spinner generalSpinner3 = new Spinner(generalGroup, SWT.WRAP);
+		generalSpinner3 = new Spinner(generalGroup, SWT.WRAP);
 		generalSpinner3.setLocation(100, 75);
 		generalSpinner3.setSize(50, 20);
 		// spinner2
-		Spinner generalSpinner4 = new Spinner(generalGroup, SWT.WRAP);
+		generalSpinner4 = new Spinner(generalGroup, SWT.WRAP);
 		generalSpinner4.setLocation(150, 75);
 		generalSpinner4.setSize(50, 20);
 		
@@ -240,7 +247,7 @@ public class MainApp {
 		psoLabel1.setLocation(5, 20);
 		psoLabel1.pack();
 		// spinner
-		Spinner psoSpinner1 = new Spinner(psoGroup, SWT.WRAP);
+		psoSpinner1 = new Spinner(psoGroup, SWT.WRAP);
 		psoSpinner1.setLocation(100, 20);
 		psoSpinner1.setDigits(2);
 		psoSpinner1.setSize(100, 20);
@@ -251,7 +258,7 @@ public class MainApp {
 		psoLabel2.setLocation(5, 45);
 		psoLabel2.pack();
 		// spinner
-		Spinner psoSpinner2 = new Spinner(psoGroup, SWT.WRAP);
+		psoSpinner2 = new Spinner(psoGroup, SWT.WRAP);
 		psoSpinner2.setLocation(100, 45);
 		psoSpinner2.setDigits(2);
 		psoSpinner2.setSize(100, 20);
@@ -264,7 +271,7 @@ public class MainApp {
 		psoLabel3.setLocation(5, 70);
 		psoLabel3.pack();
 		// spinner
-		Spinner psoSpinner3 = new Spinner(psoGroup, SWT.WRAP);
+		psoSpinner3 = new Spinner(psoGroup, SWT.WRAP);
 		psoSpinner3.setLocation(100, 70);
 		psoSpinner3.setDigits(2);
 		psoSpinner3.setSize(100, 20);
@@ -275,7 +282,7 @@ public class MainApp {
 		psoLabel4.setLocation(5, 95);
 		psoLabel4.pack();
 		// spinner
-		Spinner psoSpinner4 = new Spinner(psoGroup, SWT.WRAP);
+		psoSpinner4 = new Spinner(psoGroup, SWT.WRAP);
 		psoSpinner4.setLocation(100, 95);
 		psoSpinner4.setMaximum(1000);
 		psoSpinner4.setSize(100, 20);
@@ -405,7 +412,33 @@ public class MainApp {
 				rysownik.interrupt();
 				} catch (Exception a){}
 				Test test = new Test();
-				wynik = test.stworz();
+				
+				ArrayList<Order> orders = new ArrayList<Order>();
+				
+				int a = Integer.parseInt(generalSpinner3.getText());
+				int b = Integer.parseInt(generalSpinner4.getText());
+				
+				int range = (int)(Math.random() * (b-a) ) + a;
+				
+				for (int i = 0; i < range ; i++) {
+					int v = (int) (Math.random() * (graph.getVertexList().size()-2)) + 1;
+					orders.add(new Order(graph.getVertex(v), 1));
+				}
+				
+				GraphMatrix gm = new GraphMatrix(graph.getVertex(0), orders, graph);
+				AlghoritmComputer psoComputer = new AlghoritmComputer(new PSOAlgorithm(), Double.parseDouble(psoSpinner1.getText().replace(',', '.')),
+						Double.parseDouble(psoSpinner2.getText().replace(',', '.')),
+						Double.parseDouble(psoSpinner3.getText().replace(',', '.')),
+						Integer.parseInt(psoSpinner4.getText().replace(',', '.')),
+						Integer.parseInt(psoSpinner5.getText().replace(',', '.')),
+						Integer.parseInt(generalSpinner1.getText().replace(',', '.')),
+						Integer.parseInt(generalSpinner2.getText().replace(',', '.')),
+						Integer.parseInt(generalSpinner3.getText().replace(',', '.')),
+						Integer.parseInt(generalSpinner4.getText().replace(',', '.')),
+						gm);
+				
+				// tu mam przekazac result
+				wynik = psoComputer.getResult();
 
 				if(graph!=null){
 					OknoWynik oknoWynik = new OknoWynik(new Image(display,"obrazek.jpg"), "algorytm GEN/PSO");

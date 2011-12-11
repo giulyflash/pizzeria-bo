@@ -6,13 +6,13 @@ import model.graph.GraphMatrix;
 import model.pizzeria.Algorithm;
 import model.pizzeria.DeliveryBoy;
 import model.pizzeria.Result;
-import algorithms.pso.PSOAlgorithm;
 
-public class PSOComputer {
-	public PSOComputer(double w, double c1, double c2, int part, int iter, 
+public class AlghoritmComputer {
+	private Result r;
+	public AlghoritmComputer(Algorithm al, double w, double c1, double c2, int part, int iter, 
 			int dboys, int cap, int lrange, int rrange, GraphMatrix gm) {
 		
-		Algorithm al = new PSOAlgorithm();
+		//Algorithm al = new PSOAlgorithm();
 		ArrayList<Float> params = new ArrayList<Float>();
 		
 		params.add(new Float(w));
@@ -25,11 +25,16 @@ public class PSOComputer {
 		for(int i = 0 ; i < dboys; i++) 
 			boys.add(new DeliveryBoy("Boy " + i, cap));
 		
-		Result r = al.execute(gm, boys, params);
+		r = al.execute(gm, boys, params);
 		
-		paintThisShit(r);
+		//paintThisShit(r);
 	}
 	
+	public Result getResult() {
+		return r;
+	}
+	
+	@Deprecated
 	private void paintThisShit(Result r) {
 		// TODO pewnie wywolanie jakiejs statycznej metody na MyPaintListener
 		System.out.println("Obliczono");

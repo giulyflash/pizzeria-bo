@@ -87,10 +87,16 @@ public class MainApp {
 	 */
 	static class Watek extends Thread{
 		private int i,j;
+		private Result re;
+		
+		public Watek(Result r) {
+			re = r;
+		}
 		
 		public void run() {
 			Test test = new Test();
-			wynik = test.stworz();	
+			// CHANGE
+			//wynik = test.stworz();	
 			int iDostawcow=wynik.getDeliveryBoys().size();
 			ArrayList<DeliveryBoy> boys = (ArrayList<DeliveryBoy>)wynik.getDeliveryBoys();
 			for(i=0; i<iDostawcow; i++){
@@ -458,7 +464,7 @@ public class MainApp {
 					}	
 				} */
 				System.out.println("Narysowane");
-				rysownik = new Watek();
+				rysownik = new Watek(psoComputer.getResult());
 				rysownik.start();
 				
 			}

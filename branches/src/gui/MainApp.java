@@ -305,8 +305,9 @@ public class MainApp {
 		
 		
 		Group optGroup = new Group(paramGroup, SWT.SHADOW_ETCHED_IN);
-		psoGroup.setText("Opcje");
-		psoGroup.setLocation(100, 100);
+		optGroup.setText("Opcje");
+		optGroup.setLocation(100, 100);
+		
 		
 		// PSO.inertia
 		Label optLabel1 = new Label(optGroup, SWT.LEFT);

@@ -211,7 +211,7 @@ public class PSOAlgorithm implements Algorithm {
 		
 		
 		
-		return new SimpleResult(); 
+		return result;  
 	}
 	
 	private double sum(List<Double> list){

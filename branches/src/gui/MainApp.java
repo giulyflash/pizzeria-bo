@@ -57,8 +57,6 @@ public class MainApp {
 	private static Shell shell;
 	private static Graph graph;
 	private static Canvas canvas;
-	private static Result wynik;
-	private static ProgressBar bar;
 	private static Display display; 
 	private static Watek rysownik;
 	private static int delay=800;
@@ -94,17 +92,17 @@ public class MainApp {
 		}
 		
 		public void run() {
-			Test test = new Test();
+			//Test test = new Test();
 			// CHANGE
 			//wynik = test.stworz();	
-			int iDostawcow=wynik.getDeliveryBoys().size();
-			ArrayList<DeliveryBoy> boys = (ArrayList<DeliveryBoy>)wynik.getDeliveryBoys();
+			int iDostawcow=re.getDeliveryBoys().size();
+			ArrayList<DeliveryBoy> boys = (ArrayList<DeliveryBoy>)re.getDeliveryBoys();
 			for(i=0; i<iDostawcow; i++){
 				int iVertex = boys.get(i).getCurrentRoute().getVertices().size();
 				for(j=0; j<iVertex;j++){
 					display.syncExec(new Runnable() {
 				        public void run() {
-				        	ResultsPaintListener.rysuj(graph, wynik, (i+1), (j+1));  
+				        	ResultsPaintListener.rysuj(graph, re, (i+1), (j+1));  
 				        	canvas.redraw();	
 				        }});
 					try {
@@ -417,7 +415,7 @@ public class MainApp {
 				try {
 				rysownik.interrupt();
 				} catch (Exception a){}
-				Test test = new Test();
+				//Test test = new Test();
 				
 				ArrayList<Order> orders = new ArrayList<Order>();
 				
@@ -425,34 +423,36 @@ public class MainApp {
 				int b = Integer.parseInt(generalSpinner4.getText());
 				
 				int range = (int)(Math.random() * (b-a) ) + a;
-				
-				for (int i = 0; i < range ; i++) {
-					int v = (int) (Math.random() * (graph.getVertexList().size()-2)) + 1;
-					orders.add(new Order(graph.getVertex(v), 1));
-				}
-				
-				GraphMatrix gm = new GraphMatrix(graph.getVertex(0), orders, graph);
-				AlghoritmComputer psoComputer = new AlghoritmComputer(new PSOAlgorithm(), Double.parseDouble(psoSpinner1.getText().replace(',', '.')),
-						Double.parseDouble(psoSpinner2.getText().replace(',', '.')),
-						Double.parseDouble(psoSpinner3.getText().replace(',', '.')),
-						Integer.parseInt(psoSpinner4.getText().replace(',', '.')),
-						Integer.parseInt(psoSpinner5.getText().replace(',', '.')),
-						Integer.parseInt(generalSpinner1.getText().replace(',', '.')),
-						Integer.parseInt(generalSpinner2.getText().replace(',', '.')),
-						Integer.parseInt(generalSpinner3.getText().replace(',', '.')),
-						Integer.parseInt(generalSpinner4.getText().replace(',', '.')),
-						gm);
-				
-				// tu mam przekazac result
-				wynik = psoComputer.getResult();
 
 				if(graph!=null){
+					for (int i = 0; i < range ; i++) {
+						int v = (int) (Math.random() * (graph.getVertexList().size()-2)) + 1;
+						orders.add(new Order(graph.getVertex(v), 1));
+					}
+					
+					GraphMatrix gm = new GraphMatrix(graph.getVertex(0), orders, graph);
+					AlghoritmComputer psoComputer = new AlghoritmComputer(new PSOAlgorithm(), Double.parseDouble(psoSpinner1.getText().replace(',', '.')),
+							Double.parseDouble(psoSpinner2.getText().replace(',', '.')),
+							Double.parseDouble(psoSpinner3.getText().replace(',', '.')),
+							Integer.parseInt(psoSpinner4.getText().replace(',', '.')),
+							Integer.parseInt(psoSpinner5.getText().replace(',', '.')),
+							Integer.parseInt(generalSpinner1.getText().replace(',', '.')),
+							Integer.parseInt(generalSpinner2.getText().replace(',', '.')),
+							Integer.parseInt(generalSpinner3.getText().replace(',', '.')),
+							Integer.parseInt(generalSpinner4.getText().replace(',', '.')),
+							gm);
+					
+					delay = Integer.parseInt(optSpinner1.getText());
+					// tu mam przekazac result
+					Result wynik = psoComputer.getResult();
 					OknoWynik oknoWynik = new OknoWynik(new Image(display,"obrazek.jpg"), "algorytm GEN/PSO");
 					oknoWynik.start();
+					rysownik = new Watek(wynik);
+					rysownik.start();
 				}
 				
-				delay = Integer.parseInt(optSpinner1.getText());
-				System.out.println(delay);
+				
+			//	System.out.println(delay);
 			/*	display.asyncExec( new Watek(1,1));
 				int iDostawcow=wynik.getDeliveryBoys().size();
 				ArrayList<DeliveryBoy> boys = (ArrayList<DeliveryBoy>)wynik.getDeliveryBoys();
@@ -464,9 +464,7 @@ public class MainApp {
 					}	
 				} */
 				System.out.println("Narysowane");
-				rysownik = new Watek(psoComputer.getResult());
-				rysownik.start();
-				
+
 			}
 		});
 		

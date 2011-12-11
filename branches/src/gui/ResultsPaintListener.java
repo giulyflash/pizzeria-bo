@@ -1,12 +1,13 @@
 package gui;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import model.graph.Edge;
 import model.graph.Graph;
 import model.graph.Vertex;
-import model.pizzeria.Result;
 import model.pizzeria.DeliveryBoy;
+import model.pizzeria.Result;
 
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -152,7 +153,7 @@ public class ResultsPaintListener implements PaintListener {
 				if(wszyscy){
 					for (int i=0; i<dostawca-1; i++){		
 						e.gc.setForeground(e.display.getSystemColor(k+3));
-						ArrayList<Vertex> vlist = (ArrayList<Vertex>)boys.get(i).getCurrentRoute().getVertices();  
+						LinkedList<Vertex> vlist = (LinkedList<Vertex>)boys.get(i).getCurrentRoute().getVertices();  
 						for (int j=0; j<vlist.size()-1 ; j++){
 							e.gc.drawLine((int)vlist.get(j).getCoordinate().x+(SIZE/2)+SCROLL_X+zmiana*odchylenie, (int)vlist.get(j).getCoordinate().y+(SIZE/2)+SCROLL_Y+zmiana*odchylenie, 
 									(int)vlist.get(j+1).getCoordinate().x+(SIZE/2)+SCROLL_X+zmiana*odchylenie, (int)vlist.get(j+1).getCoordinate().y+(SIZE/2)+SCROLL_Y+zmiana*odchylenie);
@@ -166,7 +167,7 @@ public class ResultsPaintListener implements PaintListener {
 				}
 				
 				if(!wszyscy) e.gc.setForeground(new Color(e.display, 250, 0, 0));
-				ArrayList<Vertex> vlist = (ArrayList<Vertex>)boys.get(dostawca-1).getCurrentRoute().getVertices();  
+				LinkedList<Vertex> vlist = (LinkedList<Vertex>)boys.get(dostawca-1).getCurrentRoute().getVertices();  
 				int min = min(vlist.size(),vertex);
 				for (int j=0; j<min-1 ; j++){
 					e.gc.drawLine((int)vlist.get(j).getCoordinate().x+(SIZE/2)+SCROLL_X+zmiana*odchylenie, (int)vlist.get(j).getCoordinate().y+(SIZE/2)+SCROLL_Y+zmiana*odchylenie, 

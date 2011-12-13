@@ -71,7 +71,7 @@ public class PSOAlgorithm implements Algorithm {
 		for(SimpleResult res : resultList){
 			o = new ArrayList<Order>(); 
 			for(Integer I : res.route)
-				o.addAll(graphMatrix.getOrders().get(I));
+				o.add(graphMatrix.getOrders()[I]);
 				
 			r = new Route(sum(res.costs),graphMatrix.translateToFullVerticesList(res.route),o);
 			availableDeliveryBoys.get(0).setCurrentRoute(r);

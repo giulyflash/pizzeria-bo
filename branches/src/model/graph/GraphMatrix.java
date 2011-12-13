@@ -232,7 +232,7 @@ public class GraphMatrix {
 	 * @param n nr wierzcholka
 	 * @return zamowienie zwiazane z wierzcholkiem lub null
 	 */
-	public Order getOrderAtVertex(int n){
+	public Order getOrderFromVertex(int n){
 		if(n < 1 || n >= ordersOfVertex.length)
 			return null;
 		return ordersOfVertex[n];

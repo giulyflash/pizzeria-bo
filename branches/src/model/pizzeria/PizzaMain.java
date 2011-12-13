@@ -4,6 +4,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -156,12 +157,19 @@ public class PizzaMain {
 		}
 		// Aktualizujemy listê dostêpnych dostawców
 		checkDeliveryBoysAvailability();
+		
+		//utworzenie listy wierzcholkow w ktorych jeszcze nie ma zamowien
+		List<Vertex> availableVertices = _cityMap.getVertexList();
+		for(Order ord : _orderQueue)
+			availableVertices.remove(ord.getVertex());
+		availableVertices.remove(_pizzeriaVertex);
+		
 		// Dodajemy nowe losowe zamówienia
 		Random generator = new Random();
-		int size = _cityMap.getVertexList().size();
 		int ordersQuantity = _minNewOrders + generator.nextInt(_maxNewOrders);
-		for(int i=0; i<ordersQuantity; i++) {
-			_orderQueue.addLast(new Order(_cityMap.getVertex(generator.nextInt(size)+1), 1));
+		for(int i=0; i<ordersQuantity && availableVertices.size() > 0; i++) {
+			Vertex vertexToAdd = availableVertices.remove(generator.nextInt(availableVertices.size()));
+			_orderQueue.addLast(new Order(vertexToAdd, 1));
 		}
 	}
 	
@@ -181,7 +189,6 @@ public class PizzaMain {
 		checkDeliveryBoysAvailability();
 	}
 	
-	//TODO
 	private Result execute(Algorithm algorithm, List<Float> parameters) {
 		int amountOfOrdersToDeliverNow = 0;
 		for(DeliveryBoy boy : _availableDeliveryBoys)

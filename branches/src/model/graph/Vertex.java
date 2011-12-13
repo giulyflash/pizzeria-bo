@@ -84,4 +84,13 @@ public class Vertex{
 		else
 			return null;
 	}
+	
+	public boolean equals(Object otherObject){
+		if(!(otherObject instanceof Vertex))
+			return false;
+		Vertex otherVertex = (Vertex)otherObject;
+		if(coordinate == otherVertex.coordinate && number == otherVertex.number)
+			return true;
+		return false;
+	}
 }

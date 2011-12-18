@@ -18,6 +18,8 @@ public class GeneticSolutionPack {
 	
 	private SolutionEvaluator evaluator;
 	
+	
+
 	private List<Genome> bestSolutionsOfIteration;
 	
 	private List<Double> bestResultOfIteration;
@@ -90,6 +92,10 @@ public class GeneticSolutionPack {
 		return populationSize;
 	}
 	
+	public List<Double> getBestResultOfIteration() {
+		return bestResultOfIteration;
+	}
+
 	
 	
 	

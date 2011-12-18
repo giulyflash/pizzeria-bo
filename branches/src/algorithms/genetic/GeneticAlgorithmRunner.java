@@ -7,6 +7,7 @@ import model.graph.GraphMatrix;
 import model.graph.Vertex;
 import model.pizzeria.Algorithm;
 import model.pizzeria.DeliveryBoy;
+import model.pizzeria.Order;
 import model.pizzeria.Result;
 import model.pizzeria.Route;
 import algorithms.genetic.structures.GeneticGraph;
@@ -67,13 +68,19 @@ public class GeneticAlgorithmRunner implements Algorithm {
 			deliveryBoyNumber++;
 			double timeNeededToFinish = pack.getBestValue();
 			
-			graphMatrix.getOrders();
-			//Route route = new Route(timeNeededToFinish, vertices,WTF )); //wtf??
-			//db.setCurrentRoute(route)
 			
+			Order[] allOrders = graphMatrix.getOrders();
+			//TODO why ArrayList??
+			ArrayList<Order> currentOrders = new ArrayList<>(); 
+			for (Integer vertex : bestGenome.getPath()) {
+				currentOrders.add(allOrders[vertex]);
+			}
+			
+			Route route = new Route(timeNeededToFinish, vertices,currentOrders);
+			db.setCurrentRoute(route);
+			result.setDeliveryBoyAndResults(db,pack.getBestResultOfIteration() );
 		}
-		result.setDeliveryBoys(new ArrayList<>(availableDeliveryBoys));
-		//result.setIterationResults(iterationResults); // wtf?
+		
 		return result;
 	}
 

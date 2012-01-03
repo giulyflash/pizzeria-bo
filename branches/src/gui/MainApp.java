@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import model.graph.Graph;
 import model.graph.GraphMatrix;
+import model.graph.Vertex;
 import model.pizzeria.DeliveryBoy;
 import model.pizzeria.Order;
 import model.pizzeria.Result;
@@ -28,7 +29,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 
@@ -425,8 +425,17 @@ public class MainApp {
 				int range = (int)(Math.random() * (b-a) ) + a;
 
 				if(graph!=null){
-					for (int i = 0; i < range ; i++) {
+					ArrayList<Integer> used = new ArrayList<Integer>();
+					int i = 0;
+					//for (int i = 0; i < range ; i++) {
+					while(i < range) {
 						int v = (int) (Math.random() * (graph.getVertexList().size()-2)) + 1;
+						if(used.contains(v))
+							continue;
+						
+						used.add(v);
+						System.out.println("increased ... (" + i + ")");
+						i++;
 						orders.add(new Order(graph.getVertex(v), 1));
 					}
 					

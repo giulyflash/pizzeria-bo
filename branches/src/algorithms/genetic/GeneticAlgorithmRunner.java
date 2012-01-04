@@ -1,5 +1,7 @@
 package algorithms.genetic;
 
+import Integer;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,6 +97,10 @@ public class GeneticAlgorithmRunner implements Algorithm {
 			List<Integer> path = converter.convertPath(bestGenome,
 					geneticGraph.getId());
 			
+			//ustalenie pizzeri na pierwszej pozycji
+			path = roundUntilStartsWithPizzeria(path);
+			path = completeRouteWithPizzeriaReturn(path);
+			
 			// kazali wywo³ac to wywoluje.
 			// to chyba jest przeksztalcenie [45,0,5,225,1000] z grafu pelnego
 			// do listy wierzcholkow z grafu niepelnego, prawda?
@@ -135,6 +141,24 @@ public class GeneticAlgorithmRunner implements Algorithm {
 		}
 
 		return result;
+	}
+	
+	private List<Integer> roundUntilStartsWithPizzeria(List<Integer> path){
+		if(path.size()>1){
+			Integer tmp;
+			while(path.get(0)!=0){
+				tmp = path.remove(0);
+				path.add(tmp);
+			}
+		}
+		return path;
+	}
+	
+	private List<Integer> completeRouteWithPizzeriaReturn(List<Integer> path){
+		if(path.size()>1){
+			path.add(0);
+		}
+		return path;
 	}
 
 	private void getAlgorithmParametersFronEnigmaticList(List<Float> parameters) {

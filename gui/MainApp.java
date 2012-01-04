@@ -437,6 +437,8 @@ public class MainApp {
 						System.out.println("increased ... (" + i + ")");
 						i++;
 						orders.add(new Order(graph.getVertex(v), 1));
+						if (i >= graph.getVertexList().size() - 2)
+							break;
 					}
 					
 					GraphMatrix gm = new GraphMatrix(graph.getVertex(0), orders, graph);

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import model.graph.Graph;
 import model.graph.GraphMatrix;
-import model.graph.Vertex;
 import model.pizzeria.DeliveryBoy;
 import model.pizzeria.Order;
 import model.pizzeria.Result;
@@ -32,6 +31,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 
+import algorithms.genetic.GeneticAlgorithmRunner;
 import algorithms.pso.PSOAlgorithm;
 
 /**
@@ -72,6 +72,11 @@ public class MainApp {
 	private Spinner psoSpinner3;
 	private Spinner psoSpinner4;
 	private Spinner psoSpinner5;
+	
+	private Spinner gaSpinner1;
+	private Spinner gaSpinner2;
+	private Spinner gaSpinner3;
+	private Spinner gaSpinner4;
 	
 	private Spinner optSpinner1;
 	
@@ -181,7 +186,6 @@ public class MainApp {
 	 */
 	public void initUI() {
 		// LAYOUT
-		// TODO layout ladniejszy	??
 		RowLayout shellLayout = new RowLayout();
 		shellLayout.wrap = false;
 		shellLayout.fill = true;
@@ -257,7 +261,7 @@ public class MainApp {
 		psoSpinner1.setSize(100, 20);
 		
 		// PSO.learning rates
-		Label psoLabel2 = new Label(psoGroup, SWT.LEFT);		// TODO: zrobic scroolowanie
+		Label psoLabel2 = new Label(psoGroup, SWT.LEFT);
 		psoLabel2.setText("c1");
 		psoLabel2.setLocation(5, 45);
 		psoLabel2.pack();
@@ -309,20 +313,68 @@ public class MainApp {
 		psoBtn.pack();
 		
 		// GA
-		// TODO: parametry
 		Group gaGroup = new Group(paramGroup, SWT.SHADOW_ETCHED_IN);
-		gaGroup.setText("Genetyczny");
+		gaGroup.setText("GA");
 		gaGroup.setLocation(100, 100);
 		
+		// GA.iterations
+		Label gaLabel1 = new Label(gaGroup, SWT.SHADOW_ETCHED_IN);
+		gaLabel1.setText("Iterations");
+		gaLabel1.setLocation(5, 20);
+		gaLabel1.pack();
+		// spinner
+		gaSpinner1 = new Spinner(gaGroup, SWT.WRAP);
+		gaSpinner1.setLocation(100, 20);
+		gaSpinner1.setMaximum(100000);
+		gaSpinner1.setSize(100, 20);
 		
+		// GA.population
+		Label gaLabel2 = new Label(gaGroup, SWT.SHADOW_ETCHED_IN);
+		gaLabel2.setText("Population");
+		gaLabel2.setLocation(5, 45);
+		gaLabel2.pack();
+		// spinner
+		gaSpinner2 = new Spinner(gaGroup, SWT.WRAP);
+		gaSpinner2.setLocation(100, 45);
+		gaSpinner2.setMaximum(100000);
+		gaSpinner2.setSize(100, 20);
+		
+		// GA.crossover
+		Label gaLabel3 = new Label(gaGroup, SWT.SHADOW_ETCHED_IN);
+		gaLabel3.setText("Crossover");
+		gaLabel3.setLocation(5, 70);
+		gaLabel3.pack();
+		// spinner
+		gaSpinner3 = new Spinner(gaGroup, SWT.WRAP);
+		gaSpinner3.setLocation(100, 70);
+		gaSpinner3.setSize(100, 20);
+		gaSpinner3.setDigits(2);
+		
+		// GA.mutacja
+		Label gaLabel4 = new Label(gaGroup, SWT.SHADOW_ETCHED_IN);
+		gaLabel4.setText("Mutation");
+		gaLabel4.setLocation(5, 95);
+		gaLabel4.pack();
+		// spinner
+		gaSpinner4 = new Spinner(gaGroup, SWT.WRAP);
+		gaSpinner4.setLocation(100, 95);
+		gaSpinner4.setSize(100, 20);
+		gaSpinner4.setDigits(2);
+		
+		// GA.compute
+		Button gaBtn = new Button(gaGroup, SWT.PUSH);
+		gaBtn.setText("Compute!");
+		gaBtn.setLocation(100, 120);
+		gaBtn.pack();
+		
+		// RYSOWANIE
 		Group optGroup = new Group(paramGroup, SWT.SHADOW_ETCHED_IN);
-		optGroup.setText("Opcje");
+		optGroup.setText("Options");
 		optGroup.setLocation(100, 100);
-		
 		
 		// PSO.inertia
 		Label optLabel1 = new Label(optGroup, SWT.LEFT);
-		optLabel1.setText("Szybkosc (ms)");
+		optLabel1.setText("Speed (ms)");
 		optLabel1.setLocation(5, 20);
 		optLabel1.pack();
 		// spinner
@@ -335,12 +387,12 @@ public class MainApp {
 		optSpinner1.setSize(100, 20);
 		
 		optbutton1 = new Button(optGroup, SWT.CHECK);
-		optbutton1.setText("Pokaz wszystkie trasy");
+		optbutton1.setText("Show all routes");
 		optbutton1.setLocation(5, 40);
 		optbutton1.pack();
 		
 		optbutton2 = new Button(optGroup, SWT.CHECK);
-		optbutton2.setText("Pokaz nr wierzcholkow");
+		optbutton2.setText("Show verticles numbers");
 		optbutton2.setLocation(5, 60);
 		optbutton2.setSelection(true);
 		optbutton2.pack();
@@ -409,6 +461,86 @@ public class MainApp {
 		});
 		
 	
+		gaBtn.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				try {
+				rysownik.interrupt();
+				} catch (Exception a){}
+				//Test test = new Test();
+				
+				ArrayList<Order> orders = new ArrayList<Order>();
+				
+				int a = Integer.parseInt(generalSpinner3.getText());
+				int b = Integer.parseInt(generalSpinner4.getText());
+				
+				int range = (int)(Math.random() * (b-a) ) + a;
+
+				if(graph!=null){
+					ArrayList<Integer> used = new ArrayList<Integer>();
+					int i = 0;
+
+					while(i < range) {
+						int v = (int) (Math.random() * (graph.getVertexList().size()-2)) + 1;
+						if(used.contains(v))
+							continue;
+						
+						used.add(v);
+						System.out.println("increased ... (" + i + ")");
+						i++;
+						orders.add(new Order(graph.getVertex(v), 1));
+						if (i >= graph.getVertexList().size() - 2)
+							break;
+					}
+					
+					GraphMatrix gm = new GraphMatrix(graph.getVertex(0), orders, graph);
+					// Algorithm specific
+//					System.out.println("Dane: " + Integer.parseInt(gaSpinner1.getText().replace(',', '.')) +
+//							Integer.parseInt(gaSpinner2.getText().replace(',', '.')) +
+//							Double.parseDouble(gaSpinner3.getText().replace(',', '.')) +
+//							Double.parseDouble(gaSpinner4.getText().replace(',', '.')));
+					
+					AlghoritmComputer psoComputer = new AlghoritmComputer(
+							new GeneticAlgorithmRunner(Integer.parseInt(gaSpinner1.getText().replace(',', '.')), 
+									Integer.parseInt(gaSpinner2.getText().replace(',', '.')), 
+									Double.parseDouble(gaSpinner3.getText().replace(',', '.')), 
+									Double.parseDouble(gaSpinner4.getText().replace(',', '.'))),
+									
+							Integer.parseInt(gaSpinner1.getText().replace(',', '.')),
+							Integer.parseInt(gaSpinner2.getText().replace(',', '.')),
+							Double.parseDouble(gaSpinner3.getText().replace(',', '.')),
+							Double.parseDouble(gaSpinner4.getText().replace(',', '.')),
+							0,
+							Integer.parseInt(generalSpinner1.getText().replace(',', '.')),
+							Integer.parseInt(generalSpinner2.getText().replace(',', '.')),
+							Integer.parseInt(generalSpinner3.getText().replace(',', '.')),
+							Integer.parseInt(generalSpinner4.getText().replace(',', '.')),
+							gm);
+					
+					delay = Integer.parseInt(optSpinner1.getText());
+					// tu mam przekazac result
+					Result wynik = psoComputer.getResult();
+					OknoWynik oknoWynik = new OknoWynik(new Image(display,"obrazek.jpg"), "algorytm GEN/PSO");
+					oknoWynik.start();
+					rysownik = new Watek(wynik);
+					rysownik.start();
+				}		
+				
+			//	System.out.println(delay);
+			/*	display.asyncExec( new Watek(1,1));
+				int iDostawcow=wynik.getDeliveryBoys().size();
+				ArrayList<DeliveryBoy> boys = (ArrayList<DeliveryBoy>)wynik.getDeliveryBoys();
+				for(int i=0; i<iDostawcow; i++){
+					int iVertex = boys.get(i).getCurrentRoute().getVertices().size();
+					for(int j=0; j<iVertex;j++){
+						display.asyncExec( new Watek(i,j));
+	
+					}	
+				} */
+				System.out.println("Narysowane");
+
+			}
+		});
+		
 		// tworzy osobny watek, ktory rysuje sciezki
 		psoBtn.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
@@ -460,8 +592,7 @@ public class MainApp {
 					oknoWynik.start();
 					rysownik = new Watek(wynik);
 					rysownik.start();
-				}
-				
+				}		
 				
 			//	System.out.println(delay);
 			/*	display.asyncExec( new Watek(1,1));
@@ -524,8 +655,6 @@ public class MainApp {
 		});
 		
 		// SCROLLOWANIE
-		// TODO w razie czego mozna wypierdolic bo i tak ladniej jak miasto sie miesci 
-		// na jednym ekranie
 		final Point origin = new Point(0, 0);
 		
 		canvas.getHorizontalBar().addListener(SWT.Selection, new Listener() {

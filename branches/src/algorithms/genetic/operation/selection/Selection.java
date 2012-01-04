@@ -68,6 +68,11 @@ public class Selection implements GeneticTransformer{
 		}
 		//System.out.println("probability: " + probability +
 		//		", index: " + index);
+		//TODO IndexOutOfBoundExcpetion,
+		//wychodzi zapewne wtedy, gdy ostatni element w liscie cumulativeDistribition ró¿ny od 1,
+		//dzieje siê tak z powodu niedok³adnoœci floatót.
+		//ta lista reprezentuje pewn¹ dyskretn¹ dystrybuante, z definicji jej ostatni element musi byæ równy 1.0
+		
 		Genome g =  oldPopulation.get(index);
 		return g.copy();
 	}
@@ -80,6 +85,9 @@ public class Selection implements GeneticTransformer{
 			cumulativeDistribution.add(i,ithCumulativeProbability);
 			prevProbability=ithCumulativeProbability;
 		}
+		//TODO naprawa IndexOutOfBoundException
+		cumulativeDistribution.remove(cumulativeDistribution.size()-1);
+		cumulativeDistribution.add(1.0);
 	}
 
 	private double getProbability(int i) {

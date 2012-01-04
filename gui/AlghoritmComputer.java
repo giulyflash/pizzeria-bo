@@ -9,17 +9,24 @@ import model.pizzeria.Result;
 
 public class AlghoritmComputer {
 	private Result r;
-	public AlghoritmComputer(Algorithm al, double w, double c1, double c2, int part, int iter, 
+	public AlghoritmComputer(Algorithm al, double w, double c1, double c2, double part, double iter, 
 			int dboys, int cap, int lrange, int rrange, GraphMatrix gm) {
 		
 		//Algorithm al = new PSOAlgorithm();
 		ArrayList<Float> params = new ArrayList<Float>();
 		
+		// Dla genetycznego idzie po kolei (inaczej):
+		// iteracje, rozmiar populacji, crossover [0-1], mutation [0-1]
+		// ostatnie ustawic na 0 wtedy
+		//
+		// Boooze jakie to brzydkie :P
+		
 		params.add(new Float(w));
 		params.add(new Float(c1));
 		params.add(new Float(c2));
 		params.add(new Float(part));
-		params.add(new Float(iter));
+		if(iter != 0)
+			params.add(new Float(iter));
 		
 		ArrayList<DeliveryBoy> boys = new ArrayList<DeliveryBoy>();
 		for(int i = 0 ; i < dboys; i++) 

@@ -209,7 +209,8 @@ public class PSOAlgorithm implements Algorithm {
 		}
 		
 		
-		
+
+			result.route.add(0);
 		
 		return result;  
 	}

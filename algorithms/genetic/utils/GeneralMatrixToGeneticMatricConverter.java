@@ -48,6 +48,7 @@ public class GeneralMatrixToGeneticMatricConverter {
 
 	
 	public List<Integer> convertPath(Genome genome, int geneticGraphId){
+		
 		int[] path = new int[genome.getPath().length];
 		int[] genomePath = genome.getPath();
 		List<Integer> placesToVisitForEachDeliveryBoy = listOfPlacesToVisitForEachDeliveryBoy.get(geneticGraphId);

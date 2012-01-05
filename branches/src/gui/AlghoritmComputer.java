@@ -32,7 +32,10 @@ public class AlghoritmComputer {
 		for(int i = 0 ; i < dboys; i++) 
 			boys.add(new DeliveryBoy("Boy " + i, cap));
 		
-		r = al.execute(gm, boys, params);
+		if(iter != 0)
+			r = al.execute(gm, boys, params);
+		else
+			r = al.execute(gm, boys, null); 
 		
 		//paintThisShit(r);
 	}

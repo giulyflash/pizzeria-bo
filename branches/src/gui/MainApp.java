@@ -369,7 +369,7 @@ public class MainApp {
 		
 		// RYSOWANIE
 		Group optGroup = new Group(paramGroup, SWT.SHADOW_ETCHED_IN);
-		optGroup.setText("Options");
+		optGroup.setText("Drawing options");
 		optGroup.setLocation(100, 100);
 		
 		// PSO.inertia
@@ -439,6 +439,19 @@ public class MainApp {
 			}
 		});
 		
+		helpItem.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					Runtime.getRuntime().exec("hh.exe BOhelp.chm");
+				} catch (IOException e1) {
+					MessageBox messageBox = new MessageBox(shell, SWT.ICON_ERROR);
+					messageBox.setMessage("Can't open help file!");
+					messageBox.open();
+				}
+			}
+		});
+		
 		optSpinner1.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				delay = Integer.parseInt(optSpinner1.getText());
@@ -472,6 +485,12 @@ public class MainApp {
 				
 				int a = Integer.parseInt(generalSpinner3.getText());
 				int b = Integer.parseInt(generalSpinner4.getText());
+				
+				if(a > b) {
+					int c = b;
+					b = a;
+					a = c;
+				}
 				
 				int range = (int)(Math.random() * (b-a) ) + a;
 
@@ -553,6 +572,12 @@ public class MainApp {
 				
 				int a = Integer.parseInt(generalSpinner3.getText());
 				int b = Integer.parseInt(generalSpinner4.getText());
+				
+				if(a > b) {
+					int c = b;
+					b = a;
+					a = c;
+				}
 				
 				int range = (int)(Math.random() * (b-a) ) + a;
 

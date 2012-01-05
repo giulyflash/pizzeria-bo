@@ -14,7 +14,7 @@ import model.graph.Vertex;
  * @author orzech
  */
 public class Route {
-	private int _timeNeededToFinish;
+	private long _timeNeededToFinish;
 	private List<Vertex> _vertices;
 	private List<Order> _orders;
 
@@ -31,14 +31,28 @@ public class Route {
 	}
 	
 	public Route(double timeNeededToFinish, List<Vertex> vertices, ArrayList<Order> orders){
+/*
 		MathContext context = new MathContext(1, RoundingMode.UP);
 		BigDecimal decimal = new BigDecimal(timeNeededToFinish, context);
 		_timeNeededToFinish = decimal.intValue();
+*/
+		_timeNeededToFinish = round(timeNeededToFinish);
 		_vertices = vertices;
 		_orders = orders;
 	}
 	
+	private long round(double number){
+		long result = (long)number;
+		if(number%1 > 0.0)
+			result += 1;
+		return result;
+	}
+	
 	public int getTimeNeededToFinish() {
+		return (int)_timeNeededToFinish;
+	}
+	
+	public long getTimeNeededToFinishLong(){
 		return _timeNeededToFinish;
 	}
 	
@@ -51,9 +65,12 @@ public class Route {
 	}
 	
 	public void setTimeNeededToFinish(double timeNeedeToFinish){
+/*
 		MathContext context = new MathContext(1, RoundingMode.UP);
 		BigDecimal decimal = new BigDecimal(timeNeedeToFinish, context);
 		_timeNeededToFinish = decimal.intValue();
+*/
+		_timeNeededToFinish = round(timeNeedeToFinish);
 	}
 	
 	public List<Vertex> getVertices() {

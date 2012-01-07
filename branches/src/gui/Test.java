@@ -38,7 +38,7 @@ public class Test {
 			wyniki.add(generator.nextDouble()*1000%100);
 		}
 		
-		Chart wykres = new Chart(wyniki, "algorytm GEN/PSO");
+		Chart wykres = new Chart(wyniki, "algorithm GEN/PSO");
 		
 		wykres.saveChart("obrazek.jpg");
 

@@ -29,12 +29,12 @@ public class ResultsWindow {
 		final TabFolder tabFolder = new TabFolder(shell, SWT.NONE);
 		
 	    TabItem one = new TabItem(tabFolder, SWT.NONE);
-	    one.setText("Wykres");
+	    one.setText("Chart");
 	    one.setControl(getTabOneControl(tabFolder, obraz));;
 	
 	    
 	    TabItem two = new TabItem(tabFolder, SWT.NONE);
-	    two.setText("Wyniki");
+	    two.setText("Results");
 		
 		shell.open();
 		

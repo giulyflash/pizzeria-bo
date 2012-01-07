@@ -171,7 +171,15 @@ public class MainApp {
 		initUI();
 		
 		shell.open();
-
+		
+		try {
+			graph = GraphConverter.convert("miasto.txt");
+			ResultsPaintListener.rysuj(graph,-1,-1);
+			canvas.redraw();
+			System.out.println("Loaded default city");
+		} catch(Exception e) {
+			//
+		}
 		
 		while(!shell.isDisposed()) {
 			if(!display.readAndDispatch()) {
@@ -538,7 +546,7 @@ public class MainApp {
 					delay = Integer.parseInt(optSpinner1.getText());
 					// tu mam przekazac result
 					Result wynik = psoComputer.getResult();
-					OknoWynik oknoWynik = new OknoWynik(new Image(display,"obrazek.jpg"), "algorytm GEN/PSO");
+					OknoWynik oknoWynik = new OknoWynik(new Image(display,"obrazek.jpg"), "algorithm GEN");
 					oknoWynik.start();
 					rysownik = new Watek(wynik);
 					rysownik.start();
@@ -613,7 +621,7 @@ public class MainApp {
 					delay = Integer.parseInt(optSpinner1.getText());
 					// tu mam przekazac result
 					Result wynik = psoComputer.getResult();
-					OknoWynik oknoWynik = new OknoWynik(new Image(display,"obrazek.jpg"), "algorytm GEN/PSO");
+					OknoWynik oknoWynik = new OknoWynik(new Image(display,"obrazek.jpg"), "algorithm PSO");
 					oknoWynik.start();
 					rysownik = new Watek(wynik);
 					rysownik.start();

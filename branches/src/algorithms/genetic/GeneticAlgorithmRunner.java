@@ -1,7 +1,5 @@
 package algorithms.genetic;
 
-import Integer;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,9 +123,18 @@ public class GeneticAlgorithmRunner implements Algorithm {
 			// TODO why ArrayList?? w konstruktorze Route()
 			// tutaj wykorzystuje powyzsze zalozenie
 			ArrayList<Order> currentOrders = new ArrayList<>();
-			for (Vertex vertex : vertices) {
-				currentOrders.add(allOrders[vertex.getNumber()]);
+			
+			//Poprawa
+			for (Integer i : path) {
+				Order o = allOrders[i];//TODO error
+				currentOrders.add(o); 
 			}
+			
+			//Wyjatek
+//			for (Vertex vertex : vertices) {
+//				Order o = allOrders[vertex.getNumber()];//TODO error
+//				currentOrders.add(o); 
+//			}
 
 			//tworze nowy route
 			Route route = new Route(timeNeededToFinish, vertices, currentOrders);

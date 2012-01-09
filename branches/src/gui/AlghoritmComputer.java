@@ -10,7 +10,7 @@ import model.pizzeria.Result;
 public class AlghoritmComputer {
 	private Result r;
 	public AlghoritmComputer(Algorithm al, double w, double c1, double c2, double part, double iter, 
-			int dboys, int cap, int lrange, int rrange, GraphMatrix gm) {
+			int dboys, int cap, int lrange, int rrange, GraphMatrix gm) throws Exception {
 		
 		//Algorithm al = new PSOAlgorithm();
 		ArrayList<Float> params = new ArrayList<Float>();
@@ -32,10 +32,12 @@ public class AlghoritmComputer {
 		for(int i = 0 ; i < dboys; i++) 
 			boys.add(new DeliveryBoy("Boy " + i, cap));
 		
+		System.out.println("DUMP : " + gm + " | " + dboys + " | " + params);
+		
 		if(iter != 0)
 			r = al.execute(gm, boys, params);
 		else
-			r = al.execute(gm, boys, null); 
+			r = al.execute(gm, boys, params); 
 		
 		//paintThisShit(r);
 	}

@@ -86,6 +86,22 @@ public class ResultsPaintListener implements PaintListener {
 		if(x<y) return x; else return y;
 	}
 	
+	public static void zerujordersy(Result re){
+		wynik=re;
+		ArrayList<DeliveryBoy> boys = (ArrayList<DeliveryBoy>)wynik.getDeliveryBoys();
+		
+		for (DeliveryBoy d : boys ){
+			ArrayList<Order> orders = (ArrayList<Order>) d.getCurrentRoute().getOrders();
+				for (Order o : orders){
+					if(o == null)
+						continue;
+					System.out.println(o);//"Wierzcholek: " + (int)o.getVertex().getCoordinate().x + " " + (int)o.getVertex().getCoordinate().y);
+					o.dostarczone = false;
+					}
+				}
+		}
+
+	
 	/**
 	 * Rysowanie
 	 */
@@ -103,6 +119,8 @@ public class ResultsPaintListener implements PaintListener {
 						e.gc.drawLine((int)v.getCoordinate().x+(SIZE/2)+SCROLL_X, (int)v.getCoordinate().y+(SIZE/2)+SCROLL_Y, 
 								(int)ed.getEnd().getCoordinate().x+(SIZE/2)+SCROLL_X, 
 								(int)ed.getEnd().getCoordinate().y+(SIZE/2)+SCROLL_Y);
+						
+						
 					}
 				}
 				
@@ -194,12 +212,44 @@ public class ResultsPaintListener implements PaintListener {
 				}
 				
 				
-			/*	for (DeliveryBoy d : boys ){
+				for (DeliveryBoy d : boys ){
 					ArrayList<Order> orders = (ArrayList<Order>) d.getCurrentRoute().getOrders();
 					System.out.println("Rozmiar:" + orders.size());
 						for (Order o : orders){
-							System.out.println("Wierzcholek: " + (int)o.getVertex().getCoordinate().x + " " + (int)o.getVertex().getCoordinate().y);
-					//e.gc.fillOval((int)orders.get(j).getVertex().getCoordinate().x+SCROLL_X+(SIZE - SIZEK)/2, (int)orders.get(j).getVertex().getCoordinate().y+SCROLL_Y+(SIZE - SIZEK)/2, SIZEK, SIZEK);
+							if(o == null)
+								continue;
+							System.out.println(o);//"Wierzcholek: " + (int)o.getVertex().getCoordinate().x + " " + (int)o.getVertex().getCoordinate().y);
+							e.gc.setBackground(new Color(e.display, 250, 0, 0));
+							if(!o.dostarczone) {
+								e.gc.fillOval((int)o.getVertex().getCoordinate().x+SCROLL_X+(SIZE - SIZEK)/2, (int)o.getVertex().getCoordinate().y+SCROLL_Y+(SIZE - SIZEK)/2, SIZEK, SIZEK);
+						//		if(vlist.get(min-1).getNumber() == o.getVertex().getNumber() && compare(d,o))
+							//		o.dostarczone = true;
+							}
+						}
+				}
+				
+					ArrayList<Order> orders = (ArrayList<Order>) boys.get(dostawca-1).getCurrentRoute().getOrders();
+					System.out.println("Rozmiar:" + orders.size());
+						for (Order o : orders){
+							if(o == null)
+								continue;
+					//		System.out.println(o);//"Wierzcholek: " + (int)o.getVertex().getCoordinate().x + " " + (int)o.getVertex().getCoordinate().y);
+						//	e.gc.setBackground(new Color(e.display, 250, 0, 0));
+							if(!o.dostarczone) {
+						//		e.gc.fillOval((int)o.getVertex().getCoordinate().x+SCROLL_X+(SIZE - SIZEK)/2, (int)o.getVertex().getCoordinate().y+SCROLL_Y+(SIZE - SIZEK)/2, SIZEK, SIZEK);
+								if(vlist.get(min-1).getNumber() == o.getVertex().getNumber() )
+									o.dostarczone = true;
+							}
+						}
+				
+				
+				
+				for(Vertex v : list) {
+				
+					// rysowanie numerow przy wezlach
+						if(rysujVertex){
+							e.gc.drawText("" + v.getNumber(), (int)v.getCoordinate().x+10+SCROLL_X,   
+							(int)v.getCoordinate().y+8+SCROLL_Y, true);
 						}
 				}
 				

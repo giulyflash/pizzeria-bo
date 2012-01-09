@@ -101,9 +101,11 @@ public class MainApp {
 	static class Watek extends Thread{
 		private int i,j;
 		private Result re;
+		private boolean repaint;
 		
-		public Watek(Result r) {
+		public Watek(Result r, boolean repaint) {
 			re = r;
+			this.repaint=repaint;
 		}
 		
 		public void run() {
@@ -111,6 +113,8 @@ public class MainApp {
 			// CHANGE
 			//wynik = test.stworz();	
 			pause = false;
+			if(repaint)
+				ResultsPaintListener.zerujordersy(re);
 			int iDostawcow=re.getDeliveryBoys().size();
 			ArrayList<DeliveryBoy> boys = (ArrayList<DeliveryBoy>)re.getDeliveryBoys();
 			for(i=0; i<iDostawcow; i++){
@@ -184,7 +188,7 @@ public class MainApp {
 	public MainApp(Display display) {
 		graph = null;
 		
-		shell = new Shell(display, SWT.SHELL_TRIM & (~SWT.RESIZE));
+		shell = new Shell(display, SWT.SHELL_TRIM & (~SWT.RESIZE) & (~SWT.MAX));
 		shell.setText(TITLE);
 		canvas = new Canvas(shell, SWT.WRAP | SWT.V_SCROLL | SWT.H_SCROLL);
 		
@@ -542,7 +546,7 @@ public class MainApp {
 					} catch (Exception a) {
 						System.out.println("Problem z przerwaniem");
 					}
-					rysownik = new Watek(wynik);
+					rysownik = new Watek(wynik, true);
 					rysownik.start();
 					canvas.redraw();
 				}
@@ -570,64 +574,83 @@ public class MainApp {
 	
 		gaBtn.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
-				try {
-				rysownik.interrupt();
-				} catch (Exception a){}
-				//Test test = new Test();
+				Shell sh = new Shell(display, SWT.RESIZE);
+				sh.setText("Computing");
+				sh.setSize(200, 80);
+				center(sh);
 				
-				ArrayList<Order> orders = new ArrayList<Order>();
+				Label lbl = new Label(sh, SWT.LEFT);
+				lbl.setText("\n                   Computing ...");
+				lbl.pack();
+				sh.open();
 				
-				int a = Integer.parseInt(generalSpinner3.getText());
-				int b = Integer.parseInt(generalSpinner4.getText());
+				boolean passed = false;
 				
-				if(a > b) {
-					int c = b;
-					b = a;
-					a = c;
-				}
+				AlghoritmComputer psoComputer = null;
 				
-				int range = (int)(Math.random() * (b-a) ) + a;
+				while(!passed) {
+					try {
+						rysownik.interrupt();
+					} catch (Exception a){}
+					//Test test = new Test();
+				
+				
+					ArrayList<Order> orders = new ArrayList<Order>();
+				
+					int a = Integer.parseInt(generalSpinner3.getText());
+					int b = Integer.parseInt(generalSpinner4.getText());
+				
+					if(a > b) {
+						int c = b;
+						b = a;
+						a = c;
+					}
+				
+					int range = (int)(Math.random() * (b-a) ) + a;
 
-				if(graph!=null){
-					ArrayList<Integer> used = new ArrayList<Integer>();
-					int i = 0;
+					if(graph!=null){
+						ArrayList<Integer> used = new ArrayList<Integer>();
+						int i = 0;
 
-					while(i < range) {
-						int v = (int) (Math.random() * (graph.getVertexList().size()-2)) + 1;
-						if(used.contains(v))
+						while(i < range) {
+							int v = (int) (Math.random() * (graph.getVertexList().size()-2)) + 1;
+							if(used.contains(v))
 							continue;
 						
-						used.add(v);
-						System.out.println("increased ... (" + i + ")");
-						i++;
-						orders.add(new Order(graph.getVertex(v), 1));
-						if (i >= graph.getVertexList().size() - 2)
-							break;
-					}
+							used.add(v);
+							System.out.println("wylosowano zamowienie w " + v);
+							i++;
+							orders.add(new Order(graph.getVertex(v), 1));
+							if (i >= graph.getVertexList().size() - 2)
+								break;
+						}
 					
-					GraphMatrix gm = new GraphMatrix(graph.getVertex(0), orders, graph);
-					// Algorithm specific
-//					System.out.println("Dane: " + Integer.parseInt(gaSpinner1.getText().replace(',', '.')) +
-//							Integer.parseInt(gaSpinner2.getText().replace(',', '.')) +
-//							Double.parseDouble(gaSpinner3.getText().replace(',', '.')) +
-//							Double.parseDouble(gaSpinner4.getText().replace(',', '.')));
+						GraphMatrix gm = new GraphMatrix(graph.getVertex(0), orders, graph);
+					// 	Algorithm specific
+						System.out.println("Dane: " + Integer.parseInt(gaSpinner1.getText().replace(',', '.')) + " " +
+							Integer.parseInt(gaSpinner2.getText().replace(',', '.')) + " " +
+							Double.parseDouble(gaSpinner3.getText().replace(',', '.')) + " " +
+							Double.parseDouble(gaSpinner4.getText().replace(',', '.')));
 					
-					AlghoritmComputer psoComputer = new AlghoritmComputer(
-							new GeneticAlgorithmRunner(Integer.parseInt(gaSpinner1.getText().replace(',', '.')), 
-									Integer.parseInt(gaSpinner2.getText().replace(',', '.')), 
-									Double.parseDouble(gaSpinner3.getText().replace(',', '.')), 
-									Double.parseDouble(gaSpinner4.getText().replace(',', '.'))),
+					
+						try {
+							psoComputer = new AlghoritmComputer(
+									new GeneticAlgorithmRunner(Integer.parseInt(gaSpinner1.getText().replace(',', '.')), 
+											Integer.parseInt(gaSpinner2.getText().replace(',', '.')), 
+											Double.parseDouble(gaSpinner3.getText().replace(',', '.')), 
+											Double.parseDouble(gaSpinner4.getText().replace(',', '.'))),
 									
-							Integer.parseInt(gaSpinner1.getText().replace(',', '.')),
-							Integer.parseInt(gaSpinner2.getText().replace(',', '.')),
-							Double.parseDouble(gaSpinner3.getText().replace(',', '.')),
-							Double.parseDouble(gaSpinner4.getText().replace(',', '.')),
-							0,
-							Integer.parseInt(generalSpinner1.getText().replace(',', '.')),
-							Integer.parseInt(generalSpinner2.getText().replace(',', '.')),
-							Integer.parseInt(generalSpinner3.getText().replace(',', '.')),
-							Integer.parseInt(generalSpinner4.getText().replace(',', '.')),
-							gm);
+											Integer.parseInt(gaSpinner1.getText().replace(',', '.')),
+											Integer.parseInt(gaSpinner2.getText().replace(',', '.')),
+											Double.parseDouble(gaSpinner3.getText().replace(',', '.')),
+											Double.parseDouble(gaSpinner4.getText().replace(',', '.')),
+											0,
+											Integer.parseInt(generalSpinner1.getText().replace(',', '.')),
+											Integer.parseInt(generalSpinner2.getText().replace(',', '.')),
+											Integer.parseInt(generalSpinner3.getText().replace(',', '.')),
+											Integer.parseInt(generalSpinner4.getText().replace(',', '.')),
+											gm);
+											
 					
 					//TESTOWE	
 					List<Double> wyniki= new ArrayList<Double>();
@@ -650,8 +673,13 @@ public class MainApp {
 					
 					//OknoWynik oknoWynik = new OknoWynik(new Image(display,"obrazek.jpg"), "algorithm GEN");
 					//LoknaWynik.add(oknoWynik);
-					rysownik = new Watek(wynik);
+					rysownik = new Watek(wynik, false);
 					rysownik.start();
+					passed = true;
+						} catch(Exception epoiuytrewq) {
+						
+						}
+					}
 				}		
 				
 			//	System.out.println(delay);
@@ -666,84 +694,105 @@ public class MainApp {
 					}	
 				} */
 				System.out.println("Narysowane");
-
+				sh.close();
 			}
 		});
 		
 		// tworzy osobny watek, ktory rysuje sciezki
 		psoBtn.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
-				try {
-				rysownik.interrupt();
-				} catch (Exception a){}
-				//Test test = new Test();
+				Shell sh = new Shell(display, SWT.RESIZE);
+				sh.setText("Computing");
+				sh.setSize(200, 80);
+				center(sh);
 				
-				ArrayList<Order> orders = new ArrayList<Order>();
+				Label lbl = new Label(sh, SWT.LEFT);
+				lbl.setText("\n                   Computing ...");
+				lbl.pack();
+				sh.open();
 				
-				int a = Integer.parseInt(generalSpinner3.getText());
-				int b = Integer.parseInt(generalSpinner4.getText());
+				boolean passed = false;
 				
-				if(a > b) {
-					int c = b;
-					b = a;
-					a = c;
-				}
+				AlghoritmComputer psoComputer = null;
 				
-				int range = (int)(Math.random() * (b-a) ) + a;
-
-				if(graph!=null){
-					ArrayList<Integer> used = new ArrayList<Integer>();
-					int i = 0;
-					//for (int i = 0; i < range ; i++) {
-					while(i < range) {
-						int v = (int) (Math.random() * (graph.getVertexList().size()-2)) + 1;
-						if(used.contains(v))
-							continue;
-						
-						used.add(v);
-						System.out.println("increased ... (" + i + ")");
-						i++;
-						orders.add(new Order(graph.getVertex(v), 1));
-						if (i >= graph.getVertexList().size() - 2)
-							break;
+				while(!passed) {
+					try {
+						rysownik.interrupt();
+					} catch (Exception a){}
+				//	Test test = new Test();
+				
+					ArrayList<Order> orders = new ArrayList<Order>();
+				
+					int a = Integer.parseInt(generalSpinner3.getText());
+					int b = Integer.parseInt(generalSpinner4.getText());
+				
+					if(a > b) {
+						int c = b;
+						b = a;
+						a = c;
 					}
-					
-					GraphMatrix gm = new GraphMatrix(graph.getVertex(0), orders, graph);
-					AlghoritmComputer psoComputer = new AlghoritmComputer(new PSOAlgorithm(), Double.parseDouble(psoSpinner1.getText().replace(',', '.')),
-							Double.parseDouble(psoSpinner2.getText().replace(',', '.')),
-							Double.parseDouble(psoSpinner3.getText().replace(',', '.')),
-							Integer.parseInt(psoSpinner4.getText().replace(',', '.')),
-							Integer.parseInt(psoSpinner5.getText().replace(',', '.')),
-							Integer.parseInt(generalSpinner1.getText().replace(',', '.')),
-							Integer.parseInt(generalSpinner2.getText().replace(',', '.')),
-							Integer.parseInt(generalSpinner3.getText().replace(',', '.')),
-							Integer.parseInt(generalSpinner4.getText().replace(',', '.')),
-							gm);
-					
-					
-					
-					delay = Integer.parseInt(optSpinner1.getText());
-					// tu mam przekazac result
-					wynik = psoComputer.getResult();
+				
+					int range = (int)(Math.random() * (b-a) ) + a;
+
+					if(graph!=null){
+						ArrayList<Integer> used = new ArrayList<Integer>();
+						int i = 0;
+					//	for (int i = 0; i < range ; i++) {
+						while(i < range) {
+							int v = (int) (Math.random() * (graph.getVertexList().size()-2)) + 1;
+							if(used.contains(v))
+								continue;
+						
+							used.add(v);
+							System.out.println("increased ... (" + i + ")");
+							i++;
+							orders.add(new Order(graph.getVertex(v), 1));
+							if (i >= graph.getVertexList().size() - 2)
+								break;
+						}
+						
+						try {
+							GraphMatrix gm = new GraphMatrix(graph.getVertex(0), orders, graph);
+							psoComputer = new AlghoritmComputer(new PSOAlgorithm(), Double.parseDouble(psoSpinner1.getText().replace(',', '.')),
+								Double.parseDouble(psoSpinner2.getText().replace(',', '.')),
+								Double.parseDouble(psoSpinner3.getText().replace(',', '.')),
+								Integer.parseInt(psoSpinner4.getText().replace(',', '.')),
+								Integer.parseInt(psoSpinner5.getText().replace(',', '.')),
+								Integer.parseInt(generalSpinner1.getText().replace(',', '.')),
+								Integer.parseInt(generalSpinner2.getText().replace(',', '.')),
+								Integer.parseInt(generalSpinner3.getText().replace(',', '.')),
+								Integer.parseInt(generalSpinner4.getText().replace(',', '.')),
+								gm);
+							
+							passed = true;
+						
+						delay = Integer.parseInt(optSpinner1.getText());
+					// 	tu mam przekazac result
+						wynik = psoComputer.getResult();
 					
 				//TESTOWE	
-					List<Double> wyniki= new ArrayList<Double>();
-					Random generator = new Random(System.currentTimeMillis());
-					for(int j=0; j<100; j++){
-						wyniki.add(generator.nextDouble()*1000%100);
-					}
+						List<Double> wyniki= new ArrayList<Double>();
+						Random generator = new Random(System.currentTimeMillis());
+						for(int j=0; j<100; j++){
+							wyniki.add(generator.nextDouble()*1000%100);
+						}
 
 			    // TESTOWE		
 					
-					Chart wykres = new Chart(wynik, "algorithm PSO", false);
-					wykres.saveChart("obrazek.jpg");
-					algorithmName = "algorithm PSO";
+						Chart wykres = new Chart(wynik, "algorithm PSO", false);
+						wykres.saveChart("obrazek.jpg");
+						algorithmName = "algorithm PSO";
 				//	OknoWynik oknoWynik = new OknoWynik(new Image(display,"obrazek.jpg"), "algorithm PSO");
 				//	LoknaWynik.add(oknoWynik);
-					rysownik = new Watek(wynik);
-					rysownik.start();
-				}		
-				
+						rysownik = new Watek(wynik, false);
+						rysownik.start();
+						passed = true;
+						} catch(Exception epoiuytrewq) {
+						
+						}
+					}
+
+				}
 			//	System.out.println(delay);
 			/*	display.asyncExec( new Watek(1,1));
 				int iDostawcow=wynik.getDeliveryBoys().size();
@@ -756,7 +805,7 @@ public class MainApp {
 					}	
 				} */
 				System.out.println("Narysowane");
-
+				sh.close();
 			}
 		});
 		

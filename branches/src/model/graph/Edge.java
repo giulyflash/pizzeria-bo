@@ -7,6 +7,7 @@ package model.graph;
 public class Edge{
 	private	Vertex end;	//wskazuje wierzcholek do ktorego prowadzi krawedz
 	private double weight;	//waga krawedzi
+
 	
 	/**
 	 * @param e wierzcholek koncowy

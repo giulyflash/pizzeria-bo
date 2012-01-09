@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -7,6 +8,7 @@ import model.graph.Edge;
 import model.graph.Graph;
 import model.graph.Vertex;
 import model.pizzeria.DeliveryBoy;
+import model.pizzeria.Order;
 import model.pizzeria.Result;
 
 import org.eclipse.swt.events.PaintEvent;
@@ -150,6 +152,8 @@ public class ResultsPaintListener implements PaintListener {
 				System.out.println(dostawca + " "+ vertex);
 				ArrayList<DeliveryBoy> boys = (ArrayList<DeliveryBoy>)wynik.getDeliveryBoys();
 				
+				
+				
 				if(wszyscy){
 					for (int i=0; i<dostawca-1; i++){		
 						e.gc.setForeground(e.display.getSystemColor(k+3));
@@ -168,6 +172,9 @@ public class ResultsPaintListener implements PaintListener {
 				
 				if(!wszyscy) e.gc.setForeground(new Color(e.display, 250, 0, 0));
 				LinkedList<Vertex> vlist = (LinkedList<Vertex>)boys.get(dostawca-1).getCurrentRoute().getVertices();  
+				
+
+						
 				int min = min(vlist.size(),vertex);
 				for (int j=0; j<min-1 ; j++){
 					e.gc.drawLine((int)vlist.get(j).getCoordinate().x+(SIZE/2)+SCROLL_X+zmiana*odchylenie, (int)vlist.get(j).getCoordinate().y+(SIZE/2)+SCROLL_Y+zmiana*odchylenie, 
@@ -185,6 +192,34 @@ public class ResultsPaintListener implements PaintListener {
 							(int)v.getCoordinate().y+8+SCROLL_Y, true);
 						}
 				}
+				
+				
+			/*	for (DeliveryBoy d : boys ){
+					ArrayList<Order> orders = (ArrayList<Order>) d.getCurrentRoute().getOrders();
+					System.out.println("Rozmiar:" + orders.size());
+						for (Order o : orders){
+							System.out.println("Wierzcholek: " + (int)o.getVertex().getCoordinate().x + " " + (int)o.getVertex().getCoordinate().y);
+					//e.gc.fillOval((int)orders.get(j).getVertex().getCoordinate().x+SCROLL_X+(SIZE - SIZEK)/2, (int)orders.get(j).getVertex().getCoordinate().y+SCROLL_Y+(SIZE - SIZEK)/2, SIZEK, SIZEK);
+						}
+				}
+				
+				/*	for (int j=0; j<orders.size()-1 ; j++){
+						System.out.println("Wierzcholek: " + (int)orders.get(j).getVertex().getCoordinate().x + " " + (int)orders.get(j).getVertex().getCoordinate().y);
+						//e.gc.fillOval((int)orders.get(j).getVertex().getCoordinate().x+SCROLL_X+(SIZE - SIZEK)/2, (int)orders.get(j).getVertex().getCoordinate().y+SCROLL_Y+(SIZE - SIZEK)/2, SIZEK, SIZEK);
+					}*/
+				
+				
+			/*	
+				e.gc.setBackground(new Color(e.display, 250, 0, 0));
+				for (int i=0; i<dostawca-1; i++){		
+					LinkedList<Order> orders = (LinkedList<Order>) boys.get(i).getCurrentRoute().getOrders();
+					for (int j=0; j<orders.size()-1 ; j++){
+						System.out.println("Wierzcholek: " + (int)orders.get(j).getVertex().getCoordinate().x + (int)orders.get(j).getVertex().getCoordinate().y);
+						e.gc.fillOval((int)orders.get(j).getVertex().getCoordinate().x+SCROLL_X+(SIZE - SIZEK)/2, (int)orders.get(j).getVertex().getCoordinate().y+SCROLL_Y+(SIZE - SIZEK)/2, SIZEK, SIZEK);
+					}
+				} */
+				
+				
 				
 				// rysowanie znacznika miejsca w ktorym znajduje sie dostawca, oraz jego numeru
 				e.gc.setBackground(new Color(e.display, 250, 250, 250));

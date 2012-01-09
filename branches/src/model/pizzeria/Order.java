@@ -15,6 +15,8 @@ public class Order {
 	 */
 	private int _amountOfPizzas;
 	
+	private boolean dostarczone = false;
+	
 	/**
 	 * Ogólniejszy konstruktor
 	 * @param vertex

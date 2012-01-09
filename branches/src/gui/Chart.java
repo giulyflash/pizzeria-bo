@@ -2,6 +2,7 @@ package gui;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import model.pizzeria.Result;
@@ -43,9 +44,9 @@ public class Chart {
 	 * @param t - tytul
 	 */
 	public Chart(Result wynik, String t, boolean gen) {
-		if (gen)
+		if (gen && wynik.getExtendedIterationResult().size()>0)
 		{
-			results = wynik.getExtendedIterationResult().get(1);
+			results = wynik.getExtendedIterationResult().get(0);
 			for(int i=0; i<results.size(); i++)
 			{
 				System.out.print(results.get(i)+ " ");

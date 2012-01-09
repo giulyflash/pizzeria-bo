@@ -95,9 +95,17 @@ public class GeneticAlgorithmRunner implements Algorithm {
 			if(bestGenome == null){
 				int iteratationNumber =0;
 				System.out.println("Próba diagnozy:");
+				int[] path;
+				String suffix;
 				for (Genome gen : pack.getBestSolutionsOfIteration()) {
 					iteratationNumber++;
-					System.out.println(iteratationNumber + ". sciezka z genetic graph: " + Arrays.toString(gen.getPath()));
+					path = gen.getPath();
+					if(path == null){
+						suffix = "path == null";
+					} else {
+						suffix = Arrays.toString(path);
+					}
+					System.out.println(iteratationNumber + ". sciezka z genetic graph: " + suffix);
 				}
 				throw new RuntimeException("najlepszy genon (czyli najlepsze rozwi¹zanie) jest nullem, to dziwne :/");
 			}

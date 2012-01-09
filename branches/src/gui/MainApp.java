@@ -82,6 +82,10 @@ public class MainApp {
 	
 	private Button optbutton1;
 	private Button optbutton2;
+	private Button optbutton3;
+	private Button optbutton4;
+	
+	private Result wynik = null;
 
 	
 	/**
@@ -165,7 +169,7 @@ public class MainApp {
 		
 		shell.setToolTipText("This is tooltip");
 		
-		shell.setSize(800, 600);
+		shell.setSize(800, 700);
 		center(shell);
 
 		initUI();
@@ -405,6 +409,16 @@ public class MainApp {
 		optbutton2.setSelection(true);
 		optbutton2.pack();
 		
+		optbutton3 = new Button(optGroup, SWT.PUSH);
+		optbutton3.setText("Repaint");
+		optbutton3.setLocation(5, 80);
+		optbutton3.pack();
+		
+		optbutton4 = new Button(optGroup, SWT.PUSH);
+		optbutton4.setText("Show Results");
+		optbutton4.setLocation(70, 80);
+		optbutton4.pack();
+		
 		//bar = new ProgressBar (paramGroup, SWT.NULL);
 		//bar.setLocation(0,0);
 		//bar.setSize(100, 20);
@@ -481,6 +495,39 @@ public class MainApp {
 			}
 		});
 		
+		optbutton3.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				if(wynik!=null)
+				{
+					try {
+						rysownik.interrupt();
+					} catch (Exception a) {
+						System.out.println("Problem z przerwaniem");
+					}
+					rysownik = new Watek(wynik);
+					rysownik.start();
+					canvas.redraw();
+				}
+			}
+		});
+		
+		optbutton4.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				if(wynik!=null)
+				{
+					try {
+						rysownik.interrupt();
+					} catch (Exception a) {
+						System.out.println("Problem z przerwaniem");
+					}
+					rysownik = new Watek(wynik);
+					rysownik.start();
+					canvas.redraw();
+				}
+			}
+		});
+		
+		
 	
 		gaBtn.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
@@ -545,7 +592,7 @@ public class MainApp {
 					
 					delay = Integer.parseInt(optSpinner1.getText());
 					// tu mam przekazac result
-					Result wynik = psoComputer.getResult();
+					wynik = psoComputer.getResult();
 					OknoWynik oknoWynik = new OknoWynik(new Image(display,"obrazek.jpg"), "algorithm GEN");
 					oknoWynik.start();
 					rysownik = new Watek(wynik);
@@ -620,7 +667,7 @@ public class MainApp {
 					
 					delay = Integer.parseInt(optSpinner1.getText());
 					// tu mam przekazac result
-					Result wynik = psoComputer.getResult();
+					wynik = psoComputer.getResult();
 					OknoWynik oknoWynik = new OknoWynik(new Image(display,"obrazek.jpg"), "algorithm PSO");
 					oknoWynik.start();
 					rysownik = new Watek(wynik);

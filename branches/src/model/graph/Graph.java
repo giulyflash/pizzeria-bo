@@ -36,7 +36,7 @@ public class Graph{
 			double weight = vertices.get(b).getCoordinate().distance(vertices.get(e).getCoordinate());
 			vertices.get(e).addEdge(new Edge(vertices.get(b), weight));
 			vertices.get(b).addEdge(new Edge(vertices.get(e), weight));
-		}
+		} 
 	}
 	
 	/**

@@ -100,13 +100,9 @@ public class GraphMatrix {
 		
 		//Dijkstra
 		while(!vertexQueue.isEmpty()){
-			vertexQueue.peek();
 			VertexData tmp = vertexQueue.remove();
-			System.out.println(tmp.pathLength);
 			List<Edge> edgeList = tmp.vertex.getEdgeList();
-			int n = 0;
 			for(Edge ed : edgeList){
-				System.out.println(n++);
 				relax(tmp, verticesData[ed.getEnd().getNumber()], ed.getWeight());
 			}
 			PriorityQueue<VertexData> tmp2 = new PriorityQueue<>();
@@ -116,22 +112,11 @@ public class GraphMatrix {
 
 		}
 		
-		
-		int nr = 0;
-		for(VertexData data : verticesData){
-			if(data.parentVertex == null && data.vertex.getNumber() != begin.getNumber()){
-				System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!! dijkstra nie dziala " + nr + " !!!!!!!!!!!!!");
-				nr++;
-			}
-		}
-		
 		return verticesData;
 	}
 	
 	private void relax(VertexData begin, VertexData end, double weight){
 		if(end.pathLength > begin.pathLength + weight){
-			System.out.println("relaxed: " + end.pathLength + " " + (begin.pathLength + weight));
-			
 			end.pathLength = begin.pathLength + weight;
 			end.parentVertex = begin.vertex;
 		}

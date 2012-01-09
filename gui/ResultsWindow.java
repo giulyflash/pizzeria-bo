@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import model.graph.Graph;
 import model.graph.Vertex;
 import model.pizzeria.DeliveryBoy;
+import model.pizzeria.Order;
 import model.pizzeria.Result;
 
 import org.eclipse.swt.SWT;
@@ -27,6 +28,7 @@ public class ResultsWindow {
 	private Result result;
 	
 	public ResultsWindow (Display display, Image obraz, String nazwa, Result result) {
+		
 		this.display = display;
 		this.result = result;
 		shell = new Shell(display, SWT.SHELL_TRIM);
@@ -49,10 +51,12 @@ public class ResultsWindow {
 	    {
 	    	abba += "DOSTAWCA "+ i + "\n Wierzcholki: ";
 	    	LinkedList<Vertex> vlist = (LinkedList<Vertex>)boysi.get(i).getCurrentRoute().getVertices();
-	    	int szerokosc = 14;
+	    	
+	    	ArrayList<Order> orders = (ArrayList<Order>)boysi.get(i).getCurrentRoute().getOrders();
+	    	int szerokosc = 15;
 	    	for(Vertex v : vlist) 
 	    	{
-		    	if(szerokosc + Integer.toString(i).length() +1 >134) 
+		    	if(szerokosc + Integer.toString(v.getNumber()).length() +1 >134) 
 		    	{
 		    		abba +=  "\n";
 		    		szerokosc = 0;
@@ -60,7 +64,21 @@ public class ResultsWindow {
 				abba += v.getNumber() + ", ";
 				szerokosc += Integer.toString(v.getNumber()).length()+1; 
 			}
-	    	abba += "\n";
+	    	abba += "\n Zamowienia (nr wierzcholkow): ";
+	    	szerokosc=33;
+	    	for(Order o : orders) 
+	    	{
+	    		if(o == null)
+	    			continue;
+		    	if(szerokosc + Integer.toString(o.getVertex().getNumber()).length() + 1 >134) 
+		    	{
+		    		abba +=  "\n";
+		    		szerokosc = 0;
+		    	}
+				abba += o.getVertex().getNumber() + ", ";
+				szerokosc += Integer.toString(o.getVertex().getNumber()).length()+1; 
+			}
+	    	abba += "\n\n";
 	    	
 	    }
 	    

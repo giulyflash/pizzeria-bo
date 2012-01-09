@@ -79,5 +79,12 @@ public class Graph{
 		
 		return 0.0;
 	}
+	
+	public boolean areConnected(Vertex a, Vertex b){
+		for(Edge e : a.getEdgeList())
+			if(e.getEnd().getNumber() == b.getNumber())
+				return true;
+		return false;
+	}
 }
 

@@ -15,7 +15,7 @@ public class Order {
 	 */
 	private int _amountOfPizzas;
 	
-	private boolean dostarczone = false;
+	public boolean dostarczone = false;
 	
 	/**
 	 * Ogólniejszy konstruktor

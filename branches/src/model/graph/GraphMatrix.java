@@ -22,6 +22,7 @@ public class GraphMatrix {
 	private PathData[][] data;
 	private Graph cityMap;
 	private Order[] ordersOfVertex;
+	private Vertex _pizzeriaVertex;
 	
 	/**
 	 * Zwraca now¹ instancje klasy, zawierajac¹ macierzow¹ reprezentacjê wyró¿nionego grafu.
@@ -31,6 +32,7 @@ public class GraphMatrix {
 	 */
 	public GraphMatrix(Vertex pizzeriaVertex, List<Order> _orders, Graph _cityMap){
 		cityMap = _cityMap;
+		_pizzeriaVertex = pizzeriaVertex;
 		
 		vertexTranslator = new Vertex[_orders.size()+1];
 		vertexTranslator[0] = pizzeriaVertex;
@@ -188,6 +190,17 @@ public class GraphMatrix {
 	 */
 	public List<Vertex> translateToFullVerticesList(int[] vertices){
 		LinkedList<Vertex> result = new LinkedList<Vertex>();
+		
+		if(vertices[0] != 0){
+			vertices = Arrays.copyOf(vertices, vertices.length + 1);
+			for(int i = vertices.length -1; i > 1; i--)
+				vertices[i] = vertices[i-1];
+			vertices[0] = 0;
+		}
+		
+		if(vertices[vertices.length - 1] != 0){
+			vertices = Arrays.copyOf(vertices, vertices.length + 1);
+		}
 		
 		for(int i = 0; i < vertices.length-1; i++){
 			result.add(vertexTranslator[vertices[i]]);

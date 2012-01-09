@@ -1,6 +1,8 @@
 package algorithms.genetic;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import model.graph.GraphMatrix;
@@ -90,6 +92,15 @@ public class GeneticAlgorithmRunner implements Algorithm {
 			
 			//wybieram najlepsze rozwiazanie, w postacji [2,0,1,3,4]
 			Genome bestGenome = pack.getBestGenome();
+			if(bestGenome == null){
+				int iteratationNumber =0;
+				System.out.println("Próba diagnozy:");
+				for (Genome gen : pack.getBestSolutionsOfIteration()) {
+					iteratationNumber++;
+					System.out.println(iteratationNumber + ". sciezka z genetic graph: " + Arrays.toString(gen.getPath()));
+				}
+				throw new RuntimeException("najlepszy genon (czyli najlepsze rozwi¹zanie) jest nullem, to dziwne :/");
+			}
 			
 			//convertuje to najlepsze rozwiazanie z postaci [2,0,1,3,4] do [45,0,5,225,1000]
 			List<Integer> path = converter.convertPath(bestGenome,

@@ -22,6 +22,10 @@ public class GeneticSolutionPack {
 
 	private List<Genome> bestSolutionsOfIteration;
 	
+	public List<Genome> getBestSolutionsOfIteration() {
+		return bestSolutionsOfIteration;
+	}
+
 	private List<Double> bestResultOfIteration;
 	
 	
@@ -64,13 +68,13 @@ public class GeneticSolutionPack {
 		return bestResultOfIteration.get(iteration);
 	}
 
-	public int getBestValueIterationNumber(){
+	public int getBestIterationNumber(){
 		double bestSolution = getBestValue();
 		return bestResultOfIteration.indexOf((Object)bestSolution);
 	}
 	
 	public Genome getBestGenome(){
-		return bestSolutionsOfIteration.get(getBestValueIterationNumber());
+		return bestSolutionsOfIteration.get(getBestIterationNumber());
 	}
 	
 	

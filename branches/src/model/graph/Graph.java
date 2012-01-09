@@ -76,7 +76,6 @@ public class Graph{
 		for(Edge ed : a.getEdgeList())
 			if(ed.getEnd() == b)
 				return ed.getWeight();
-		
 		return 0.0;
 	}
 	

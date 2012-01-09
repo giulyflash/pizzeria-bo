@@ -201,7 +201,7 @@ public class GraphMatrix {
 					} else{
 						Vertex a = vertexTranslator[vertices[i]];
 						Vertex b = vertexTranslator[vertices[i+1]];
-						assert cityMap.areConnected(vertexTranslator[vertices[i]], vertexTranslator[vertices[i+1]]) : 
+						assert cityMap.areConnected(a, b) : 
 							"dla nie polaczonych woerzcholkow nie wyznaczono sciezki\n" +
 							"wierzcholek nr: " + a.getNumber() + " " + a.getCoordinate().x + " " + a.getCoordinate().y + "\n" +
 							"wierzcholek nr: " + b.getNumber() + " " + b.getCoordinate().x + " " + b.getCoordinate().y;
@@ -216,7 +216,7 @@ public class GraphMatrix {
 					} else{
 						Vertex a = vertexTranslator[vertices[i]];
 						Vertex b = vertexTranslator[vertices[i+1]];
-						assert cityMap.areConnected(vertexTranslator[vertices[i]], vertexTranslator[vertices[i+1]]) : 
+						assert cityMap.areConnected(a, b) : 
 							"dla nie polaczonych woerzcholkow nie wyznaczono sciezki\n" +
 							"wierzcholek nr: " + a.getNumber() + " " + a.getCoordinate().x + " " + a.getCoordinate().y + "\n" +
 							"wierzcholek nr: " + b.getNumber() + " " + b.getCoordinate().x + " " + b.getCoordinate().y;
@@ -225,6 +225,15 @@ public class GraphMatrix {
 			}
 		}
 		result.add(vertexTranslator[vertices[vertices.length-1]]);
+		
+		for(int i = 0; i < result.size()-1; i++){
+			Vertex a = result.get(i);
+			Vertex b = result.get(i+1);
+			assert cityMap.areConnected(a, b) : 
+				"wierzcholki sa nie polaczone\n" +
+				"wierzcholek nr: " + a.getNumber() + " " + a.getCoordinate().x + " " + a.getCoordinate().y + "\n" +
+				"wierzcholek nr: " + b.getNumber() + " " + b.getCoordinate().x + " " + b.getCoordinate().y;
+		}
 		
 		return result;
 	}

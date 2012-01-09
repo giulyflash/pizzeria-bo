@@ -62,6 +62,7 @@ public class MainApp {
 	private static Display display; 
 	private static Watek rysownik;
 	private static int delay=800;
+	private static boolean pause = false;
 	private Label psoLabel5;
 	
 	private Spinner generalSpinner1;
@@ -86,8 +87,7 @@ public class MainApp {
 	private Button optbutton2;
 	private Button optbutton3;
 	private Button optbutton4;
-	
-//	ArrayList<OknoWynik> LoknaWynik = new ArrayList<OknoWynik>();
+	private Button optbutton5;
 	
 	private Result wynik = null;
 	
@@ -110,11 +110,24 @@ public class MainApp {
 			//Test test = new Test();
 			// CHANGE
 			//wynik = test.stworz();	
+			pause = false;
 			int iDostawcow=re.getDeliveryBoys().size();
 			ArrayList<DeliveryBoy> boys = (ArrayList<DeliveryBoy>)re.getDeliveryBoys();
 			for(i=0; i<iDostawcow; i++){
 				int iVertex = boys.get(i).getCurrentRoute().getVertices().size();
 				for(j=0; j<iVertex;j++){
+					
+					while(pause)
+					{
+						try {
+							Thread.sleep(50);
+						} catch (InterruptedException e) {
+							ResultsPaintListener.rysuj(graph,-1,-1);
+							canvas.redraw();
+							System.out.println("Interrupted pause.");
+						}
+					}
+					
 					display.syncExec(new Runnable() {
 				        public void run() {
 				        	ResultsPaintListener.rysuj(graph, re, (i+1), (j+1));  
@@ -140,16 +153,18 @@ public class MainApp {
 	static class OknoWynik extends Thread{
 		private Image obraz;
 		private String nazwa;
+		private Result wynik;
 		
-		OknoWynik(Image obraz, String nazwa){
+		OknoWynik(Image obraz, String nazwa, Result wynik){
 			this.obraz = obraz;
 			this.nazwa = nazwa;
+			this.wynik = wynik;
 		}
 		
 		public void run() {
 					display.asyncExec(new Runnable() {
 				        public void run() {
-				        	new ResultsWindow(display, obraz, nazwa);
+				        	new ResultsWindow(display, obraz, nazwa, wynik);
 				        }});
 		}
 	}
@@ -434,8 +449,13 @@ public class MainApp {
 		
 		optbutton4 = new Button(optGroup, SWT.PUSH);
 		optbutton4.setText("Show Results");
-		optbutton4.setLocation(70, 80);
+		optbutton4.setLocation(60, 80);
 		optbutton4.pack();
+		
+		optbutton5 = new Button(optGroup, SWT.PUSH);
+		optbutton5.setText("Pause");
+		optbutton5.setLocation(144, 80);
+		optbutton5.pack();
 		
 		//bar = new ProgressBar (paramGroup, SWT.NULL);
 		//bar.setLocation(0,0);
@@ -533,9 +553,16 @@ public class MainApp {
 			public void handleEvent(Event e) {
 				if(wynik!=null)
 				{
-					OknoWynik oknoWynik = new OknoWynik(new Image(display,"obrazek.jpg"), algorithmName);
+					OknoWynik oknoWynik = new OknoWynik(new Image(display,"obrazek.jpg"), algorithmName, wynik);
 					oknoWynik.start();
 				}
+			}
+		});
+		
+		optbutton5.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				pause = !pause;
+				canvas.redraw();
 			}
 		});
 		

@@ -1,6 +1,7 @@
 package model.graph;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -125,6 +126,7 @@ public class GraphMatrix {
 			vertices.addFirst(currentVertex);
 			currentVertex = data[currentVertex.getNumber()].parentVertex;
 		}
+		//moze zajsc jesli wierzcholki sa bezposrednio polaczone
 		if(!vertices.isEmpty())
 			vertices.removeFirst();
 
@@ -146,7 +148,7 @@ public class GraphMatrix {
 				result[i][k] = data[i][k].pathLength;
 			
 			result[i][i] = 0.0;
-			
+				
 			for(int k = i+1; k < result[i].length; k++)
 				result[i][k] = data[k][i].pathLength;
 		}
@@ -191,21 +193,33 @@ public class GraphMatrix {
 			result.add(vertexTranslator[vertices[i]]);
 			if(vertices[i] == vertices[i+1]){
 				//TODO jesli jest ten sam wierzcho³ek pod rz¹d to co wtedy?
+				i++; //pomijamy powtarzaj¹cy sie wierzcho³ek
 			} else{
 				if(vertices[i] > vertices[i+1]){
 					if(!data[vertices[i]][vertices[i+1]].vertices.isEmpty()){
 						result.addAll(data[vertices[i]][vertices[i+1]].vertices);
+					} else{
+						Vertex a = vertexTranslator[vertices[i]];
+						Vertex b = vertexTranslator[vertices[i+1]];
+						assert cityMap.areConnected(vertexTranslator[vertices[i]], vertexTranslator[vertices[i+1]]) : 
+							"dla nie polaczonych woerzcholkow nie wyznaczono sciezki\n" +
+							"wierzcholek nr: " + a.getNumber() + " " + a.getCoordinate().x + " " + a.getCoordinate().y + "\n" +
+							"wierzcholek nr: " + b.getNumber() + " " + b.getCoordinate().x + " " + b.getCoordinate().y;
 					}
 				}
 				else{
 					if(!data[vertices[i+1]][vertices[i]].vertices.isEmpty()){
-						//TODO w java 7 mozna ladniej
 						LinkedList<Vertex> path = (LinkedList<Vertex>)data[vertices[i+1]][vertices[i]].vertices;
-						if(path.size() > 0){
-							ListIterator<Vertex> iterator = path.listIterator(path.size());
-							while(iterator.hasPrevious())
-								result.add(iterator.previous());
-						}
+						Iterator<Vertex> iterator = path.descendingIterator();
+						while(iterator.hasNext())
+							result.add(iterator.next());
+					} else{
+						Vertex a = vertexTranslator[vertices[i]];
+						Vertex b = vertexTranslator[vertices[i+1]];
+						assert cityMap.areConnected(vertexTranslator[vertices[i]], vertexTranslator[vertices[i+1]]) : 
+							"dla nie polaczonych woerzcholkow nie wyznaczono sciezki\n" +
+							"wierzcholek nr: " + a.getNumber() + " " + a.getCoordinate().x + " " + a.getCoordinate().y + "\n" +
+							"wierzcholek nr: " + b.getNumber() + " " + b.getCoordinate().x + " " + b.getCoordinate().y;
 					}
 				}
 			}

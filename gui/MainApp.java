@@ -237,6 +237,7 @@ public class MainApp {
 		generalSpinner1 = new Spinner(generalGroup, SWT.WRAP);
 		generalSpinner1.setLocation(120, 20);
 		generalSpinner1.setSize(80, 20);
+		generalSpinner1.setMinimum(1);
 		
 		// GENERAL.deliveryCap
 		Label generalLabel2 = new Label(generalGroup, SWT.LEFT);
@@ -247,6 +248,7 @@ public class MainApp {
 		generalSpinner2 = new Spinner(generalGroup, SWT.WRAP);
 		generalSpinner2.setLocation(120, 45);
 		generalSpinner2.setSize(80, 20);
+		generalSpinner2.setMinimum(1);
 		
 		// GENERAL.deliveryRange
 		Label generalLabel3 = new Label(generalGroup, SWT.LEFT);
@@ -277,6 +279,7 @@ public class MainApp {
 		psoSpinner1.setLocation(100, 20);
 		psoSpinner1.setDigits(2);
 		psoSpinner1.setSize(100, 20);
+		psoSpinner1.setMinimum(1);
 		
 		// PSO.learning rates
 		Label psoLabel2 = new Label(psoGroup, SWT.LEFT);
@@ -289,6 +292,7 @@ public class MainApp {
 		psoSpinner2.setDigits(2);
 		psoSpinner2.setSize(100, 20);
 		psoSpinner2.setMaximum(400);
+		psoSpinner2.setMinimum(1);
 		
 
 		// PSO.learning rates 2
@@ -302,6 +306,7 @@ public class MainApp {
 		psoSpinner3.setDigits(2);
 		psoSpinner3.setSize(100, 20);
 		psoSpinner3.setMaximum(400);
+		psoSpinner3.setMinimum(1);
 		
 		// PSO.particles
 		Label psoLabel4 = new Label(psoGroup, SWT.LEFT);
@@ -313,6 +318,7 @@ public class MainApp {
 		psoSpinner4.setLocation(100, 95);
 		psoSpinner4.setMaximum(1000);
 		psoSpinner4.setSize(100, 20);
+		psoSpinner4.setMinimum(1);
 		
 		// PSO.iterations
 		psoLabel5 = new Label(psoGroup, SWT.LEFT);
@@ -324,6 +330,7 @@ public class MainApp {
 		psoSpinner5.setLocation(100, 120);
 		psoSpinner5.setMaximum(100000);
 		psoSpinner5.setSize(100, 20);
+		psoSpinner5.setMinimum(1);
 
 		// PSO.compute
 		Button psoBtn = new Button(psoGroup, SWT.PUSH);
@@ -346,6 +353,7 @@ public class MainApp {
 		gaSpinner1.setLocation(100, 20);
 		gaSpinner1.setMaximum(100000);
 		gaSpinner1.setSize(100, 20);
+		gaSpinner1.setMinimum(1);
 		
 		// GA.population
 		Label gaLabel2 = new Label(gaGroup, SWT.SHADOW_ETCHED_IN);
@@ -357,6 +365,7 @@ public class MainApp {
 		gaSpinner2.setLocation(100, 45);
 		gaSpinner2.setMaximum(100000);
 		gaSpinner2.setSize(100, 20);
+		gaSpinner2.setMinimum(2);
 		
 		// GA.crossover
 		Label gaLabel3 = new Label(gaGroup, SWT.SHADOW_ETCHED_IN);
@@ -368,6 +377,7 @@ public class MainApp {
 		gaSpinner3.setLocation(100, 70);
 		gaSpinner3.setSize(100, 20);
 		gaSpinner3.setDigits(2);
+		gaSpinner3.setMinimum(1);
 		
 		// GA.mutacja
 		Label gaLabel4 = new Label(gaGroup, SWT.SHADOW_ETCHED_IN);
@@ -379,6 +389,7 @@ public class MainApp {
 		gaSpinner4.setLocation(100, 95);
 		gaSpinner4.setSize(100, 20);
 		gaSpinner4.setDigits(2);
+		gaSpinner4.setMinimum(1);
 		
 		// GA.compute
 		Button gaBtn = new Button(gaGroup, SWT.PUSH);

@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import model.pizzeria.Result;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
@@ -40,11 +42,28 @@ public class Chart {
 	 * @param r - lista wynikow
 	 * @param t - tytul
 	 */
-	public Chart(List<Double> r, String t) {
-		results = r;
+	public Chart(Result wynik, String t, boolean gen) {
+		if (gen)
+		{
+			results = wynik.getExtendedIterationResult().get(1);
+			for(int i=0; i<results.size(); i++)
+			{
+				System.out.print(results.get(i)+ " ");
+			}
+		} else
+		{
+			results = wynik.getIterationResults();
+			for(int i=0; i<results.size(); i++)
+			{
+				System.out.print(results.get(i)+ " ");
+			}
+		}
 		title = t;
 		generateChart();
 	}
+	
+	
+	
 	
 	/**
 	 * Zapisuje wykres do pliku

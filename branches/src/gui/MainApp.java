@@ -2,6 +2,8 @@ package gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import model.graph.Graph;
 import model.graph.GraphMatrix;
@@ -85,7 +87,11 @@ public class MainApp {
 	private Button optbutton3;
 	private Button optbutton4;
 	
+//	ArrayList<OknoWynik> LoknaWynik = new ArrayList<OknoWynik>();
+	
 	private Result wynik = null;
+	
+	private String algorithmName;
 
 	
 	/**
@@ -143,7 +149,7 @@ public class MainApp {
 		public void run() {
 					display.asyncExec(new Runnable() {
 				        public void run() {
-				        	new ResultsWindow(display, obraz,nazwa);
+				        	new ResultsWindow(display, obraz, nazwa);
 				        }});
 		}
 	}
@@ -169,7 +175,7 @@ public class MainApp {
 		
 		shell.setToolTipText("This is tooltip");
 		
-		shell.setSize(800, 700);
+		shell.setSize(800, 620);
 		center(shell);
 
 		initUI();
@@ -282,7 +288,7 @@ public class MainApp {
 		psoSpinner2.setLocation(100, 45);
 		psoSpinner2.setDigits(2);
 		psoSpinner2.setSize(100, 20);
-		psoSpinner2.setSize(100, 20);
+		psoSpinner2.setMaximum(400);
 		
 
 		// PSO.learning rates 2
@@ -295,6 +301,7 @@ public class MainApp {
 		psoSpinner3.setLocation(100, 70);
 		psoSpinner3.setDigits(2);
 		psoSpinner3.setSize(100, 20);
+		psoSpinner3.setMaximum(400);
 		
 		// PSO.particles
 		Label psoLabel4 = new Label(psoGroup, SWT.LEFT);
@@ -515,14 +522,8 @@ public class MainApp {
 			public void handleEvent(Event e) {
 				if(wynik!=null)
 				{
-					try {
-						rysownik.interrupt();
-					} catch (Exception a) {
-						System.out.println("Problem z przerwaniem");
-					}
-					rysownik = new Watek(wynik);
-					rysownik.start();
-					canvas.redraw();
+					OknoWynik oknoWynik = new OknoWynik(new Image(display,"obrazek.jpg"), algorithmName);
+					oknoWynik.start();
 				}
 			}
 		});
@@ -590,11 +591,27 @@ public class MainApp {
 							Integer.parseInt(generalSpinner4.getText().replace(',', '.')),
 							gm);
 					
+					//TESTOWE	
+					List<Double> wyniki= new ArrayList<Double>();
+					Random generator = new Random(System.currentTimeMillis());
+					for(int j=0; j<100; j++){
+						wyniki.add(generator.nextDouble()*1000%100);
+					}
+					
+
+			    // TESTOWE	
+					
+
 					delay = Integer.parseInt(optSpinner1.getText());
-					// tu mam przekazac result
 					wynik = psoComputer.getResult();
-					OknoWynik oknoWynik = new OknoWynik(new Image(display,"obrazek.jpg"), "algorithm GEN");
-					oknoWynik.start();
+					
+					Chart wykres = new Chart(wynik, "algorithm GEN", true);
+					wykres.saveChart("obrazek.jpg");
+					
+					algorithmName = "algorithm PSO";
+					
+					//OknoWynik oknoWynik = new OknoWynik(new Image(display,"obrazek.jpg"), "algorithm GEN");
+					//LoknaWynik.add(oknoWynik);
 					rysownik = new Watek(wynik);
 					rysownik.start();
 				}		
@@ -665,11 +682,26 @@ public class MainApp {
 							Integer.parseInt(generalSpinner4.getText().replace(',', '.')),
 							gm);
 					
+					
+					
 					delay = Integer.parseInt(optSpinner1.getText());
 					// tu mam przekazac result
 					wynik = psoComputer.getResult();
-					OknoWynik oknoWynik = new OknoWynik(new Image(display,"obrazek.jpg"), "algorithm PSO");
-					oknoWynik.start();
+					
+				//TESTOWE	
+					List<Double> wyniki= new ArrayList<Double>();
+					Random generator = new Random(System.currentTimeMillis());
+					for(int j=0; j<100; j++){
+						wyniki.add(generator.nextDouble()*1000%100);
+					}
+
+			    // TESTOWE		
+					
+					Chart wykres = new Chart(wynik, "algorithm PSO", false);
+					wykres.saveChart("obrazek.jpg");
+					algorithmName = "algorithm PSO";
+				//	OknoWynik oknoWynik = new OknoWynik(new Image(display,"obrazek.jpg"), "algorithm PSO");
+				//	LoknaWynik.add(oknoWynik);
 					rysownik = new Watek(wynik);
 					rysownik.start();
 				}		

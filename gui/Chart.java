@@ -11,6 +11,8 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.xy.XYDotRenderer;
+import org.jfree.data.xy.XYDataItem;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -26,15 +28,31 @@ public class Chart {
 	
 	private void generateChart() {
 		XYSeries series = new XYSeries("Results");
+		XYSeries minimum = new XYSeries("Minimum");
+		
 		
 		int i = 0;
 		for(Double d : results)
 			series.add(i++, d);
 		
+		i = 0;
+		int tmpInd = 0;
+		double tmpMin = results.get(tmpInd);
+		
+		for(Double d : results)
+			if (d < tmpMin) {
+				tmpMin = d;
+				tmpInd = results.indexOf(d);
+			}
+		
+		minimum.add(tmpInd, tmpMin);
+		series.remove(tmpInd);
+		
 		XYSeriesCollection dataset = new XYSeriesCollection();
 		dataset.addSeries(series);
+		dataset.addSeries(minimum);
 		
-		chart = ChartFactory.createXYLineChart(title, "iterations", 
+		chart = ChartFactory.createScatterPlot(title, "iterations", 
 				"result", dataset, PlotOrientation.VERTICAL, true, true, false);
 	}
 	

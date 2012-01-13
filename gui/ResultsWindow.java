@@ -31,7 +31,7 @@ public class ResultsWindow {
 		
 		this.display = display;
 		this.result = result;
-		shell = new Shell(display, SWT.SHELL_TRIM);
+		shell = new Shell(display, SWT.SHELL_TRIM );
 		shell.setLayout(new FillLayout());
 		shell.setText(nazwa);
 		shell.setSize(860, 700);

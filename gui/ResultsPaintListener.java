@@ -230,15 +230,16 @@ public class ResultsPaintListener implements PaintListener {
 				
 					ArrayList<Order> orders = (ArrayList<Order>) boys.get(dostawca-1).getCurrentRoute().getOrders();
 					System.out.println("Rozmiar:" + orders.size());
-						for (Order o : orders){
-							if(o == null)
+						for (int i=0; i<orders.size(); i++){
+							if(orders.get(i) == null)
 								continue;
 					//		System.out.println(o);//"Wierzcholek: " + (int)o.getVertex().getCoordinate().x + " " + (int)o.getVertex().getCoordinate().y);
 						//	e.gc.setBackground(new Color(e.display, 250, 0, 0));
-							if(!o.dostarczone) {
+							if(!orders.get(i).dostarczone) {
 						//		e.gc.fillOval((int)o.getVertex().getCoordinate().x+SCROLL_X+(SIZE - SIZEK)/2, (int)o.getVertex().getCoordinate().y+SCROLL_Y+(SIZE - SIZEK)/2, SIZEK, SIZEK);
-								if(vlist.get(min-1).getNumber() == o.getVertex().getNumber() )
-									o.dostarczone = true;
+								if(vlist.get(min-1).getNumber() == orders.get(i).getVertex().getNumber())
+									if((i>1  && orders.get(i-1)!=null && orders.get(i-1).dostarczone) || i==1 )
+									orders.get(i).dostarczone = true;
 							}
 						}
 				

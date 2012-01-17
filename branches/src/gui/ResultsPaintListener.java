@@ -149,19 +149,6 @@ public class ResultsPaintListener implements PaintListener {
 					}
 				} 
 				
-				// procedura testowa, zostawiam na pozniej
-				/*for(int i=0; i<dostawca-1; i++){
-					for(int j=0;j<4;j++){
-						e.gc.drawLine(i*20,i*50,j*50,j*70);
-					}
-				}
-				for(int i=0; i<dostawca; i++){
-					for(int j=0;j<vertex;j++){
-						e.gc.drawLine(i*20,i*50,j*50,j*70);
-					}
-				}*/
-		
-				
 				// rysuje trasy dla kazdego dostawcy
 				e.gc.setLineWidth(3);
 				int odchylenie = 1; 
@@ -253,23 +240,6 @@ public class ResultsPaintListener implements PaintListener {
 							(int)v.getCoordinate().y+8+SCROLL_Y, true);
 						}
 				}
-				
-				/*	for (int j=0; j<orders.size()-1 ; j++){
-						System.out.println("Wierzcholek: " + (int)orders.get(j).getVertex().getCoordinate().x + " " + (int)orders.get(j).getVertex().getCoordinate().y);
-						//e.gc.fillOval((int)orders.get(j).getVertex().getCoordinate().x+SCROLL_X+(SIZE - SIZEK)/2, (int)orders.get(j).getVertex().getCoordinate().y+SCROLL_Y+(SIZE - SIZEK)/2, SIZEK, SIZEK);
-					}*/
-				
-				
-			/*	
-				e.gc.setBackground(new Color(e.display, 250, 0, 0));
-				for (int i=0; i<dostawca-1; i++){		
-					LinkedList<Order> orders = (LinkedList<Order>) boys.get(i).getCurrentRoute().getOrders();
-					for (int j=0; j<orders.size()-1 ; j++){
-						System.out.println("Wierzcholek: " + (int)orders.get(j).getVertex().getCoordinate().x + (int)orders.get(j).getVertex().getCoordinate().y);
-						e.gc.fillOval((int)orders.get(j).getVertex().getCoordinate().x+SCROLL_X+(SIZE - SIZEK)/2, (int)orders.get(j).getVertex().getCoordinate().y+SCROLL_Y+(SIZE - SIZEK)/2, SIZEK, SIZEK);
-					}
-				} */
-				
 				
 				
 				// rysowanie znacznika miejsca w ktorym znajduje sie dostawca, oraz jego numeru

@@ -682,17 +682,6 @@ public class MainApp {
 					}
 				}		
 				
-			//	System.out.println(delay);
-			/*	display.asyncExec( new Watek(1,1));
-				int iDostawcow=wynik.getDeliveryBoys().size();
-				ArrayList<DeliveryBoy> boys = (ArrayList<DeliveryBoy>)wynik.getDeliveryBoys();
-				for(int i=0; i<iDostawcow; i++){
-					int iVertex = boys.get(i).getCurrentRoute().getVertices().size();
-					for(int j=0; j<iVertex;j++){
-						display.asyncExec( new Watek(i,j));
-	
-					}	
-				} */
 				System.out.println("Narysowane");
 				sh.close();
 			}
@@ -793,17 +782,6 @@ public class MainApp {
 					}
 
 				}
-			//	System.out.println(delay);
-			/*	display.asyncExec( new Watek(1,1));
-				int iDostawcow=wynik.getDeliveryBoys().size();
-				ArrayList<DeliveryBoy> boys = (ArrayList<DeliveryBoy>)wynik.getDeliveryBoys();
-				for(int i=0; i<iDostawcow; i++){
-					int iVertex = boys.get(i).getCurrentRoute().getVertices().size();
-					for(int j=0; j<iVertex;j++){
-						display.asyncExec( new Watek(i,j));
-	
-					}	
-				} */
 				System.out.println("Narysowane");
 				sh.close();
 			}
@@ -859,7 +837,6 @@ public class MainApp {
 		canvas.getHorizontalBar().addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				int hSelection = canvas.getHorizontalBar().getSelection();
-			//	MyPaintListener.scrollX(2*(-hSelection - origin.x));
 				ResultsPaintListener.scrollX(2*(-hSelection - origin.x));
 				origin.x = -hSelection;
 				canvas.redraw();
@@ -869,7 +846,6 @@ public class MainApp {
 		canvas.getVerticalBar().addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				int vSelection = canvas.getVerticalBar().getSelection();
-			//	MyPaintListener.scrollY(2*(-vSelection - origin.y));
 				ResultsPaintListener.scrollY(2*(-vSelection - origin.y));
 				origin.y = -vSelection;
 				canvas.redraw();

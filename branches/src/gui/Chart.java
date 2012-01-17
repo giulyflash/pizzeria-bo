@@ -65,7 +65,6 @@ public class Chart {
 		if (gen && wynik.getExtendedIterationResult().size()>0)
 		{
 			results = wynik.getExtendedIterationResult().get(0);
-			//List<Double> results2 = wynik.getExtendedIterationResult().get(1);
 			List<List<Double>> results1 = wynik.getExtendedIterationResult();
 			for(int i=1; i<results1.size(); i++)
 			{

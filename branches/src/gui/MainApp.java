@@ -278,10 +278,12 @@ public class MainApp {
 		generalSpinner3 = new Spinner(generalGroup, SWT.WRAP);
 		generalSpinner3.setLocation(100, 75);
 		generalSpinner3.setSize(50, 20);
+		generalSpinner3.setMinimum(1);
 		// spinner2
 		generalSpinner4 = new Spinner(generalGroup, SWT.WRAP);
 		generalSpinner4.setLocation(150, 75);
 		generalSpinner4.setSize(50, 20);
+		generalSpinner4.setMinimum(1);
 		
 		// PSO
 		Group psoGroup = new Group(paramGroup, SWT.SHADOW_ETCHED_IN);
